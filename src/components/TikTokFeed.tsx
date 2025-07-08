@@ -13,6 +13,7 @@ interface VideoData {
   comments: string;
   shares: string;
   videoUrl: string;
+  thumbnailUrl: string;
   isPromo?: boolean;
   product?: any;
 }
@@ -25,7 +26,8 @@ const videos: VideoData[] = [
     likes: '12.3K',
     comments: '892',
     shares: '445',
-    videoUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=600&fit=crop',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=600&fit=crop',
   },
   {
     id: '2',
@@ -34,7 +36,8 @@ const videos: VideoData[] = [
     likes: '45.7K',
     comments: '2.1K',
     shares: '1.2K',
-    videoUrl: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=600&fit=crop',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=600&fit=crop',
     isPromo: true,
     product: {
       id: 'burger-deluxe',
@@ -58,7 +61,8 @@ const videos: VideoData[] = [
     likes: '8.9K',
     comments: '456',
     shares: '223',
-    videoUrl: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d2d?w=400&h=600&fit=crop',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d2d?w=400&h=600&fit=crop',
   },
   {
     id: '4',
@@ -67,7 +71,8 @@ const videos: VideoData[] = [
     likes: '67.2K',
     comments: '3.4K',
     shares: '2.8K',
-    videoUrl: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=600&fit=crop',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=600&fit=crop',
     isPromo: true,
     product: {
       id: 'wireless-earbuds',
@@ -91,7 +96,8 @@ const videos: VideoData[] = [
     likes: '156K',
     comments: '12.5K',
     shares: '8.9K',
-    videoUrl: 'https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=400&h=600&fit=crop',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=400&h=600&fit=crop',
   }
 ];
 
@@ -100,10 +106,28 @@ const VideoItem: React.FC<{
   isActive: boolean; 
   onPromoTrigger: (product: any) => void;
 }> = ({ video, isActive, onPromoTrigger }) => {
-  const [isPlaying, setIsPlaying] = useState(isActive);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
-  const videoRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      if (isActive && !isPlaying) {
+        videoRef.current.play().catch(console.error);
+        setIsPlaying(true);
+      } else if (!isActive && isPlaying) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    }
+  }, [isActive, isPlaying]);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = isMuted;
+    }
+  }, [isMuted]);
 
   useEffect(() => {
     if (isActive && video.isPromo && video.product) {
@@ -116,17 +140,34 @@ const VideoItem: React.FC<{
     }
   }, [isActive, video.isPromo, video.product, onPromoTrigger]);
 
+  const togglePlayPause = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        videoRef.current.play().catch(console.error);
+        setIsPlaying(true);
+      }
+    }
+  };
+
   return (
     <div className="relative h-screen w-full bg-black flex-shrink-0 overflow-hidden">
-      {/* Video Background */}
-      <div className="absolute inset-0">
-        <img 
-          src={video.videoUrl} 
-          alt="Video"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-      </div>
+      {/* Video Element */}
+      <video 
+        ref={videoRef}
+        src={video.videoUrl}
+        poster={video.thumbnailUrl}
+        className="w-full h-full object-cover"
+        loop
+        muted={isMuted}
+        playsInline
+        onLoadStart={() => console.log(`Loading video: ${video.id}`)}
+        onCanPlay={() => console.log(`Can play video: ${video.id}`)}
+        onError={(e) => console.error(`Video error for ${video.id}:`, e)}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
       {/* Promo Badge */}
       {video.isPromo && (
@@ -140,10 +181,10 @@ const VideoItem: React.FC<{
       {/* Play/Pause Overlay */}
       <div 
         className="absolute inset-0 flex items-center justify-center cursor-pointer z-10"
-        onClick={() => setIsPlaying(!isPlaying)}
+        onClick={togglePlayPause}
       >
         {!isPlaying && (
-          <div className="bg-black/50 rounded-full p-4">
+          <div className="bg-black/50 rounded-full p-4 animate-fade-in">
             <Play className="h-12 w-12 text-white fill-white" />
           </div>
         )}
