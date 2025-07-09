@@ -1,0 +1,52 @@
+{
+  "name": "@cravetray/sdk",
+  "version": "1.0.0",
+  "description": "Universal embeddable commerce interface for React applications",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "build:watch": "rollup -c -w",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "react",
+    "commerce",
+    "ecommerce",
+    "sdk",
+    "embeddable",
+    "checkout",
+    "tray",
+    "ui"
+  ],
+  "author": "CraveTray Team",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "rollup": "^3.0.0",
+    "rollup-plugin-dts": "^5.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "typescript": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cravetray/sdk"
+  },
+  "homepage": "https://cravetray.com",
+  "bugs": {
+    "url": "https://github.com/cravetray/sdk/issues"
+  }
+}
