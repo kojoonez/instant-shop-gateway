@@ -7,6 +7,8 @@ import { BlogDemo } from '@/components/BlogDemo';
 import { MapDemo } from '@/components/MapDemo';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { ArrowRight, Settings } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 type DemoType = 'hero' | 'tiktok' | 'creator' | 'blog' | 'map';
 
@@ -78,6 +80,29 @@ const Index = () => {
       default:
         return (
           <div className="min-h-screen bg-background">
+            {/* Navigation */}
+            <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+              <div className="container flex h-16 items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <h1 className="text-xl font-bold">CraveTray</h1>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <Button variant="ghost" asChild>
+                    <Link to="/admin">
+                      <Settings className="mr-2 h-4 w-4" />
+                      Admin Dashboard
+                    </Link>
+                  </Button>
+                  <Button asChild>
+                    <Link to="/admin">
+                      Get Started
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </nav>
+
             <HeroSection />
             <DemoSection />
             
@@ -167,6 +192,22 @@ const Index = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+            </section>
+
+            {/* CTA Section */}
+            <section className="py-24 bg-muted/50">
+              <div className="container mx-auto px-4 text-center">
+                <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Business?</h2>
+                <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+                  Join thousands of businesses using CraveTray to power their commerce experience
+                </p>
+                <Button size="lg" asChild>
+                  <Link to="/admin">
+                    Access Admin Dashboard
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
               </div>
             </section>
           </div>
