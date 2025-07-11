@@ -7,7 +7,7 @@ import { BlogDemo } from '@/components/BlogDemo';
 import { MapDemo } from '@/components/MapDemo';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Settings } from 'lucide-react';
+import { ArrowRight, Settings, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 type DemoType = 'hero' | 'tiktok' | 'creator' | 'blog' | 'map';
@@ -88,13 +88,19 @@ const Index = () => {
                 </div>
                 <div className="flex items-center space-x-4">
                   <Button variant="ghost" asChild>
+                    <Link to="/marketplace">
+                      <ShoppingBag className="mr-2 h-4 w-4" />
+                      Shop Now
+                    </Link>
+                  </Button>
+                  <Button variant="ghost" asChild>
                     <Link to="/admin">
                       <Settings className="mr-2 h-4 w-4" />
-                      Admin Dashboard
+                      Admin
                     </Link>
                   </Button>
                   <Button asChild>
-                    <Link to="/admin">
+                    <Link to="/marketplace">
                       Get Started
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
