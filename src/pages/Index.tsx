@@ -7,13 +7,15 @@ import { BlogDemo } from '@/components/BlogDemo';
 import { MapDemo } from '@/components/MapDemo';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Settings, ShoppingBag } from 'lucide-react';
+import { ArrowRight, Settings, ShoppingBag, LogIn, LogOut, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 type DemoType = 'hero' | 'tiktok' | 'creator' | 'blog' | 'map';
 
 const Index = () => {
   const [currentDemo, setCurrentDemo] = useState<DemoType>('hero');
+  const { user, signOut } = useAuth();
 
   const renderDemo = () => {
     switch (currentDemo) {
@@ -99,12 +101,35 @@ const Index = () => {
                       Admin
                     </Link>
                   </Button>
-                  <Button asChild>
-                    <Link to="/marketplace">
-                      Get Started
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
+                  {user ? (
+                    <div className="flex items-center space-x-2">
+                      <Button variant="ghost" onClick={() => signOut()}>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Sign Out
+                      </Button>
+                      <Button asChild>
+                        <Link to="/marketplace">
+                          <User className="mr-2 h-4 w-4" />
+                          Dashboard
+                        </Link>
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center space-x-2">
+                      <Button variant="ghost" asChild>
+                        <Link to="/auth">
+                          <LogIn className="mr-2 h-4 w-4" />
+                          Sign In
+                        </Link>
+                      </Button>
+                      <Button asChild>
+                        <Link to="/auth">
+                          Get Started
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
             </nav>
