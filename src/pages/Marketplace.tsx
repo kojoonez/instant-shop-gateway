@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useSearchParams } from "react-router-dom"
+import { useSearchParams, useNavigate } from "react-router-dom"
 import { supabase } from "@/integrations/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -33,6 +33,7 @@ interface CartItem extends Product {
 }
 
 export default function Marketplace() {
+  const navigate = useNavigate()
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [cart, setCart] = useState<CartItem[]>([])
@@ -45,6 +46,11 @@ export default function Marketplace() {
   useEffect(() => {
     fetchProducts()
     fetchCategories()
+    // Load cart from localStorage
+    const savedCart = localStorage.getItem('cart')
+    if (savedCart) {
+      setCart(JSON.parse(savedCart))
+    }
   }, [])
 
   useEffect(() => {
@@ -99,14 +105,18 @@ export default function Marketplace() {
   const addToCart = (product: Product) => {
     setCart(prev => {
       const existing = prev.find(item => item.id === product.id)
+      let newCart
       if (existing) {
-        return prev.map(item =>
+        newCart = prev.map(item =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         )
+      } else {
+        newCart = [...prev, { ...product, quantity: 1 }]
       }
-      return [...prev, { ...product, quantity: 1 }]
+      localStorage.setItem('cart', JSON.stringify(newCart))
+      return newCart
     })
     
     toast({
@@ -116,17 +126,20 @@ export default function Marketplace() {
   }
 
   const updateQuantity = (productId: string, newQuantity: number) => {
-    if (newQuantity === 0) {
-      setCart(prev => prev.filter(item => item.id !== productId))
-    } else {
-      setCart(prev =>
-        prev.map(item =>
+    setCart(prev => {
+      let newCart
+      if (newQuantity === 0) {
+        newCart = prev.filter(item => item.id !== productId)
+      } else {
+        newCart = prev.map(item =>
           item.id === productId
             ? { ...item, quantity: newQuantity }
             : item
         )
-      )
-    }
+      }
+      localStorage.setItem('cart', JSON.stringify(newCart))
+      return newCart
+    })
   }
 
   const getCartTotal = () => {
@@ -349,7 +362,12 @@ export default function Marketplace() {
             <span>Total:</span>
             <span>${getCartTotal().toFixed(2)}</span>
           </div>
-          <Button className="w-full mt-3">Proceed to Checkout</Button>
+          <Button 
+            className="w-full mt-3"
+            onClick={() => navigate('/checkout', { state: { cart } })}
+          >
+            Proceed to Checkout
+          </Button>
         </div>
       )}
     </div>

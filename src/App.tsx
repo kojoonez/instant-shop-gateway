@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Marketplace from "./pages/Marketplace";
+import Checkout from "./pages/Checkout";
+import Orders from "./pages/Orders";
 import Auth from "./pages/Auth";
 import { AdminLayout } from "./components/admin/AdminLayout";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
@@ -29,6 +31,8 @@ const App = () => (
             {/* Main App Routes */}
             <Route path="/" element={<Index />} />
             <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/orders" element={<Orders />} />
             
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminLayout />}>
