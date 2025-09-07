@@ -68,15 +68,16 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   item: UniversalFeedItem;
-  feedType: FeedType;
+  feedType?: FeedType;
   ctaText: string;
   onAction: () => void;
 };
 
 import { useState } from 'react';
 
-export function UniversalInfoTray({ isOpen, onClose, item, feedType, ctaText, onAction }: Props) {
-  const color = typeColor[feedType];
+export function UniversalInfoTray({ isOpen, onClose, item, feedType = 'product', ctaText, onAction }: Props) {
+  const safeFeedType: FeedType = (feedType || 'product');
+  const color = typeColor[safeFeedType] || '#FF6B35';
   const [quantity, setQuantity] = useState(1);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
 
@@ -97,7 +98,7 @@ export function UniversalInfoTray({ isOpen, onClose, item, feedType, ctaText, on
               className="text-[10px] font-semibold px-2 py-1 rounded-full"
               style={{ backgroundColor: `${color}20`, color, border: `1px solid ${color}40` }}
             >
-              {feedType.replace('_', ' ')}
+              {(typeof safeFeedType === 'string' ? safeFeedType : 'product').replace('_', ' ')}
             </span>
             {item.rating ? (
               <span className="text-xs text-muted-foreground flex items-center gap-1">
@@ -123,7 +124,7 @@ export function UniversalInfoTray({ isOpen, onClose, item, feedType, ctaText, on
         </div>
 
         {/* Type-specific rows */}
-        {feedType === 'product' && (
+        {safeFeedType === 'product' && (
           <div className="mb-2">
             <div className="flex flex-wrap gap-2 mb-1">
               {item.spiceLevel && <Chip>Spice: {item.spiceLevel}</Chip>}
@@ -146,7 +147,7 @@ export function UniversalInfoTray({ isOpen, onClose, item, feedType, ctaText, on
           </div>
         )}
 
-        {feedType === 'service' && (
+        {safeFeedType === 'service' && (
           <div className="mb-2 text-[11px] text-muted-foreground space-y-1">
             {item.restaurant && <div>Provider: {item.restaurant}</div>}
             {item.spiceLevel && <div>Level: {item.spiceLevel}</div>}
@@ -173,7 +174,7 @@ export function UniversalInfoTray({ isOpen, onClose, item, feedType, ctaText, on
           </div>
         )}
 
-        {feedType === 'event' && (
+        {safeFeedType === 'event' && (
           <div className="mb-2 text-[11px] text-muted-foreground">
             <div className="space-x-3">
               {item.eventDate && <span>{item.eventDate}</span>}
@@ -188,7 +189,7 @@ export function UniversalInfoTray({ isOpen, onClose, item, feedType, ctaText, on
           </div>
         )}
 
-        {feedType === 'subscription' && (
+        {safeFeedType === 'subscription' && (
           <div className="mb-2 text-[11px] text-muted-foreground">
             <div className="space-x-3">
               {item.subscriptionPlan && <span>Plan: {item.subscriptionPlan}</span>}
@@ -203,7 +204,7 @@ export function UniversalInfoTray({ isOpen, onClose, item, feedType, ctaText, on
           </div>
         )}
 
-        {feedType === 'live_stream' && (
+        {safeFeedType === 'live_stream' && (
           <div className="mb-2 text-[11px] text-muted-foreground space-x-3">
             <span className="text-red-500 font-semibold">LIVE NOW</span>
             {item.roomName && <span>{item.roomName}</span>}
@@ -217,7 +218,7 @@ export function UniversalInfoTray({ isOpen, onClose, item, feedType, ctaText, on
             {typeof item.price === 'number' ? (
               <>
                 <div className="text-[11px] text-muted-foreground">Total</div>
-                <div className="text-lg font-bold">{formatEUR(item.price * (feedType === 'product' ? quantity : 1))}</div>
+                <div className="text-lg font-bold">{formatEUR(item.price * (safeFeedType === 'product' ? quantity : 1))}</div>
               </>
             ) : item.formattedPrice ? (
               <>
@@ -235,12 +236,12 @@ export function UniversalInfoTray({ isOpen, onClose, item, feedType, ctaText, on
           )}
           <Button
             onClick={() => {
-              if (feedType === 'service' && item.availableSlots && item.availableSlots.length > 0 && !selectedSlot) return;
+              if (safeFeedType === 'service' && item.availableSlots && item.availableSlots.length > 0 && !selectedSlot) return;
               onAction();
             }}
             className="flex-1 h-11 rounded-xl font-semibold"
             style={{ backgroundColor: color, color: '#fff' }}
-            disabled={feedType === 'service' && item.availableSlots && item.availableSlots.length > 0 && !selectedSlot}
+            disabled={safeFeedType === 'service' && item.availableSlots && item.availableSlots.length > 0 && !selectedSlot}
           >
             {ctaText}
           </Button>

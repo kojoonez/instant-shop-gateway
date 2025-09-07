@@ -1,270 +1,220 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { CraveTray } from './CraveTray';
-import { Heart, MessageCircle, Share, MoreHorizontal, Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { Heart, MessageCircle, Share, MoreHorizontal, Play, Volume2, VolumeX } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { UniversalInfoTray, FeedType, UniversalFeedItem } from './UniversalInfoTray';
+import { assetPaths } from '@/config/assets';
 
-interface VideoData {
+type DemoVideo = {
   id: string;
-  username: string;
-  description: string;
-  likes: string;
-  comments: string;
-  shares: string;
-  videoUrl: string;
-  thumbnailUrl: string;
-  isPromo?: boolean;
-  product?: any;
-}
+  url: string;
+  type: FeedType;
+  item: UniversalFeedItem;
+};
 
-const videos: VideoData[] = [
-  {
-    id: '1',
-    username: '@foodie_sarah',
-    description: 'Quick morning breakfast routine ✨ #breakfast #healthy',
-    likes: '12.3K',
-    comments: '892',
-    shares: '445',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=600&fit=crop',
-  },
-  {
-    id: '2',
-    username: '@chef_marco',
-    description: 'This Truffle Mushroom Burger is INSANE 🔥 Cravy delivers with approved partners! #foodie',
-    likes: '45.7K',
-    comments: '2.1K',
-    shares: '1.2K',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=600&fit=crop',
-    isPromo: true,
-    product: {
-      id: 'burger-deluxe',
-      name: 'Truffle Mushroom Burger',
-      price: 24.99,
-      originalPrice: 29.99,
-      image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop',
-      description: 'Grass-fed beef patty with truffle mushrooms, aged cheddar, arugula, and house-made aioli on a brioche bun.',
-      rating: 4.8,
-      reviews: 142,
-      category: 'Gourmet Burgers',
-      deliveryFee: 0,
-      deliveryTime: '25-35 min',
-      badges: ['Popular', 'Chef Special']
-    }
-  },
-  {
-    id: '3',
-    username: '@style_queen',
-    description: 'Winter outfit of the day ❄️ loving this cozy vibe',
-    likes: '8.9K',
-    comments: '456',
-    shares: '223',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d2d?w=400&h=600&fit=crop',
-  },
-  {
-    id: '4',
-    username: '@tech_reviewer',
-    description: 'These wireless earbuds are a GAME CHANGER! 🎧 Link in bio #tech #audio',
-    likes: '67.2K',
-    comments: '3.4K',
-    shares: '2.8K',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=600&fit=crop',
-    isPromo: true,
-    product: {
-      id: 'wireless-earbuds',
-      name: 'ProAudio Elite Buds',
-      price: 149.99,
-      originalPrice: 199.99,
-      image: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=300&fit=crop',
-      description: 'Premium wireless earbuds with active noise cancellation, 8-hour battery life, and crystal-clear audio quality.',
-      rating: 4.7,
-      reviews: 289,
-      category: 'Audio Devices',
-      deliveryFee: 0,
-      deliveryTime: 'Same day',
-      badges: ['Best Seller', 'Cravy Partner Delivery']
-    }
-  },
-  {
-    id: '5',
-    username: '@daily_dancer',
-    description: 'New choreography to my favorite song 💃 #dance #viral',
-    likes: '156K',
-    comments: '12.5K',
-    shares: '8.9K',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=400&h=600&fit=crop',
+const typeToCta: Record<FeedType, string> = {
+  product: 'Buy Now',
+  service: 'Book Appointment',
+  event: 'Get Ticket',
+  subscription: 'Subscribe',
+  live_stream: 'Join Live',
+};
+
+const typeColor: Record<FeedType, string> = {
+  product: '#FF6B35',
+  service: '#001F4D',
+  event: '#4A148C',
+  subscription: '#006400',
+  live_stream: '#DC2626',
+};
+
+const generateSampleItem = (type: FeedType, sourceLabel: string): UniversalFeedItem => {
+  const baseItem: UniversalFeedItem = {
+    name: sourceLabel.replace(/_|-|\.mp4/g, ' ').trim(),
+    description: 'Experience seamless live shopping, food ordering, and service booking.',
+    price: 24.99,
+    image: 'https://via.placeholder.com/150',
+    rating: 4.5,
+    reviews: 120,
+    distanceKm: 0.8,
+  };
+
+  switch (type) {
+    case 'product':
+      return {
+        ...baseItem,
+        name: 'Gourmet Truffle Pasta',
+        description: 'Indulge in our exquisite truffle pasta, made with fresh ingredients.',
+        price: 24.99,
+        spiceLevel: 'Mild',
+        cuisineType: 'Italian',
+        restaurant: 'Chef Marco’s Kitchen',
+        dietaryInfo: 'Vegetarian',
+        preparationTime: '15 min',
+        deliveryFee: 3.5,
+        deliveryTime: '30-45 min',
+        specialOffers: 'Free delivery on orders over €50',
+        addOns: ['Extra Cheese', 'Garlic Bread'],
+      };
+    case 'service':
+      return {
+        ...baseItem,
+        name: 'Luxury Haircut & Shave',
+        description: 'Experience a premium grooming session with our master barber.',
+        price: 45,
+        restaurant: 'The Gentlemen’s Barber',
+        serviceCategory: 'Grooming',
+        preparationTime: '60 min',
+        uploaderAddress: '123 Main St, Helsinki',
+        priceNotes: 'Includes hot towel and massage.',
+        availableSlots: ['10:00 AM', '11:30 AM', '02:00 PM', '03:30 PM'],
+      };
+    case 'event':
+      return {
+        ...baseItem,
+        name: 'Summer Night Live Concert',
+        description: 'Enjoy an evening of live music under the stars with local artists.',
+        price: 15,
+        eventDate: 'Sat, Aug 23 · 7:00 PM',
+        eventLocation: 'City Park Amphitheater',
+        capacity: 500,
+        capacityStatus: 'Available',
+        eventDetails: 'Featuring pop and indie artists. Food and drinks available.',
+        availableTickets: 150,
+      };
+    case 'subscription':
+      return {
+        ...baseItem,
+        name: 'Premium Gym Membership',
+        description: 'Unlock unlimited access to all Cravy Gym locations and premium classes.',
+        price: 49.99,
+        subscriptionPlan: 'Monthly Premium',
+        subscriptionDuration: '1 month',
+        subscriptionFeatures: ['Unlimited classes', 'Personal trainer sessions', 'Nutrition plans'],
+        formattedPrice: '€49.99 / month',
+        tier: 'Gold',
+        trainerAccess: true,
+        accessAreas: 'All Cravy Gym locations',
+      };
+    case 'live_stream':
+      return {
+        ...baseItem,
+        name: 'Fashion Drop Live',
+        description: 'Join our live stream for exclusive fashion drops and styling tips.',
+        price: undefined,
+        roomName: 'Fashionista Hub',
+        streamDuration: '1 hour',
+      };
+    default:
+      return baseItem;
   }
-];
+};
 
-const VideoItem: React.FC<{ 
-  video: VideoData; 
-  isActive: boolean; 
-  onPromoTrigger: (product: any) => void;
-}> = ({ video, isActive, onPromoTrigger }) => {
+const inferTypeFromKey = (key: string, path: string): FeedType => {
+  const src = `${key} ${path}`.toLowerCase();
+  if (src.includes('live_stream')) return 'live_stream';
+  if (src.includes('subscription')) return 'subscription';
+  if (src.includes('service')) return 'service';
+  if (src.includes('event')) return 'event';
+  return 'product';
+};
+
+const makeVideosFromAssets = (): DemoVideo[] =>
+  Object.entries(assetPaths.videos).map(([key, path], idx) => {
+    const url = typeof path === 'string' ? path : String(path);
+    const type = inferTypeFromKey(key, url);
+    const label = url.split('/').pop() || key;
+    return {
+      id: String(idx + 1),
+      url,
+      type,
+      item: generateSampleItem(type, label),
+    };
+  });
+
+type VideoItemProps = {
+  video: DemoVideo;
+  isActive: boolean;
+  onCtaTrigger: (item: UniversalFeedItem, type: FeedType, ctaText: string) => void;
+};
+
+const VideoItem: React.FC<VideoItemProps> = ({ video, isActive, onCtaTrigger }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (videoRef.current) {
-      if (isActive && !isPlaying) {
-        videoRef.current.play().catch(console.error);
-        setIsPlaying(true);
-      } else if (!isActive && isPlaying) {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      }
+    if (!videoRef.current) return;
+    if (isActive) {
+      videoRef.current.play().catch(() => {});
+      setIsPlaying(true);
+    } else {
+      videoRef.current.pause();
+      setIsPlaying(false);
     }
-  }, [isActive, isPlaying]);
+  }, [isActive]);
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.muted = isMuted;
-    }
+    if (videoRef.current) videoRef.current.muted = isMuted;
   }, [isMuted]);
 
-  useEffect(() => {
-    if (isActive && video.isPromo && video.product) {
-      // Auto-trigger CraveTray for promotional videos
-      const timer = setTimeout(() => {
-        onPromoTrigger(video.product);
-      }, 1500); // Trigger after 1.5 seconds of viewing
-      
-      return () => clearTimeout(timer);
-    }
-  }, [isActive, video.isPromo, video.product, onPromoTrigger]);
-
-  const togglePlayPause = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        videoRef.current.play().catch(console.error);
-        setIsPlaying(true);
-      }
-    }
-  };
+  // Tray opens only when user taps the CTA button (no auto-trigger)
 
   return (
     <div className="relative h-screen w-full bg-black flex-shrink-0 overflow-hidden">
-      {/* Video Element */}
-      <video 
+      <video
         ref={videoRef}
-        src={video.videoUrl}
-        poster={video.thumbnailUrl}
+        src={video.url}
         className="w-full h-full object-cover"
         loop
         muted={isMuted}
         playsInline
-        onLoadStart={() => console.log(`Loading video: ${video.id}`)}
-        onCanPlay={() => console.log(`Can play video: ${video.id}`)}
-        onError={(e) => console.error(`Video error for ${video.id}:`, e)}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-      {/* Promo Badge */}
-      {video.isPromo && (
-        <div className="absolute top-20 left-4 z-10">
-          <Badge className="bg-crave-orange text-white animate-pulse">
-            🔥 Sponsored
-          </Badge>
-        </div>
-      )}
-
-      {/* Play/Pause Overlay */}
-      <div 
-        className="absolute inset-0 flex items-center justify-center cursor-pointer z-10"
-        onClick={togglePlayPause}
-      >
-        {!isPlaying && (
-          <div className="bg-black/50 rounded-full p-4 animate-fade-in">
-            <Play className="h-12 w-12 text-white fill-white" />
-          </div>
-        )}
-      </div>
-
-      {/* Right Side Actions */}
+      {/* Right Actions */}
       <div className="absolute right-4 bottom-24 flex flex-col gap-6 z-20">
-        <Button 
-          variant="ghost" 
+        <Button
+          variant="ghost"
           size="icon"
           className="h-12 w-12 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40"
           onClick={() => setIsLiked(!isLiked)}
         >
-          <Heart className={cn("h-6 w-6", isLiked ? "fill-red-500 text-red-500" : "text-white")} />
+          <Heart className={cn('h-6 w-6', isLiked ? 'fill-red-500 text-red-500' : 'text-white')} />
         </Button>
-        <div className="text-center">
-          <span className="text-white text-xs font-medium">{video.likes}</span>
-        </div>
-
-        <Button 
-          variant="ghost" 
-          size="icon"
-          className="h-12 w-12 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40"
-        >
+        <Button variant="ghost" size="icon" className="h-12 w-12 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40">
           <MessageCircle className="h-6 w-6 text-white" />
         </Button>
-        <div className="text-center">
-          <span className="text-white text-xs font-medium">{video.comments}</span>
-        </div>
-
-        <Button 
-          variant="ghost" 
-          size="icon"
-          className="h-12 w-12 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40"
-        >
+        <Button variant="ghost" size="icon" className="h-12 w-12 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40">
           <Share className="h-6 w-6 text-white" />
         </Button>
-        <div className="text-center">
-          <span className="text-white text-xs font-medium">{video.shares}</span>
-        </div>
-
-        <Button 
-          variant="ghost" 
-          size="icon"
-          className="h-12 w-12 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40"
-        >
+        <Button variant="ghost" size="icon" className="h-12 w-12 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40">
           <MoreHorizontal className="h-6 w-6 text-white" />
         </Button>
       </div>
 
-      {/* Bottom Info */}
-      <div className="absolute bottom-4 left-4 right-20 z-20">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <span className="text-white font-semibold">{video.username}</span>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="h-6 px-2 text-xs bg-transparent border-white text-white hover:bg-white hover:text-black"
-            >
-              Follow
-            </Button>
-          </div>
-          <p className="text-white text-sm">{video.description}</p>
-        </div>
+      {/* CTA Button */}
+      <div className="absolute bottom-6 left-4 z-50 pointer-events-auto" onClick={(e) => e.stopPropagation()}>
+        <Button
+          className="rounded-full px-5 h-10 font-semibold"
+          style={{ backgroundColor: typeColor[video.type], color: '#fff' }}
+          onClick={() => onCtaTrigger(video.item, video.type, typeToCta[video.type])}
+        >
+          {typeToCta[video.type]}
+        </Button>
       </div>
 
-      {/* Top Controls */}
+      {/* Mute toggle */}
       <div className="absolute top-4 right-4 flex gap-2 z-20">
-        <Button 
-          variant="ghost" 
+        <Button
+          variant="ghost"
           size="icon"
           className="h-8 w-8 rounded-full bg-black/20 backdrop-blur-sm"
-          onClick={() => setIsMuted(!isMuted)}
+          onClick={() => setIsMuted((m) => !m)}
         >
-          {isMuted ? (
-            <VolumeX className="h-4 w-4 text-white" />
-          ) : (
-            <Volume2 className="h-4 w-4 text-white" />
-          )}
+          {isMuted ? <VolumeX className="h-4 w-4 text-white" /> : <Volume2 className="h-4 w-4 text-white" />}
         </Button>
       </div>
     </div>
@@ -273,29 +223,40 @@ const VideoItem: React.FC<{
 
 export const TikTokFeed: React.FC = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [isTrayOpen, setIsTrayOpen] = useState(false);
+  const [currentItem, setCurrentItem] = useState<UniversalFeedItem | null>(null);
+  const [currentFeedType, setCurrentFeedType] = useState<FeedType>('product');
+  const [currentCtaText, setCurrentCtaText] = useState<string>('Buy Now');
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const videos = makeVideosFromAssets();
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const element = e.currentTarget;
     const scrollTop = element.scrollTop;
     const videoHeight = element.clientHeight;
     const newIndex = Math.round(scrollTop / videoHeight);
-    
     if (newIndex !== currentVideoIndex && newIndex >= 0 && newIndex < videos.length) {
       setCurrentVideoIndex(newIndex);
     }
   };
 
-  const handlePromoTrigger = (product: any) => {
-    setSelectedProduct(product);
+  const openTrayWithItem = (item: UniversalFeedItem, type: FeedType, ctaText: string) => {
+    setCurrentItem(item);
+    setCurrentFeedType(type);
+    setCurrentCtaText(ctaText);
     setIsTrayOpen(true);
   };
 
   const closeTray = () => {
     setIsTrayOpen(false);
-    setTimeout(() => setSelectedProduct(null), 300);
+    setCurrentItem(null);
+  };
+
+  const handleAction = () => {
+    // Simple close on action for demo parity
+    setIsTrayOpen(false);
+    setCurrentItem(null);
   };
 
   return (
@@ -309,38 +270,35 @@ export const TikTokFeed: React.FC = () => {
       </div>
 
       {/* Video Feed */}
-      <div 
+      <div
         ref={containerRef}
         className="h-full overflow-y-scroll snap-y snap-mandatory scrollbar-hide"
         onScroll={handleScroll}
       >
         {videos.map((video, index) => (
           <div key={video.id} className="snap-start">
-            <VideoItem 
+            <VideoItem
               video={video}
               isActive={index === currentVideoIndex}
-              onPromoTrigger={handlePromoTrigger}
+              onCtaTrigger={openTrayWithItem}
             />
           </div>
         ))}
       </div>
 
-      {/* CraveTray */}
-      <CraveTray
-        isOpen={isTrayOpen}
-        onClose={closeTray}
-        product={selectedProduct}
-        appContext="food"
-      />
-
-      {/* Auto-trigger indicator */}
-      {videos[currentVideoIndex]?.isPromo && (
-        <div className="absolute bottom-32 left-4 z-30">
-          <div className="bg-crave-orange/90 backdrop-blur-sm rounded-full px-3 py-1 animate-pulse">
-            <span className="text-white text-xs font-medium">🛒 Tap to order instantly!</span>
-          </div>
-        </div>
-      )}
+      {/* Universal Info Tray */}
+      <div className="absolute bottom-0 left-0 right-0 z-[60] pointer-events-auto">
+        {currentItem && (
+          <UniversalInfoTray
+            isOpen={isTrayOpen}
+            onClose={closeTray}
+            item={currentItem}
+            feedType={currentFeedType}
+            ctaText={currentCtaText}
+            onAction={handleAction}
+          />
+        )}
+      </div>
     </div>
   );
 };

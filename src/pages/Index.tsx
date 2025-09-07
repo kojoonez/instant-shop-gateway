@@ -210,7 +210,7 @@ const Index = () => {
               <div className="container mx-auto px-4 text-center">
                 <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Business?</h2>
                 <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                  Join thousands of businesses using CraveTray to power their commerce experience
+                  Join thousands of businesses using Cravy to power their commerce experience
                 </p>
                 <Button size="lg" asChild>
                   <Link to="/admin">

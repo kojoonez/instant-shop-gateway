@@ -79,7 +79,7 @@ export const CreatorDashboard: React.FC = () => {
     };
     
     console.log('Publishing content:', contentData);
-    alert(`Content published successfully! ${craveTrayEnabled ? 'CraveTray is enabled.' : 'CraveTray is disabled.'}`);
+    alert(`Content published successfully! ${craveTrayEnabled ? 'Cravy is enabled.' : 'Cravy is disabled.'}`);
   };
 
   return (
@@ -90,7 +90,7 @@ export const CreatorDashboard: React.FC = () => {
           Creator Dashboard
         </h1>
         <p className="text-muted-foreground">
-          Upload content and choose whether to enable CraveTray for instant commerce
+          Upload content and choose whether to enable Cravy for instant commerce
         </p>
       </div>
 
@@ -175,14 +175,14 @@ export const CreatorDashboard: React.FC = () => {
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-xl font-semibold">CraveTray Integration</h2>
+            <h2 className="text-xl font-semibold">Cravy Integration</h2>
             <p className="text-sm text-muted-foreground">
               Enable seamless commerce directly in your content
             </p>
           </div>
           <div className="flex items-center gap-2">
             <Label htmlFor="cravetray-enabled" className="text-sm">
-              Enable CraveTray
+              Enable Cravy
             </Label>
             <Switch
               id="cravetray-enabled"
@@ -197,7 +197,7 @@ export const CreatorDashboard: React.FC = () => {
             <div className="bg-gradient-to-r from-crave-orange/10 to-crave-purple/10 rounded-lg p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Star className="h-4 w-4 text-crave-orange" />
-                <span className="font-medium">CraveTray Enabled</span>
+                <span className="font-medium">Cravy Enabled</span>
               </div>
               <p className="text-sm text-muted-foreground">
                 Viewers can purchase products directly from your content without leaving the app.
@@ -208,7 +208,7 @@ export const CreatorDashboard: React.FC = () => {
             <div>
               <Label className="text-base font-medium">Select Products to Feature</Label>
               <p className="text-sm text-muted-foreground mb-3">
-                Choose which products viewers can purchase through CraveTray
+                Choose which products viewers can purchase through Cravy
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
@@ -289,7 +289,7 @@ export const CreatorDashboard: React.FC = () => {
           Publish Content
           {craveTrayEnabled && (
             <Badge className="ml-2 bg-white/20">
-              CraveTray Enabled
+              Cravy Enabled
             </Badge>
           )}
         </Button>
