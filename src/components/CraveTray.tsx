@@ -24,13 +24,19 @@ interface CraveTrayProps {
   onClose: () => void;
   product: Product | null;
   appContext?: 'food' | 'fashion' | 'tech' | 'default';
+  inline?: boolean;
+  className?: string;
+  checkoutLabel?: string;
 }
 
 export const CraveTray: React.FC<CraveTrayProps> = ({ 
   isOpen, 
   onClose, 
   product,
-  appContext = 'default'
+  appContext = 'default',
+  inline = false,
+  className,
+  checkoutLabel
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [isLiked, setIsLiked] = useState(false);
@@ -70,23 +76,32 @@ export const CraveTray: React.FC<CraveTrayProps> = ({
 
   return (
     <>
-      {/* Backdrop */}
-      <div 
-        className={cn(
-          "fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300",
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        )}
-        onClick={onClose}
-      />
-      
+      {!inline && (
+        <div 
+          className={cn(
+            "fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300",
+            isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          )}
+          onClick={onClose}
+        />
+      )}
+
       {/* Tray */}
       <div 
         className={cn(
-          "fixed bottom-0 left-0 right-0 z-50 bg-gradient-tray border-t border-border rounded-t-3xl shadow-tray transition-transform duration-400 ease-out",
-          isOpen ? "translate-y-0" : "translate-y-full"
+          inline
+            ? cn(
+                "bg-gradient-tray border border-border rounded-2xl shadow-tray h-1/2",
+                isOpen ? "opacity-100" : "opacity-0 pointer-events-none",
+                className
+              )
+            : cn(
+                "fixed bottom-0 left-0 right-0 z-50 bg-gradient-tray border-t border-border rounded-t-3xl shadow-tray transition-transform duration-400 ease-out",
+                isOpen ? "translate-y-0" : "translate-y-full"
+              )
         )}
       >
-        <div className="max-w-md mx-auto p-6 max-h-[80vh] overflow-y-auto">
+        <div className={cn("p-6", inline ? "h-full overflow-y-auto" : "max-w-md mx-auto max-h-[80vh] overflow-y-auto") }>
           {/* Header */}
           <div className="flex justify-between items-start mb-4">
             <div className="flex gap-2">
@@ -231,7 +246,7 @@ export const CraveTray: React.FC<CraveTrayProps> = ({
               "hover:scale-[1.02] active:scale-[0.98]"
             )}
           >
-            {isCheckingOut ? 'Processing...' : `Add to Cart • $${total.toFixed(2)}`}
+            {isCheckingOut ? 'Processing...' : `${checkoutLabel ?? 'Add to Cart'} • $${total.toFixed(2)}`}
           </Button>
         </div>
       </div>

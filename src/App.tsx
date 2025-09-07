@@ -3,6 +3,21 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { CookieBanner } from "@/components/consent/CookieBanner";
+import Features from "@/pages/Features";
+import Business from "@/pages/Business";
+import Creators from "@/pages/Creators";
+import HowItWorks from "@/pages/HowItWorks";
+import FAQ from "@/pages/FAQ";
+import Contact from "@/pages/Contact";
+import Download from "@/pages/Download";
+import Privacy from "@/pages/Privacy";
+import Terms from "@/pages/Terms";
+import Blog from "@/pages/Blog";
+import ApplyCreator from "@/pages/ApplyCreator";
+import ApplyBusiness from "@/pages/ApplyBusiness";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Marketplace from "./pages/Marketplace";
@@ -24,15 +39,28 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <Header />
           <Routes>
             {/* Auth Route */}
             <Route path="/auth" element={<Auth />} />
             
             {/* Main App Routes */}
             <Route path="/" element={<Index />} />
+            <Route path="/features" element={<Features />} />
+            <Route path="/business" element={<Business />} />
+            <Route path="/creators" element={<Creators />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/download" element={<Download />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/blog" element={<Blog />} />
             <Route path="/marketplace" element={<Marketplace />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/orders" element={<Orders />} />
+            <Route path="/apply/creator" element={<ApplyCreator />} />
+            <Route path="/apply/business" element={<ApplyBusiness />} />
             
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminLayout />}>
@@ -47,6 +75,8 @@ const App = () => (
             {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <Footer />
+          <CookieBanner />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>

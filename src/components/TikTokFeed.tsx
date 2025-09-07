@@ -32,7 +32,7 @@ const videos: VideoData[] = [
   {
     id: '2',
     username: '@chef_marco',
-    description: 'This Truffle Mushroom Burger is INSANE 🔥 Available for delivery now! #sponsored #foodie',
+    description: 'This Truffle Mushroom Burger is INSANE 🔥 Cravy delivers with approved partners! #foodie',
     likes: '45.7K',
     comments: '2.1K',
     shares: '1.2K',
@@ -86,7 +86,7 @@ const videos: VideoData[] = [
       category: 'Audio Devices',
       deliveryFee: 0,
       deliveryTime: 'Same day',
-      badges: ['Best Seller', 'Fast Shipping']
+      badges: ['Best Seller', 'Cravy Partner Delivery']
     }
   },
   {

@@ -3,21 +3,51 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>instant-shop-gateway</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+    <title>Cravy — Live shopping, food, services, events</title>
+    <meta name="description" content="Watch, shop, and book—live. One app for live shopping, food, services, and events." />
+    <meta name="author" content="Cravy" />
+    <meta name="theme-color" content="#0D1B2A" />
 
-    <meta property="og:title" content="instant-shop-gateway" />
-    <meta property="og:description" content="Lovable Generated Project" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.google-analytics.com" />
+    <link rel="icon" href="/cravy_logo.jpg" type="image/jpeg" />
+    <link rel="apple-touch-icon" href="/cravy_logo.jpg" />
+
+    <meta property="og:title" content="Cravy — Live shopping, food, services, events" />
+    <meta property="og:description" content="Watch, shop, and book—live. One app for live shopping, food, services, and events." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:site_name" content="Cravy" />
+    <meta property="og:image" content="/cravy_logo.jpg" />
+    <meta property="og:image:alt" content="Cravy logo" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:site" content="@cravy" />
+    <meta name="twitter:title" content="Cravy — Live shopping, food, services, events" />
+    <meta name="twitter:description" content="Watch, shop, and book—live. One app for live shopping, food, services, and events." />
+    <meta name="twitter:image" content="/cravy_logo.jpg" />
+
+    <!-- JSON-LD will be injected by the app per route -->
+
+    <!-- Google Tag Manager (consent-gated) -->
+    <script>
+      (function() {
+        var gtmId = 'GTM-XXXXXXX';
+        var hasAnalyticsConsent = window.localStorage && window.localStorage.getItem('cravy_consent_analytics') === 'true';
+        if (!hasAnalyticsConsent || !gtmId) return;
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+        var f = document.getElementsByTagName('script')[0];
+        var j = document.createElement('script');
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + gtmId;
+        f.parentNode.insertBefore(j, f);
+      })();
+    </script>
   </head>
 
   <body>
+    <!-- Google Tag Manager (noscript placeholder; will only work if consent injected script above loads GTM) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

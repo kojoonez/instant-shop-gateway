@@ -25,17 +25,16 @@ export const HeroSection: React.FC = () => {
 
         {/* Main Heading */}
         <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-hero bg-clip-text text-transparent">
-          CraveTray
+          Cravy
         </h1>
         
         <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-foreground/90">
-          Embeddable Shopping Widget for Any App
+          Watch, shop, and book — live.
         </h2>
 
         {/* Description */}
         <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-          Turn any app into a shopping destination with our transparent, 
-          floating checkout tray. One SDK, infinite possibilities.
+          One app for live shopping, food, services, events, and more.
         </p>
 
         {/* Features Grid */}

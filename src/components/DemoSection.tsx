@@ -16,7 +16,7 @@ export const DemoSection: React.FC = () => {
     {
       id: 'food' as const,
       name: 'FoodieApp',
-      description: 'Restaurant & delivery app',
+      description: 'Restaurant ordering with Cravy partner delivery',
       icon: '🍔',
       color: 'crave-orange'
     },
@@ -55,7 +55,7 @@ export const DemoSection: React.FC = () => {
             Interactive Demo
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            See CraveTray in Action
+            See Cravy Tray in Action
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Experience how our embeddable shopping widget transforms any app into a commerce platform. 
@@ -121,7 +121,7 @@ export const DemoSection: React.FC = () => {
           {/* Demo Instructions */}
           <div className="mt-8 text-center">
             <p className="text-sm text-muted-foreground mb-4">
-              Tap on any product in the {apps.find(a => a.id === selectedApp)?.name} to see CraveTray appear
+              Tap on any product in the {apps.find(a => a.id === selectedApp)?.name} to see Cravy Tray appear
             </p>
             <div className="flex justify-center gap-4 text-xs text-muted-foreground">
               <div className="flex items-center gap-1">

@@ -1,0 +1,22 @@
+.phoneTilt {
+	transition: transform 300ms;
+}
+.tiltTransform {
+}
+.sceneHidden {
+	opacity: 0;
+	transition: opacity 400ms;
+}
+.sceneVisible {
+	opacity: 1;
+	transition: opacity 400ms;
+}
+.progressBar {
+	height: 100%;
+	background-color: hsl(var(--crave-orange));
+	transition: width 300ms;
+}
+.feedTranslate {
+	transition: transform 400ms;
+}
+

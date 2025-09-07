@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { CraveTray } from './CraveTray';
-import { MapPin, Star, Clock, Navigation, Phone, Globe, ChevronRight } from 'lucide-react';
+
+const defaultCenter: [number, number] = [60.1699, 24.9384]; // Helsinki as example
 
 const restaurants = [
   {
@@ -12,25 +16,52 @@ const restaurants = [
     cuisine: 'Italian',
     rating: 4.8,
     reviews: 342,
-    distance: '0.3 mi',
-    estimatedTime: '25-35 min',
-    image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=300&fit=crop',
-    position: { x: 45, y: 35 },
+    coords: [60.1709, 24.9375] as [number, number],
     featured: true,
-    product: {
-      id: 'truffle-pasta',
-      name: 'Truffle Mushroom Pasta',
-      price: 28.99,
-      originalPrice: 34.99,
-      image: 'https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=400&h=300&fit=crop',
-      description: 'House-made fettuccine with truffle oil, wild mushrooms, and fresh herbs. A signature dish from our chef.',
-      rating: 4.9,
-      reviews: 156,
-      category: 'Italian Cuisine',
-      deliveryFee: 2.99,
-      deliveryTime: '25-35 min',
-      badges: ['Chef Special', 'Popular']
-    }
+    menu: [
+      {
+        id: 'truffle-pasta',
+        name: 'Truffle Mushroom Pasta',
+        price: 28.99,
+        originalPrice: 34.99,
+        image: 'https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=400&h=300&fit=crop',
+        description: 'House-made fettuccine with truffle oil and wild mushrooms.',
+        rating: 4.9,
+        reviews: 156,
+        category: 'Pasta',
+        deliveryFee: 2.99,
+        deliveryTime: '25-35 min',
+        badges: ['Chef Special']
+      },
+      {
+        id: 'margherita',
+        name: 'Margherita Pizza',
+        price: 12.5,
+        image: 'https://images.unsplash.com/photo-1542831371-d531d36971e6?w=400&h=300&fit=crop',
+        description: 'Tomato, mozzarella, basil, extra virgin olive oil.',
+        rating: 4.7,
+        reviews: 298,
+        category: 'Pizza',
+        deliveryFee: 1.99,
+        deliveryTime: '20-30 min',
+        badges: ['Popular']
+      },
+      {
+        id: 'tiramisu',
+        name: 'Tiramisu',
+        price: 6.9,
+        image: 'https://images.unsplash.com/photo-1613478223719-3d57b0f633a1?w=400&h=300&fit=crop',
+        description: 'Classic coffee-soaked ladyfingers, mascarpone cream, cocoa.',
+        rating: 4.8,
+        reviews: 221,
+        category: 'Dessert',
+        deliveryFee: 0,
+        deliveryTime: '20-30 min',
+        badges: ['Sweet']
+      }
+    ],
+    // keep first menu item as default featured product
+    product: undefined
   },
   {
     id: '2',
@@ -38,10 +69,48 @@ const restaurants = [
     cuisine: 'Japanese',
     rating: 4.7,
     reviews: 189,
-    distance: '0.5 mi',
-    estimatedTime: '30-40 min',
-    image: 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400&h=300&fit=crop',
-    position: { x: 65, y: 55 }
+    coords: [60.168, 24.94] as [number, number],
+    menu: [
+      {
+        id: 'salmon-nigiri',
+        name: 'Salmon Nigiri (6pc)',
+        price: 10.99,
+        image: 'https://images.unsplash.com/photo-1553621042-f6e147245754?w=400&h=300&fit=crop',
+        description: 'Fresh salmon over seasoned rice.',
+        rating: 4.6,
+        reviews: 143,
+        category: 'Sushi',
+        deliveryFee: 1.5,
+        deliveryTime: '20-30 min',
+        badges: ['Fresh']
+      },
+      {
+        id: 'rainbow-roll',
+        name: 'Rainbow Roll',
+        price: 12.99,
+        image: 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400&h=300&fit=crop',
+        description: 'California roll topped with assorted sashimi.',
+        rating: 4.7,
+        reviews: 167,
+        category: 'Rolls',
+        deliveryFee: 1.5,
+        deliveryTime: '25-35 min',
+        badges: ['Colorful']
+      },
+      {
+        id: 'miso-soup',
+        name: 'Miso Soup',
+        price: 3.5,
+        image: 'https://images.unsplash.com/photo-1617191518300-0b3f7e8e79b8?w=400&h=300&fit=crop',
+        description: 'Tofu, wakame, scallion; light and comforting.',
+        rating: 4.5,
+        reviews: 92,
+        category: 'Soup',
+        deliveryFee: 0,
+        deliveryTime: '15-20 min',
+        badges: ['Warm']
+      }
+    ]
   },
   {
     id: '3',
@@ -49,306 +118,156 @@ const restaurants = [
     cuisine: 'American',
     rating: 4.6,
     reviews: 423,
-    distance: '0.7 mi',
-    estimatedTime: '20-30 min',
-    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop',
-    position: { x: 30, y: 70 }
-  },
-  {
-    id: '4',
-    name: 'Green Garden Café',
-    cuisine: 'Healthy',
-    rating: 4.5,
-    reviews: 267,
-    distance: '0.4 mi',
-    estimatedTime: '15-25 min',
-    image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&h=300&fit=crop',
-    position: { x: 75, y: 25 }
+    coords: [60.172, 24.942] as [number, number],
+    menu: [
+      {
+        id: 'smash-burger',
+        name: 'Double Smash Burger',
+        price: 13.99,
+        image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=400&h=300&fit=crop',
+        description: 'Two smashed patties, cheddar, pickles, house sauce.',
+        rating: 4.7,
+        reviews: 512,
+        category: 'Burger',
+        deliveryFee: 2.49,
+        deliveryTime: '20-30 min',
+        badges: ['Best Seller']
+      },
+      {
+        id: 'fries',
+        name: 'Crispy Fries',
+        price: 3.99,
+        image: 'https://images.unsplash.com/photo-1541592553160-82008b127ccb?w=400&h=300&fit=crop',
+        description: 'Golden, lightly salted potato fries.',
+        rating: 4.6,
+        reviews: 403,
+        category: 'Sides',
+        deliveryFee: 0,
+        deliveryTime: '15-20 min',
+        badges: ['Crispy']
+      },
+      {
+        id: 'chicken-burger',
+        name: 'Spicy Chicken Burger',
+        price: 12.5,
+        image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop',
+        description: 'Crunchy chicken, spicy mayo, lettuce.',
+        rating: 4.5,
+        reviews: 218,
+        category: 'Burger',
+        deliveryFee: 2.49,
+        deliveryTime: '20-30 min',
+        badges: ['Spicy']
+      }
+    ]
   }
 ];
 
 export const MapDemo: React.FC = () => {
   const [selectedRestaurant, setSelectedRestaurant] = useState<typeof restaurants[0] | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<typeof restaurants[0]['product'] | null>(null);
   const [isTrayOpen, setIsTrayOpen] = useState(false);
 
-  const handleRestaurantClick = (restaurant: typeof restaurants[0]) => {
-    setSelectedRestaurant(restaurant);
-    
-    // Auto-trigger CraveTray for featured restaurants with products
-    if (restaurant.featured && restaurant.product) {
-      setTimeout(() => {
-        setIsTrayOpen(true);
-      }, 1000);
-    }
-  };
+  const markerIcon = useMemo(() =>
+    L.icon({
+      iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+      iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+      shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    }),
+  []);
 
-  const closeTray = () => {
+  const handleClick = (r: typeof restaurants[0]) => {
+    setSelectedRestaurant(r);
+    setSelectedProduct(null);
     setIsTrayOpen(false);
   };
 
   return (
-    <div className="h-screen flex bg-background">
-      {/* Map Area */}
-      <div className="flex-1 relative">
-        {/* Map Background */}
-        <div 
-          className="w-full h-full bg-gradient-to-br from-green-100 to-blue-100 relative"
-          style={{
-            backgroundImage: `
-              linear-gradient(45deg, #f0f9ff 25%, transparent 25%),
-              linear-gradient(-45deg, #f0f9ff 25%, transparent 25%),
-              linear-gradient(45deg, transparent 75%, #f0f9ff 75%),
-              linear-gradient(-45deg, transparent 75%, #f0f9ff 75%)
-            `,
-            backgroundSize: '30px 30px',
-            backgroundPosition: '0 0, 0 15px, 15px -15px, -15px 0px'
-          }}
-        >
-          {/* Street Lines */}
-          <div className="absolute inset-0">
-            <div className="absolute top-1/3 left-0 right-0 h-1 bg-gray-300"></div>
-            <div className="absolute top-2/3 left-0 right-0 h-1 bg-gray-300"></div>
-            <div className="absolute left-1/3 top-0 bottom-0 w-1 bg-gray-300"></div>
-            <div className="absolute left-2/3 top-0 bottom-0 w-1 bg-gray-300"></div>
-          </div>
-
-          {/* User Location */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
-            <div className="w-4 h-4 bg-blue-500 rounded-full border-2 border-white shadow-lg pulse"></div>
-            <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-medium text-blue-600">
-              You
-            </div>
-          </div>
-
-          {/* Restaurant Pins */}
-          {restaurants.map((restaurant) => (
-            <div
-              key={restaurant.id}
-              className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer z-10"
-              style={{ 
-                left: `${restaurant.position.x}%`, 
-                top: `${restaurant.position.y}%` 
-              }}
-              onClick={() => handleRestaurantClick(restaurant)}
-            >
-              <div className={`relative group hover:scale-110 transition-transform ${
-                selectedRestaurant?.id === restaurant.id ? 'scale-110' : ''
-              }`}>
-                <MapPin className={`h-8 w-8 ${
-                  restaurant.featured ? 'text-crave-orange' : 'text-red-500'
-                } drop-shadow-lg`} />
-                {restaurant.featured && (
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-crave-orange rounded-full animate-pulse">
-                    <div className="absolute inset-0 w-3 h-3 bg-crave-orange rounded-full animate-ping"></div>
-                  </div>
-                )}
-                
-                {/* Tooltip */}
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap">
-                    {restaurant.name}
-                    {restaurant.featured && (
-                      <Badge className="ml-1 bg-crave-orange text-white text-xs">
-                        Featured
-                      </Badge>
-                    )}
-                  </div>
+    <div className="h-screen grid grid-cols-1 md:grid-cols-[1fr_420px]">
+      <div className="h-full">
+        <MapContainer center={defaultCenter} zoom={14} className="h-full w-full" scrollWheelZoom>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {restaurants.map(r => (
+            <Marker key={r.id} position={r.coords} icon={markerIcon} eventHandlers={{ click: () => handleClick(r) }}>
+              <Popup>
+                <div className="text-sm">
+                  <div className="font-semibold">{r.name}</div>
+                  <div className="text-muted-foreground">{r.cuisine}</div>
                 </div>
-              </div>
-            </div>
+              </Popup>
+            </Marker>
           ))}
-        </div>
-
-        {/* Map Controls */}
-        <div className="absolute top-4 right-4 flex flex-col gap-2">
-          <Button variant="outline" size="icon" className="bg-white shadow-lg">
-            <Navigation className="h-4 w-4" />
-          </Button>
-          <Button variant="outline" size="icon" className="bg-white shadow-lg">
-            +
-          </Button>
-          <Button variant="outline" size="icon" className="bg-white shadow-lg">
-            -
-          </Button>
-        </div>
-
-        {/* Map Legend */}
-        <div className="absolute bottom-4 left-4 bg-white rounded-lg shadow-lg p-3">
-          <div className="flex items-center gap-4 text-xs">
-            <div className="flex items-center gap-1">
-              <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-              <span>Your location</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <MapPin className="h-3 w-3 text-red-500" />
-              <span>Restaurants</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <MapPin className="h-3 w-3 text-crave-orange" />
-              <span>Featured</span>
-            </div>
-          </div>
-        </div>
+        </MapContainer>
       </div>
-
-      {/* Restaurant Details Panel */}
-      <div className="w-96 bg-white border-l border-border overflow-y-auto">
-        <div className="p-4 border-b border-border">
+      <div className="bg-card border-l border-border overflow-y-auto">
+        <div className="p-4 border-b">
           <h2 className="text-lg font-semibold">Nearby Restaurants</h2>
-          <p className="text-sm text-muted-foreground">
-            Tap a pin on the map to see details
-          </p>
+          <p className="text-sm text-muted-foreground">Tap a marker to see menu</p>
         </div>
-
-        {selectedRestaurant ? (
-          <div className="p-4 space-y-4">
-            {/* Restaurant Header */}
-            <div>
-              <div className="flex items-start justify-between mb-2">
+        <div className="p-4 space-y-4">
+          {selectedRestaurant ? (
+            <div className="space-y-3">
+              <div className="flex items-start justify-between mb-1">
                 <div>
                   <h3 className="text-xl font-bold">{selectedRestaurant.name}</h3>
                   <p className="text-muted-foreground">{selectedRestaurant.cuisine}</p>
                 </div>
-                {selectedRestaurant.featured && (
-                  <Badge className="bg-crave-orange text-white">
-                    Featured
-                  </Badge>
-                )}
+                {selectedRestaurant.featured && <Badge className="bg-crave-orange text-white">Featured</Badge>}
               </div>
-              
-              <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                <div className="flex items-center gap-1">
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <span>{selectedRestaurant.rating}</span>
-                  <span>({selectedRestaurant.reviews})</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <MapPin className="h-4 w-4" />
-                  <span>{selectedRestaurant.distance}</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Clock className="h-4 w-4" />
-                  <span>{selectedRestaurant.estimatedTime}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Restaurant Image */}
-            <img 
-              src={selectedRestaurant.image}
-              alt={selectedRestaurant.name}
-              className="w-full h-48 object-cover rounded-lg"
-            />
-
-            {/* Featured Product */}
-            {selectedRestaurant.featured && selectedRestaurant.product && (
-              <Card className="p-4 border-crave-orange/20 bg-gradient-to-r from-crave-orange/5 to-crave-purple/5">
-                <div className="flex items-center gap-2 mb-3">
-                  <Badge className="bg-crave-orange text-white">
-                    Chef's Special
-                  </Badge>
-                  <span className="text-sm text-muted-foreground">
-                    Auto-suggested for you
-                  </span>
-                </div>
-                
-                <div className="flex gap-3">
-                  <img 
-                    src={selectedRestaurant.product.image}
-                    alt={selectedRestaurant.product.name}
-                    className="w-16 h-16 rounded-lg object-cover"
-                  />
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-sm">{selectedRestaurant.product.name}</h4>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="font-bold text-crave-orange">
-                        ${selectedRestaurant.product.price}
-                      </span>
-                      {selectedRestaurant.product.originalPrice && (
-                        <span className="text-xs text-muted-foreground line-through">
-                          ${selectedRestaurant.product.originalPrice}
-                        </span>
-                      )}
-                    </div>
+              {/* Menu list */}
+              {(() => {
+                const menu = (selectedRestaurant as any).menu as Array<any> | undefined;
+                const fallback = (selectedRestaurant as any).product ? [(selectedRestaurant as any).product] : [];
+                const items = (menu && menu.length ? menu : fallback);
+                if (!items.length) {
+                  return <p className="text-sm text-muted-foreground">Menu not available.</p>;
+                }
+                return (
+                  <div className="grid gap-3">
+                    {items.map((p) => (
+                      <Card key={p.id} className="p-3 cursor-pointer hover:shadow" onClick={() => { setSelectedProduct(p); setIsTrayOpen(true); }}>
+                        <div className="flex gap-3">
+                          <img src={p.image} alt={p.name} className="w-16 h-16 rounded-lg object-cover" />
+                          <div className="flex-1">
+                            <div className="font-semibold text-sm">{p.name}</div>
+                            <div className="text-crave-orange font-bold text-sm">€{p.price}</div>
+                            <div className="text-xs text-muted-foreground line-clamp-1">{p.description}</div>
+                          </div>
+                        </div>
+                      </Card>
+                    ))}
                   </div>
-                </div>
-                
-                <Button 
-                  onClick={() => setIsTrayOpen(true)}
-                  className="w-full mt-3 bg-crave-orange hover:bg-crave-orange/90 text-white"
-                >
-                  Order Now
-                  <ChevronRight className="h-4 w-4 ml-1" />
-                </Button>
-              </Card>
-            )}
-
-            {/* Action Buttons */}
-            <div className="space-y-2">
-              <Button variant="outline" className="w-full justify-start">
-                <Phone className="h-4 w-4 mr-2" />
-                Call Restaurant
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <Globe className="h-4 w-4 mr-2" />
-                View Menu
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <Navigation className="h-4 w-4 mr-2" />
-                Get Directions
-              </Button>
+                );
+              })()}
             </div>
-          </div>
-        ) : (
-          <div className="p-4 space-y-4">
-            {restaurants.map((restaurant) => (
-              <Card 
-                key={restaurant.id}
-                className="p-3 cursor-pointer hover:shadow-md transition-shadow"
-                onClick={() => handleRestaurantClick(restaurant)}
-              >
-                <div className="flex gap-3">
-                  <img 
-                    src={restaurant.image}
-                    alt={restaurant.name}
-                    className="w-16 h-16 rounded-lg object-cover"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h4 className="font-semibold">{restaurant.name}</h4>
-                        <p className="text-sm text-muted-foreground">{restaurant.cuisine}</p>
-                      </div>
-                      {restaurant.featured && (
-                        <Badge className="bg-crave-orange text-white text-xs">
-                          Featured
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                        <span>{restaurant.rating}</span>
-                      </div>
-                      <span>{restaurant.distance}</span>
-                      <span>{restaurant.estimatedTime}</span>
-                    </div>
-                  </div>
-                </div>
+          ) : (
+            restaurants.map(r => (
+              <Card key={r.id} className="p-3 cursor-pointer hover:shadow" onClick={() => handleClick(r)}>
+                <div className="font-semibold">{r.name}</div>
+                <div className="text-sm text-muted-foreground">{r.cuisine}</div>
               </Card>
-            ))}
-          </div>
-        )}
+            ))
+          )}
+        </div>
       </div>
 
-      {/* CraveTray */}
-      {selectedRestaurant?.product && (
-        <CraveTray
-          isOpen={isTrayOpen}
-          onClose={closeTray}
-          product={selectedRestaurant.product}
-          appContext="food"
-        />
+      {selectedProduct && (
+        <div className="hidden md:block absolute right-4 bottom-4 w-[380px]">
+          <CraveTray 
+            isOpen={isTrayOpen} 
+            onClose={() => setIsTrayOpen(false)} 
+            product={selectedProduct} 
+            appContext="food"
+            inline
+          />
+        </div>
       )}
     </div>
   );

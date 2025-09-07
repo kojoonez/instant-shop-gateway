@@ -59,7 +59,7 @@ export default function Checkout() {
   };
 
   const getDeliveryFee = () => {
-    return 3.99; // Fixed delivery fee
+    return 3.99; // Cravy partner delivery fee (example)
   };
 
   const getTotal = () => {
