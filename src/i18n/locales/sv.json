@@ -1,0 +1,254 @@
+{
+  "common": {
+    "loading": "Laddar...",
+    "error": "Fel",
+    "success": "Framgång",
+    "cancel": "Avbryt",
+    "save": "Spara",
+    "delete": "Ta bort",
+    "edit": "Redigera",
+    "close": "Stäng",
+    "back": "Tillbaka",
+    "next": "Nästa",
+    "previous": "Föregående",
+    "menu": "Meny",
+    "search": "Sök",
+    "filter": "Filtrera",
+    "sort": "Sortera",
+    "apply": "Tillämpa",
+    "reset": "Återställ"
+  },
+  "navigation": {
+    "features": "Funktioner",
+    "business": "För företag",
+    "creators": "För skapare",
+    "howItWorks": "Så fungerar det",
+    "faq": "FAQ",
+    "contact": "Kontakt",
+    "download": "Ladda ner",
+    "blog": "Blogg",
+    "watchLive": "Titta live",
+    "privacy": "Integritet",
+    "terms": "Villkor"
+  },
+  "marketing": {
+    "hero": {
+      "badge": "Framtiden för inbäddad handel",
+      "title": "Cravy",
+      "subtitle": "Titta, handla och boka — live.",
+      "description": "En app för livehandel, mat, tjänster, evenemang och mer.",
+      "features": {
+        "universalSdk": "Universell SDK",
+        "instantCheckout": "Omedelbar utcheckning",
+        "anyPlatform": "Vilken plattform som helst",
+        "securePayments": "Säkra betalningar"
+      }
+    },
+    "slogans": [
+      {
+        "text": "Lev. Handla. Klar. Punkt.",
+        "emojis": "🔥💳✨"
+      },
+      {
+        "text": "En app, alla vibes",
+        "emojis": "📱🎵💫"
+      },
+      {
+        "text": "Handla som om du var känd",
+        "emojis": "⭐🛍️👑"
+      },
+      {
+        "text": "Omedelbar tillfredsställelse, noll besvär",
+        "emojis": "⚡🎯✨"
+      },
+      {
+        "text": "Din plånboks nya bästa vän",
+        "emojis": "💸🤝💎"
+      },
+      {
+        "text": "Handel gjord dumt enkel",
+        "emojis": "🧠💡🛒"
+      },
+      {
+        "text": "Varför vänta när du kan längta?",
+        "emojis": "⏰🍽️💨"
+      },
+      {
+        "text": "Framtiden för handel är här",
+        "emojis": "🚀🔮🌟"
+      }
+    ]
+  },
+  "cta": {
+    "downloadApp": "Ladda ner app",
+    "getStarted": "Kom igång",
+    "watchLive": "Titta live",
+    "applyCreator": "Ansök som skapare",
+    "applyBusiness": "Ansök som företag",
+    "learnMore": "Läs mer",
+    "tryDemo": "Prova demo",
+    "bookDemo": "Boka demo"
+  },
+  "forms": {
+    "title": "Titel",
+    "description": "Beskrivning",
+    "location": "Plats",
+    "email": "E-post",
+    "password": "Lösenord",
+    "name": "Namn",
+    "phone": "Telefon",
+    "company": "Företag",
+    "website": "Webbplats",
+    "message": "Meddelande",
+    "submit": "Skicka",
+    "placeholders": {
+      "enterTitle": "Ange din titel...",
+      "describeContent": "Beskriv ditt innehåll...",
+      "enterLocation": "Ange adress eller plats...",
+      "enterEmail": "Ange din e-post...",
+      "enterMessage": "Ange ditt meddelande..."
+    }
+  },
+  "content": {
+    "types": {
+      "video": "Video",
+      "blog": "Blogg",
+      "map": "Karta"
+    },
+    "categories": {
+      "food": "Mat",
+      "fashion": "Mode",
+      "tech": "Teknik",
+      "services": "Tjänster",
+      "events": "Evenemang"
+    },
+    "upload": {
+      "uploadFile": "Ladda upp din fil",
+      "chooseFile": "Välj fil",
+      "dragDrop": "Dra och släpp din fil här"
+    }
+  },
+  "demo": {
+    "steps": {
+      "step1": "Upptäck fantastiska produkter",
+      "step2": "Titta på live-demonstrationer",
+      "step3": "Lägg till i varukorg direkt",
+      "step4": "Checka ut på sekunder",
+      "step5": "Ladda ner appen och börja idag."
+    }
+  },
+  "legal": {
+    "companyInfo": "Rescue Delivery Services — Registrerat företag i Finland.",
+    "copyright": "© 2024 Cravy. Alla rättigheter förbehållna."
+  },
+  "social": {
+    "followUs": "Följ oss",
+    "twitter": "Twitter",
+    "instagram": "Instagram",
+    "tiktok": "TikTok"
+  },
+  "whyUsersLove": {
+    "title": "Varför användare älskar Cravy",
+    "subtitle": "Allt du behöver för att upptäcka, handla och boka—allt på ett ställe.",
+    "features": {
+      "allInOne": {
+        "title": "Allt-i-ett-handel",
+        "items": [
+          "Handla live-strömmar, beställ mat, boka tjänster, få biljetter",
+          "Ett inlogg, en plånbok, en sökning över allt",
+          "Lokala restauranger och globala varumärken i ett flöde",
+          "Plattformsoberoende: iOS, Android, Web med smidig inloggning"
+        ]
+      },
+      "liveTapDone": {
+        "title": "Live, tryck, klart",
+        "items": [
+          "Lägg till i varukorg från live-strömmar med ett tryck",
+          "Omedelbar utcheckning med sparade betalningsmetoder",
+          "Beställ favoriter igen med ett tryck",
+          "Orderuppföljning och bokningskalender inbyggd"
+        ]
+      },
+      "exclusiveValue": {
+        "title": "Exklusivt värde",
+        "items": [
+          "Endast live-deal och begränsade erbjudanden",
+          "Transparent prissättning utan dolda avgifter",
+          "Paketdeal och tillägg förvalda",
+          "Plånbokssaldo, tokens och referensbelöningar"
+        ]
+      },
+      "trustSafety": {
+        "title": "Förtroende och säkerhet",
+        "items": [
+          "Endast verifierade säljare och säkra betalningar",
+          "Tydlig retur- och tvistlösningsprocess",
+          "Dina data förblir privata—vi säljer dem inte",
+          "Detaljerade notifierings- och integritetskontroller"
+        ]
+      },
+      "smartDiscovery": {
+        "title": "Smart upptäckt",
+        "items": [
+          "Smarta rekommendationer baserat på din smak",
+          "Kost- och tjänstpreferensfilter",
+          "Spara favoriter och tittarhistorik",
+          "Upptäck vad som är trendigt i ditt område"
+        ]
+      },
+      "socialRewards": {
+        "title": "Socialt och belöningar",
+        "items": [
+          "Gilla, följ och dela det du älskar",
+          "Tjäna belöningar för varje köp och rekommendation",
+          "Dela och tjäna-program gör dig till affiliate",
+          "Realtidssocial bevis och trendande innehåll"
+        ]
+      }
+    },
+    "cta": {
+      "title": "Redo att uppleva framtiden för handel?",
+      "description": "Gå med tusentals användare som har upptäckt bekvämligheten med live-handel, omedelbar leverans och smidig bokning—allt i en app.",
+      "getStarted": "Kom igång — titta, handla och boka live",
+      "seeHowItWorks": "Se hur det fungerar"
+    }
+  },
+  "demo": {
+    "badge": "Interaktiv demo",
+    "title": "Se Cravy Tray i aktion",
+    "description": "Upplev hur vår inbäddningsbara shoppingwidget förvandlar vilken app som helst till en handelsplattform. Prova olika apptyper och se magin hända.",
+    "apps": {
+      "food": {
+        "name": "FoodieApp",
+        "description": "Restaurangbeställning med Cravy-partnerleverans"
+      },
+      "fashion": {
+        "name": "StyleHub",
+        "description": "Mode- och livsstilsapp"
+      },
+      "tech": {
+        "name": "TechStore",
+        "description": "Elektronik och prylar"
+      },
+      "tiktok": {
+        "name": "TikTok-flöde",
+        "description": "Sociala videor med livehandel"
+      },
+      "blog": {
+        "name": "Bloggartikel",
+        "description": "Innehåll med inbäddade produkter"
+      },
+      "map": {
+        "name": "Platskarta",
+        "description": "Restaurangupptäckt och beställning"
+      }
+    },
+    "steps": {
+      "step1": "Upptäck fantastiska produkter",
+      "step2": "Titta på live-demonstrationer",
+      "step3": "Lägg till i varukorg direkt",
+      "step4": "Checka ut på sekunder",
+      "step5": "Ladda ner appen och börja idag."
+    }
+  }
+}

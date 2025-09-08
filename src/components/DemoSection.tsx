@@ -6,8 +6,12 @@ import { DemoApp } from './DemoApp';
 import { CraveTray } from './CraveTray';
 import { Smartphone, Monitor, Tablet } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useTranslation } from '@/hooks/useTranslation';
+import { useScreenSize } from '@/hooks/useScreenSize';
 
 export const DemoSection: React.FC = () => {
+  const { t } = useTranslation();
+  const { isMobile, isTablet } = useScreenSize();
   const [selectedApp, setSelectedApp] = useState<'food' | 'fashion' | 'tech'>('food');
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [isTrayOpen, setIsTrayOpen] = useState(false);
@@ -15,22 +19,22 @@ export const DemoSection: React.FC = () => {
   const apps = [
     {
       id: 'food' as const,
-      name: 'FoodieApp',
-      description: 'Restaurant ordering with Cravy partner delivery',
+      name: t('demo.apps.food.name'),
+      description: t('demo.apps.food.description'),
       icon: '🍔',
       color: 'crave-orange'
     },
     {
       id: 'fashion' as const,
-      name: 'StyleHub',
-      description: 'Fashion & lifestyle app',
+      name: t('demo.apps.fashion.name'),
+      description: t('demo.apps.fashion.description'),
       icon: '👗',
       color: 'crave-purple'
     },
     {
       id: 'tech' as const,
-      name: 'TechStore',
-      description: 'Electronics & gadgets',
+      name: t('demo.apps.tech.name'),
+      description: t('demo.apps.tech.description'),
       icon: '🎧',
       color: 'crave-blue'
     }
@@ -47,39 +51,38 @@ export const DemoSection: React.FC = () => {
   };
 
   return (
-    <section id="demo-section" className="py-20 px-6">
+    <section id="demo-section" className={`${isMobile ? 'py-12 px-4' : 'py-20 px-6'}`}>
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-12">
-          <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
-            Interactive Demo
+        <div className={`text-center ${isMobile ? 'mb-8' : 'mb-12'}`}>
+          <Badge className={`${isMobile ? 'mb-3 text-xs px-2 py-1' : 'mb-4'} bg-primary/10 text-primary border-primary/20`}>
+            {t('demo.badge')}
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            See Cravy Tray in Action
+          <h2 className={`${isMobile ? 'text-2xl' : isTablet ? 'text-3xl' : 'text-4xl md:text-5xl'} font-bold ${isMobile ? 'mb-3' : 'mb-4'}`}>
+            {t('demo.title')}
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Experience how our embeddable shopping widget transforms any app into a commerce platform. 
-            Try different app types and see the magic happen.
+          <p className={`${isMobile ? 'text-sm' : 'text-lg'} text-muted-foreground max-w-2xl mx-auto`}>
+            {t('demo.description')}
           </p>
         </div>
 
         {/* App Selector */}
-        <div className="flex justify-center mb-8">
-          <div className="flex gap-2 p-2 bg-card rounded-xl border">
+        <div className={`flex justify-center ${isMobile ? 'mb-6' : 'mb-8'}`}>
+          <div className={`flex ${isMobile ? 'flex-col gap-2' : 'gap-2'} ${isMobile ? 'p-1' : 'p-2'} bg-card rounded-xl border`}>
             {apps.map((app) => (
               <Button
                 key={app.id}
                 variant={selectedApp === app.id ? "default" : "ghost"}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200",
+                  `flex items-center ${isMobile ? 'gap-1 px-2 py-1' : 'gap-2 px-4 py-2'} rounded-lg transition-all duration-200`,
                   selectedApp === app.id && "bg-primary text-primary-foreground shadow-sm"
                 )}
                 onClick={() => setSelectedApp(app.id)}
               >
-                <span className="text-lg">{app.icon}</span>
+                <span className={`${isMobile ? 'text-sm' : 'text-lg'}`}>{app.icon}</span>
                 <div className="text-left">
-                  <div className="font-semibold text-sm">{app.name}</div>
-                  <div className="text-xs opacity-70">{app.description}</div>
+                  <div className={`font-semibold ${isMobile ? 'text-xs' : 'text-sm'}`}>{app.name}</div>
+                  {!isMobile && <div className="text-xs opacity-70">{app.description}</div>}
                 </div>
               </Button>
             ))}

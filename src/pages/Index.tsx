@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 import { Seo } from '@/components/seo/Seo';
 import { CravyPhoneDemo } from '@/components/CravyPhoneDemo';
 import { PhoneReelDemo } from '@/components/PhoneReelDemo';
+import { WhyUsersLoveCravy } from '@/components/WhyUsersLoveCravy';
+import { SloganBanner } from '@/components/SloganBanner';
 
 type DemoType = 'hero' | 'tiktok' | 'creator' | 'blog' | 'map';
 
@@ -117,7 +119,9 @@ const Index = () => {
               ]}
             />
             <HeroSection />
+            <SloganBanner />
             <PhoneReelDemo />
+            <WhyUsersLoveCravy />
             
             {/* Demo Selection Section */}
             <section className="py-16 px-6">

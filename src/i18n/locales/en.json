@@ -1,0 +1,254 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "menu": "Menu",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "apply": "Apply",
+    "reset": "Reset"
+  },
+  "navigation": {
+    "features": "Features",
+    "business": "For Businesses",
+    "creators": "For Creators",
+    "howItWorks": "How It Works",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "download": "Download",
+    "blog": "Blog",
+    "watchLive": "Watch Live",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  },
+  "marketing": {
+    "hero": {
+      "badge": "The Future of Embedded Commerce",
+      "title": "Cravy",
+      "subtitle": "Watch, shop, and book — live.",
+      "description": "One app for live shopping, food, services, events, and more.",
+      "features": {
+        "universalSdk": "Universal SDK",
+        "instantCheckout": "Instant Checkout",
+        "anyPlatform": "Any Platform",
+        "securePayments": "Secure Payments"
+      }
+    },
+    "slogans": [
+      {
+        "text": "Live. Shop. Done. Periodt.",
+        "emojis": "🔥💳✨"
+      },
+      {
+        "text": "One App, All the Vibes",
+        "emojis": "📱🎵💫"
+      },
+      {
+        "text": "Shop Like You're Famous",
+        "emojis": "⭐🛍️👑"
+      },
+      {
+        "text": "Instant Gratification, Zero Hassle",
+        "emojis": "⚡🎯✨"
+      },
+      {
+        "text": "Your Wallet's New Best Friend",
+        "emojis": "💸🤝💎"
+      },
+      {
+        "text": "Shopping Made Stupid Simple",
+        "emojis": "🧠💡🛒"
+      },
+      {
+        "text": "Why Wait When You Can Crave?",
+        "emojis": "⏰🍽️💨"
+      },
+      {
+        "text": "The Future of Shopping is Here",
+        "emojis": "🚀🔮🌟"
+      }
+    ]
+  },
+  "cta": {
+    "downloadApp": "Download App",
+    "getStarted": "Get Started",
+    "watchLive": "Watch Live",
+    "applyCreator": "Apply as Creator",
+    "applyBusiness": "Apply as Business",
+    "learnMore": "Learn More",
+    "tryDemo": "Try Demo",
+    "bookDemo": "Book Demo"
+  },
+  "forms": {
+    "title": "Title",
+    "description": "Description",
+    "location": "Location",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "phone": "Phone",
+    "company": "Company",
+    "website": "Website",
+    "message": "Message",
+    "submit": "Submit",
+    "placeholders": {
+      "enterTitle": "Enter your title...",
+      "describeContent": "Describe your content...",
+      "enterLocation": "Enter address or location...",
+      "enterEmail": "Enter your email...",
+      "enterMessage": "Enter your message..."
+    }
+  },
+  "content": {
+    "types": {
+      "video": "Video",
+      "blog": "Blog",
+      "map": "Map"
+    },
+    "categories": {
+      "food": "Food",
+      "fashion": "Fashion",
+      "tech": "Tech",
+      "services": "Services",
+      "events": "Events"
+    },
+    "upload": {
+      "uploadFile": "Upload your file",
+      "chooseFile": "Choose File",
+      "dragDrop": "Drag and drop your file here"
+    }
+  },
+  "demo": {
+    "steps": {
+      "step1": "Discover amazing products",
+      "step2": "Watch live demonstrations",
+      "step3": "Add to cart instantly",
+      "step4": "Checkout in seconds",
+      "step5": "Get the app and start today."
+    }
+  },
+  "legal": {
+    "companyInfo": "Rescue Delivery Services — Registered Company in Finland.",
+    "copyright": "© 2024 Cravy. All rights reserved."
+  },
+  "social": {
+    "followUs": "Follow us",
+    "twitter": "Twitter",
+    "instagram": "Instagram",
+    "tiktok": "TikTok"
+  },
+  "whyUsersLove": {
+    "title": "Why Users Love Cravy",
+    "subtitle": "Everything you need to discover, shop, and book—all in one place.",
+    "features": {
+      "allInOne": {
+        "title": "All-in-One Shopping",
+        "items": [
+          "Shop live streams, order food, book services, get tickets",
+          "One login, one wallet, one search across everything",
+          "Local restaurants and global brands in one feed",
+          "Cross-platform: iOS, Android, Web with seamless sign-in"
+        ]
+      },
+      "liveTapDone": {
+        "title": "Live, Tap, Done",
+        "items": [
+          "Add to cart from live streams with one tap",
+          "Instant checkout with saved payment methods",
+          "Re-order favorites in one tap",
+          "Order tracking and booking calendar built-in"
+        ]
+      },
+      "exclusiveValue": {
+        "title": "Exclusive Value",
+        "items": [
+          "Live-only deals and limited-time offers",
+          "Transparent pricing with no hidden fees",
+          "Bundle deals and add-ons pre-selected",
+          "Wallet balance, tokens, and referral rewards"
+        ]
+      },
+      "trustSafety": {
+        "title": "Trust & Safety",
+        "items": [
+          "Verified sellers and secure payments only",
+          "Clear refund and dispute resolution process",
+          "Your data stays private—we don't sell it",
+          "Granular notification and privacy controls"
+        ]
+      },
+      "smartDiscovery": {
+        "title": "Smart Discovery",
+        "items": [
+          "Smart recommendations based on your taste",
+          "Dietary and service preference filters",
+          "Save favorites and watch history",
+          "Discover what's trending in your area"
+        ]
+      },
+      "socialRewards": {
+        "title": "Social & Rewards",
+        "items": [
+          "Like, follow, and share what you love",
+          "Earn rewards for every purchase and referral",
+          "Share & Earn program turns you into an affiliate",
+          "Real-time social proof and trending content"
+        ]
+      }
+    },
+    "cta": {
+      "title": "Ready to Experience the Future of Shopping?",
+      "description": "Join thousands of users who've discovered the convenience of live commerce, instant delivery, and seamless booking—all in one app.",
+      "getStarted": "Get Started — Watch, Shop, and Book Live",
+      "seeHowItWorks": "See How It Works"
+    }
+  },
+  "demo": {
+    "badge": "Interactive Demo",
+    "title": "See Cravy Tray in Action",
+    "description": "Experience how our embeddable shopping widget transforms any app into a commerce platform. Try different app types and see the magic happen.",
+    "apps": {
+      "food": {
+        "name": "FoodieApp",
+        "description": "Restaurant ordering with Cravy partner delivery"
+      },
+      "fashion": {
+        "name": "StyleHub",
+        "description": "Fashion & lifestyle app"
+      },
+      "tech": {
+        "name": "TechStore",
+        "description": "Electronics & gadgets"
+      },
+      "tiktok": {
+        "name": "TikTok Feed",
+        "description": "Social videos with live shopping"
+      },
+      "blog": {
+        "name": "Blog Article",
+        "description": "Content with embedded products"
+      },
+      "map": {
+        "name": "Location Map",
+        "description": "Restaurant discovery & ordering"
+      }
+    },
+    "steps": {
+      "step1": "Discover amazing products",
+      "step2": "Watch live demonstrations",
+      "step3": "Add to cart instantly",
+      "step4": "Checkout in seconds",
+      "step5": "Get the app and start today."
+    }
+  }
+}

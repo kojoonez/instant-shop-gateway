@@ -5,6 +5,7 @@ import { assetPaths } from '@/config/assets';
 import { CraveTray } from '@/components/CraveTray';
 import { UniversalInfoTray, type FeedType, type UniversalFeedItem } from '@/components/UniversalInfoTray';
 import { Heart, MessageCircle, Share2, Bookmark, Volume2, VolumeX, ShoppingCart, Calendar, Search, SlidersHorizontal, Eye } from 'lucide-react';
+import { useScreenSize } from '@/hooks/useScreenSize';
 
 type SlideType = 'product' | 'service' | 'event' | 'subscription' | 'live_stream';
 
@@ -32,6 +33,7 @@ function inferTypeFromName(url: string): SlideType {
 }
 
 export function PhoneReelDemo() {
+  const { isMobile } = useScreenSize();
   const slides: Slide[] = useMemo(() => {
     const urls = Object.values(assetPaths.videos || {});
     return (urls.length ? urls : ['/assets/videos/sample1.mp4', '/assets/videos/sample2.mp4']).map((url) => ({
@@ -187,10 +189,10 @@ export function PhoneReelDemo() {
   };
 
   return (
-    <section className="py-10">
+    <section className={`${isMobile ? 'py-6' : 'py-10'}`}>
       <div className="container mx-auto">
-        <div className="mx-auto w-full max-w-[380px]">
-          <div className="rounded-[36px] p-2 bg-gradient-to-b from-zinc-300/20 to-black/20 shadow-2xl">
+        <div className={`mx-auto w-full ${isMobile ? 'max-w-[320px]' : 'max-w-[380px]'}`}>
+          <div className={`rounded-[36px] ${isMobile ? 'p-1' : 'p-2'} bg-gradient-to-b from-zinc-300/20 to-black/20 shadow-2xl`}>
             <AspectRatio ratio={9/19.5}>
               <div className="relative h-full w-full rounded-[28px] overflow-hidden bg-black">
                 {/* Vertical feed inside phone */}
@@ -209,49 +211,49 @@ export function PhoneReelDemo() {
                       />
 
                       {/* Overlays */}
-                      <div className="absolute top-2 left-3 right-3 flex items-center justify-between z-10">
-                        <div className="text-white/90 text-xs font-semibold">8:39</div>
-                        <div className="flex gap-2">
-                          <div className="h-8 w-8 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white text-[11px]"><Eye className="h-3.5 w-3.5" /></div>
-                          <div className="relative h-8 w-8 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white">
-                            <ShoppingCart className="h-3.5 w-3.5" />
+                      <div className={`absolute ${isMobile ? 'top-1 left-2 right-2' : 'top-2 left-3 right-3'} flex items-center justify-between z-10`}>
+                        <div className={`text-white/90 ${isMobile ? 'text-[10px]' : 'text-xs'} font-semibold`}>8:39</div>
+                        <div className={`flex ${isMobile ? 'gap-1' : 'gap-2'}`}>
+                          <div className={`${isMobile ? 'h-6 w-6' : 'h-8 w-8'} rounded-full bg-black/40 backdrop-blur grid place-items-center text-white text-[11px]`}><Eye className={`${isMobile ? 'h-3 w-3' : 'h-3.5 w-3.5'}`} /></div>
+                          <div className={`relative ${isMobile ? 'h-6 w-6' : 'h-8 w-8'} rounded-full bg-black/40 backdrop-blur grid place-items-center text-white`}>
+                            <ShoppingCart className={`${isMobile ? 'h-3 w-3' : 'h-3.5 w-3.5'}`} />
                             {cartCount > 0 && <span className="absolute -top-0.5 -right-0.5 h-2 w-2 bg-red-500 rounded-full" />}
                           </div>
-                          <div className="h-8 w-8 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white"><Calendar className="h-3.5 w-3.5" /></div>
-                          <div className="h-8 w-8 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white"><Search className="h-3.5 w-3.5" /></div>
-                          <div className="h-8 w-8 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white"><SlidersHorizontal className="h-3.5 w-3.5" /></div>
+                          <div className={`${isMobile ? 'h-6 w-6' : 'h-8 w-8'} rounded-full bg-black/40 backdrop-blur grid place-items-center text-white`}><Calendar className={`${isMobile ? 'h-3 w-3' : 'h-3.5 w-3.5'}`} /></div>
+                          <div className={`${isMobile ? 'h-6 w-6' : 'h-8 w-8'} rounded-full bg-black/40 backdrop-blur grid place-items-center text-white`}><Search className={`${isMobile ? 'h-3 w-3' : 'h-3.5 w-3.5'}`} /></div>
+                          <div className={`${isMobile ? 'h-6 w-6' : 'h-8 w-8'} rounded-full bg-black/40 backdrop-blur grid place-items-center text-white`}><SlidersHorizontal className={`${isMobile ? 'h-3 w-3' : 'h-3.5 w-3.5'}`} /></div>
                         </div>
                       </div>
 
                       {/* Right action rail */}
-                      <div className="absolute right-3 bottom-28 flex flex-col gap-4 z-10">
-                        <Button onClick={() => setMuted(m => !m)} variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-black/30 backdrop-blur">
-                          {muted ? <VolumeX className="h-5 w-5 text-white" /> : <Volume2 className="h-5 w-5 text-white" />}
+                      <div className={`absolute ${isMobile ? 'right-2 bottom-24' : 'right-3 bottom-28'} flex flex-col ${isMobile ? 'gap-3' : 'gap-4'} z-10`}>
+                        <Button onClick={() => setMuted(m => !m)} variant="ghost" size="icon" className={`${isMobile ? 'h-8 w-8' : 'h-10 w-10'} rounded-full bg-black/30 backdrop-blur`}>
+                          {muted ? <VolumeX className={`${isMobile ? 'h-4 w-4' : 'h-5 w-5'} text-white`} /> : <Volume2 className={`${isMobile ? 'h-4 w-4' : 'h-5 w-5'} text-white`} />}
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-black/30 backdrop-blur"><Heart className="h-5 w-5 text-white" /></Button>
-                        <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-black/30 backdrop-blur"><MessageCircle className="h-5 w-5 text-white" /></Button>
-                        <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-black/30 backdrop-blur"><Share2 className="h-5 w-5 text-white" /></Button>
-                        <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full bg-black/30 backdrop-blur">
-                          <Bookmark className="h-5 w-5 text-white" />
+                        <Button variant="ghost" size="icon" className={`${isMobile ? 'h-8 w-8' : 'h-10 w-10'} rounded-full bg-black/30 backdrop-blur`}><Heart className={`${isMobile ? 'h-4 w-4' : 'h-5 w-5'} text-white`} /></Button>
+                        <Button variant="ghost" size="icon" className={`${isMobile ? 'h-8 w-8' : 'h-10 w-10'} rounded-full bg-black/30 backdrop-blur`}><MessageCircle className={`${isMobile ? 'h-4 w-4' : 'h-5 w-5'} text-white`} /></Button>
+                        <Button variant="ghost" size="icon" className={`${isMobile ? 'h-8 w-8' : 'h-10 w-10'} rounded-full bg-black/30 backdrop-blur`}><Share2 className={`${isMobile ? 'h-4 w-4' : 'h-5 w-5'} text-white`} /></Button>
+                        <Button variant="ghost" size="icon" className={`relative ${isMobile ? 'h-8 w-8' : 'h-10 w-10'} rounded-full bg-black/30 backdrop-blur`}>
+                          <Bookmark className={`${isMobile ? 'h-4 w-4' : 'h-5 w-5'} text-white`} />
                           {false && <span className="absolute -top-0.5 -right-0.5 h-2 w-2 bg-red-500 rounded-full" />}
                         </Button>
                       </div>
 
                       {/* CTA */}
                       {ctaVisible && i === currentIndex && (
-                        <div className="absolute left-1/2 -translate-x-1/2 bottom-24 z-10">
+                        <div className={`absolute left-1/2 -translate-x-1/2 ${isMobile ? 'bottom-20' : 'bottom-24'} z-10`}>
                           <Button
                             onClick={() => openTray(s.type)}
                             className={
                               s.type === 'service'
-                                ? 'h-12 px-8 rounded-full bg-[#0D1B2A] text-white hover:opacity-90'
+                                ? `${isMobile ? 'h-10 px-6 text-sm' : 'h-12 px-8'} rounded-full bg-[#0D1B2A] text-white hover:opacity-90`
                                 : s.type === 'subscription'
-                                  ? 'h-12 px-8 rounded-full bg-green-600 text-white hover:opacity-90'
+                                  ? `${isMobile ? 'h-10 px-6 text-sm' : 'h-12 px-8'} rounded-full bg-green-600 text-white hover:opacity-90`
                                   : s.type === 'event'
-                                    ? 'h-12 px-8 rounded-full bg-indigo-600 text-white hover:opacity-90'
+                                    ? `${isMobile ? 'h-10 px-6 text-sm' : 'h-12 px-8'} rounded-full bg-indigo-600 text-white hover:opacity-90`
                                     : s.type === 'live_stream'
-                                      ? 'h-12 px-8 rounded-full bg-red-600 text-white hover:opacity-90'
-                                      : 'h-12 px-8 rounded-full bg-crave-orange text-white hover:opacity-90'
+                                      ? `${isMobile ? 'h-10 px-6 text-sm' : 'h-12 px-8'} rounded-full bg-red-600 text-white hover:opacity-90`
+                                      : `${isMobile ? 'h-10 px-6 text-sm' : 'h-12 px-8'} rounded-full bg-crave-orange text-white hover:opacity-90`
                             }
                           >
                             {s.type === 'service' ? 'Book Appointment' : s.type === 'subscription' ? 'Subscribe' : s.type === 'event' ? 'Get Ticket' : s.type === 'live_stream' ? 'Join Live' : 'Buy Now'}
@@ -260,8 +262,8 @@ export function PhoneReelDemo() {
                       )}
 
                       {/* Bottom nav */}
-                      <div className="absolute left-2 right-2 bottom-3 z-10">
-                        <div className="rounded-2xl bg-white/10 backdrop-blur border border-white/15 px-3 py-2 text-white flex items-center justify-between text-[11px]">
+                      <div className={`absolute ${isMobile ? 'left-1 right-1 bottom-2' : 'left-2 right-2 bottom-3'} z-10`}>
+                        <div className={`rounded-2xl bg-white/10 backdrop-blur border border-white/15 ${isMobile ? 'px-2 py-1' : 'px-3 py-2'} text-white flex items-center justify-between ${isMobile ? 'text-[10px]' : 'text-[11px]'}`}>
                           <div className="font-semibold">Cravy</div>
                           <div className="flex gap-4 opacity-90 items-center">
                             <span>Trendy</span>

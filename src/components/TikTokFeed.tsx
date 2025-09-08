@@ -5,6 +5,7 @@ import { Heart, MessageCircle, Share, MoreHorizontal, Play, Volume2, VolumeX } f
 import { cn } from '@/lib/utils';
 import { UniversalInfoTray, FeedType, UniversalFeedItem } from './UniversalInfoTray';
 import { assetPaths } from '@/config/assets';
+import { useScreenSize } from '@/hooks/useScreenSize';
 
 type DemoVideo = {
   id: string;
@@ -140,6 +141,7 @@ type VideoItemProps = {
 };
 
 const VideoItem: React.FC<VideoItemProps> = ({ video, isActive, onCtaTrigger }) => {
+  const { isMobile } = useScreenSize();
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
@@ -163,7 +165,7 @@ const VideoItem: React.FC<VideoItemProps> = ({ video, isActive, onCtaTrigger }) 
   // Tray opens only when user taps the CTA button (no auto-trigger)
 
   return (
-    <div className="relative h-screen w-full bg-black flex-shrink-0 overflow-hidden">
+    <div className={`relative ${isMobile ? 'h-[70vh]' : 'h-screen'} w-full bg-black flex-shrink-0 overflow-hidden`}>
       <video
         ref={videoRef}
         src={video.url}
@@ -175,30 +177,30 @@ const VideoItem: React.FC<VideoItemProps> = ({ video, isActive, onCtaTrigger }) 
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
       {/* Right Actions */}
-      <div className="absolute right-4 bottom-24 flex flex-col gap-6 z-20">
+      <div className={`absolute ${isMobile ? 'right-2' : 'right-4'} ${isMobile ? 'bottom-20' : 'bottom-24'} flex flex-col ${isMobile ? 'gap-4' : 'gap-6'} z-20`}>
         <Button
           variant="ghost"
           size="icon"
-          className="h-12 w-12 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40"
+          className={`${isMobile ? 'h-10 w-10' : 'h-12 w-12'} rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40`}
           onClick={() => setIsLiked(!isLiked)}
         >
-          <Heart className={cn('h-6 w-6', isLiked ? 'fill-red-500 text-red-500' : 'text-white')} />
+          <Heart className={cn(`${isMobile ? 'h-5 w-5' : 'h-6 w-6'}`, isLiked ? 'fill-red-500 text-red-500' : 'text-white')} />
         </Button>
-        <Button variant="ghost" size="icon" className="h-12 w-12 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40">
-          <MessageCircle className="h-6 w-6 text-white" />
+        <Button variant="ghost" size="icon" className={`${isMobile ? 'h-10 w-10' : 'h-12 w-12'} rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40`}>
+          <MessageCircle className={`${isMobile ? 'h-5 w-5' : 'h-6 w-6'} text-white`} />
         </Button>
-        <Button variant="ghost" size="icon" className="h-12 w-12 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40">
-          <Share className="h-6 w-6 text-white" />
+        <Button variant="ghost" size="icon" className={`${isMobile ? 'h-10 w-10' : 'h-12 w-12'} rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40`}>
+          <Share className={`${isMobile ? 'h-5 w-5' : 'h-6 w-6'} text-white`} />
         </Button>
-        <Button variant="ghost" size="icon" className="h-12 w-12 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40">
-          <MoreHorizontal className="h-6 w-6 text-white" />
+        <Button variant="ghost" size="icon" className={`${isMobile ? 'h-10 w-10' : 'h-12 w-12'} rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40`}>
+          <MoreHorizontal className={`${isMobile ? 'h-5 w-5' : 'h-6 w-6'} text-white`} />
         </Button>
       </div>
 
       {/* CTA Button */}
-      <div className="absolute bottom-6 left-4 z-50 pointer-events-auto" onClick={(e) => e.stopPropagation()}>
+      <div className={`absolute ${isMobile ? 'bottom-4 left-2' : 'bottom-6 left-4'} z-50 pointer-events-auto`} onClick={(e) => e.stopPropagation()}>
         <Button
-          className="rounded-full px-5 h-10 font-semibold"
+          className={`rounded-full ${isMobile ? 'px-4 h-8 text-sm' : 'px-5 h-10'} font-semibold`}
           style={{ backgroundColor: typeColor[video.type], color: '#fff' }}
           onClick={() => onCtaTrigger(video.item, video.type, typeToCta[video.type])}
         >
@@ -207,14 +209,14 @@ const VideoItem: React.FC<VideoItemProps> = ({ video, isActive, onCtaTrigger }) 
       </div>
 
       {/* Mute toggle */}
-      <div className="absolute top-4 right-4 flex gap-2 z-20">
+      <div className={`absolute ${isMobile ? 'top-2 right-2' : 'top-4 right-4'} flex gap-2 z-20`}>
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 rounded-full bg-black/20 backdrop-blur-sm"
+          className={`${isMobile ? 'h-7 w-7' : 'h-8 w-8'} rounded-full bg-black/20 backdrop-blur-sm`}
           onClick={() => setIsMuted((m) => !m)}
         >
-          {isMuted ? <VolumeX className="h-4 w-4 text-white" /> : <Volume2 className="h-4 w-4 text-white" />}
+          {isMuted ? <VolumeX className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'} text-white`} /> : <Volume2 className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'} text-white`} />}
         </Button>
       </div>
     </div>
@@ -222,6 +224,7 @@ const VideoItem: React.FC<VideoItemProps> = ({ video, isActive, onCtaTrigger }) 
 };
 
 export const TikTokFeed: React.FC = () => {
+  const { isMobile } = useScreenSize();
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isTrayOpen, setIsTrayOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState<UniversalFeedItem | null>(null);
@@ -260,12 +263,12 @@ export const TikTokFeed: React.FC = () => {
   };
 
   return (
-    <div className="relative h-screen bg-black overflow-hidden">
+    <div className={`relative ${isMobile ? 'h-[70vh]' : 'h-screen'} bg-black overflow-hidden`}>
       {/* Header */}
-      <div className="absolute top-0 left-0 right-0 z-30 flex justify-center pt-12 pb-4">
-        <div className="flex gap-6">
-          <span className="text-white font-medium">Following</span>
-          <span className="text-white font-bold border-b-2 border-white pb-1">For You</span>
+      <div className={`absolute top-0 left-0 right-0 z-30 flex justify-center ${isMobile ? 'pt-8 pb-2' : 'pt-12 pb-4'}`}>
+        <div className={`flex ${isMobile ? 'gap-4' : 'gap-6'}`}>
+          <span className={`${isMobile ? 'text-sm' : 'text-base'} text-white font-medium`}>Following</span>
+          <span className={`${isMobile ? 'text-sm' : 'text-base'} text-white font-bold border-b-2 border-white pb-1`}>For You</span>
         </div>
       </div>
 

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { CraveTray } from './CraveTray';
+import { useScreenSize } from '@/hooks/useScreenSize';
 
 const defaultCenter: [number, number] = [60.1699, 24.9384]; // Helsinki as example
 
@@ -164,6 +165,7 @@ const restaurants = [
 ];
 
 export const MapDemo: React.FC = () => {
+  const { isMobile, isTablet } = useScreenSize();
   const [selectedRestaurant, setSelectedRestaurant] = useState<typeof restaurants[0] | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<typeof restaurants[0]['product'] | null>(null);
   const [isTrayOpen, setIsTrayOpen] = useState(false);
@@ -187,9 +189,14 @@ export const MapDemo: React.FC = () => {
   };
 
   return (
-    <div className="h-screen grid grid-cols-1 md:grid-cols-[1fr_420px]">
-      <div className="h-full">
-        <MapContainer center={defaultCenter} zoom={14} className="h-full w-full" scrollWheelZoom>
+    <div className={`${isMobile ? 'h-auto' : 'h-screen'} ${isMobile ? 'flex flex-col' : 'grid grid-cols-1 md:grid-cols-[1fr_420px]'}`}>
+      <div className={`${isMobile ? 'h-64' : 'h-full'}`}>
+        <MapContainer 
+          center={defaultCenter} 
+          zoom={isMobile ? 13 : 14} 
+          className="h-full w-full" 
+          scrollWheelZoom={!isMobile}
+        >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -206,20 +213,20 @@ export const MapDemo: React.FC = () => {
           ))}
         </MapContainer>
       </div>
-      <div className="bg-card border-l border-border overflow-y-auto">
-        <div className="p-4 border-b">
-          <h2 className="text-lg font-semibold">Nearby Restaurants</h2>
-          <p className="text-sm text-muted-foreground">Tap a marker to see menu</p>
+      <div className={`bg-card ${isMobile ? 'border-t border-border' : 'border-l border-border'} overflow-y-auto ${isMobile ? 'max-h-96' : ''}`}>
+        <div className={`${isMobile ? 'p-3' : 'p-4'} border-b`}>
+          <h2 className={`${isMobile ? 'text-base' : 'text-lg'} font-semibold`}>Nearby Restaurants</h2>
+          <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground`}>Tap a marker to see menu</p>
         </div>
-        <div className="p-4 space-y-4">
+        <div className={`${isMobile ? 'p-3' : 'p-4'} ${isMobile ? 'space-y-3' : 'space-y-4'}`}>
           {selectedRestaurant ? (
-            <div className="space-y-3">
-              <div className="flex items-start justify-between mb-1">
+            <div className={`${isMobile ? 'space-y-2' : 'space-y-3'}`}>
+              <div className={`flex items-start justify-between ${isMobile ? 'mb-1' : 'mb-1'}`}>
                 <div>
-                  <h3 className="text-xl font-bold">{selectedRestaurant.name}</h3>
-                  <p className="text-muted-foreground">{selectedRestaurant.cuisine}</p>
+                  <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold`}>{selectedRestaurant.name}</h3>
+                  <p className={`${isMobile ? 'text-sm' : 'text-base'} text-muted-foreground`}>{selectedRestaurant.cuisine}</p>
                 </div>
-                {selectedRestaurant.featured && <Badge className="bg-crave-orange text-white">Featured</Badge>}
+                {selectedRestaurant.featured && <Badge className={`bg-crave-orange text-white ${isMobile ? 'text-xs px-2 py-1' : ''}`}>Featured</Badge>}
               </div>
               {/* Menu list */}
               {(() => {
@@ -230,15 +237,15 @@ export const MapDemo: React.FC = () => {
                   return <p className="text-sm text-muted-foreground">Menu not available.</p>;
                 }
                 return (
-                  <div className="grid gap-3">
+                  <div className={`grid ${isMobile ? 'gap-2' : 'gap-3'}`}>
                     {items.map((p) => (
-                      <Card key={p.id} className="p-3 cursor-pointer hover:shadow" onClick={() => { setSelectedProduct(p); setIsTrayOpen(true); }}>
-                        <div className="flex gap-3">
-                          <img src={p.image} alt={p.name} className="w-16 h-16 rounded-lg object-cover" />
+                      <Card key={p.id} className={`${isMobile ? 'p-2' : 'p-3'} cursor-pointer hover:shadow`} onClick={() => { setSelectedProduct(p); setIsTrayOpen(true); }}>
+                        <div className={`flex ${isMobile ? 'gap-2' : 'gap-3'}`}>
+                          <img src={p.image} alt={p.name} className={`${isMobile ? 'w-12 h-12' : 'w-16 h-16'} rounded-lg object-cover`} />
                           <div className="flex-1">
-                            <div className="font-semibold text-sm">{p.name}</div>
-                            <div className="text-crave-orange font-bold text-sm">€{p.price}</div>
-                            <div className="text-xs text-muted-foreground line-clamp-1">{p.description}</div>
+                            <div className={`font-semibold ${isMobile ? 'text-xs' : 'text-sm'}`}>{p.name}</div>
+                            <div className={`text-crave-orange font-bold ${isMobile ? 'text-xs' : 'text-sm'}`}>€{p.price}</div>
+                            <div className={`${isMobile ? 'text-xs' : 'text-xs'} text-muted-foreground line-clamp-1`}>{p.description}</div>
                           </div>
                         </div>
                       </Card>
@@ -249,9 +256,9 @@ export const MapDemo: React.FC = () => {
             </div>
           ) : (
             restaurants.map(r => (
-              <Card key={r.id} className="p-3 cursor-pointer hover:shadow" onClick={() => handleClick(r)}>
-                <div className="font-semibold">{r.name}</div>
-                <div className="text-sm text-muted-foreground">{r.cuisine}</div>
+              <Card key={r.id} className={`${isMobile ? 'p-2' : 'p-3'} cursor-pointer hover:shadow`} onClick={() => handleClick(r)}>
+                <div className={`${isMobile ? 'text-sm' : 'text-base'} font-semibold`}>{r.name}</div>
+                <div className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground`}>{r.cuisine}</div>
               </Card>
             ))
           )}
@@ -259,14 +266,16 @@ export const MapDemo: React.FC = () => {
       </div>
 
       {selectedProduct && (
-        <div className="hidden md:block absolute right-4 bottom-4 w-[380px]">
-          <CraveTray 
-            isOpen={isTrayOpen} 
-            onClose={() => setIsTrayOpen(false)} 
-            product={selectedProduct} 
-            appContext="food"
-            inline
-          />
+        <div className={`${isMobile ? 'fixed inset-0 z-50 bg-black/50 flex items-end' : 'hidden md:block absolute right-4 bottom-4 w-[380px]'}`}>
+          <div className={`${isMobile ? 'w-full max-h-[80vh] bg-card rounded-t-xl' : ''}`}>
+            <CraveTray 
+              isOpen={isTrayOpen} 
+              onClose={() => setIsTrayOpen(false)} 
+              product={selectedProduct} 
+              appContext="food"
+              inline={!isMobile}
+            />
+          </div>
         </div>
       )}
     </div>
