@@ -1,9 +1,5 @@
 // CraveTray SDK - Main Export
-export { CraveTraySDK, type CraveTraySDKProps } from './CraveTraySDK';
-export { CraveTray, type CraveTrayProps } from './CraveTray';
-export { useCraveTray } from './hooks/useCraveTray';
-export { createProduct, type CraveTrayProduct } from './utils/product';
-export { CraveTrayProvider, useCraveTrayContext } from './context/CraveTrayContext';
+// Note: Product-related components have been removed as they're not needed
 
 // Version
 export const SDK_VERSION = '1.0.0';

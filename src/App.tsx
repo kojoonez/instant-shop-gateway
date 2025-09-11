@@ -20,66 +20,64 @@ import ApplyCreator from "@/pages/ApplyCreator";
 import ApplyBusiness from "@/pages/ApplyBusiness";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import Marketplace from "./pages/Marketplace";
-import Checkout from "./pages/Checkout";
-import Orders from "./pages/Orders";
 import Auth from "./pages/Auth";
 import { AdminLayout } from "./components/admin/AdminLayout";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
-import { ProductsPage } from "./pages/admin/ProductsPage";
-import { OrdersPage } from "./pages/admin/OrdersPage";
+import { MessagingPage } from "./pages/admin/MessagingPage";
 import { AuthProvider } from "./contexts/AuthContext";
+import { SecurityProvider } from "./contexts/SecurityContext";
+import { SupportButton } from "./components/SupportButton";
+import { TranslationTest } from "./components/TranslationTest";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Header />
-          <Routes>
-            {/* Auth Route */}
-            <Route path="/auth" element={<Auth />} />
-            
-            {/* Main App Routes */}
-            <Route path="/" element={<Index />} />
-            <Route path="/features" element={<Features />} />
-            <Route path="/business" element={<Business />} />
-            <Route path="/creators" element={<Creators />} />
-            <Route path="/how-it-works" element={<HowItWorks />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/download" element={<Download />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/marketplace" element={<Marketplace />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/apply/creator" element={<ApplyCreator />} />
-            <Route path="/apply/business" element={<ApplyBusiness />} />
-            
-            {/* Admin Routes */}
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route index element={<AdminDashboard />} />
-              <Route path="products" element={<ProductsPage />} />
-              <Route path="orders" element={<OrdersPage />} />
-              <Route path="users" element={<div className="p-6"><h1 className="text-3xl font-bold">Users Management</h1><p className="text-muted-foreground">Coming soon...</p></div>} />
-              <Route path="analytics" element={<div className="p-6"><h1 className="text-3xl font-bold">Analytics</h1><p className="text-muted-foreground">Coming soon...</p></div>} />
-              <Route path="settings" element={<div className="p-6"><h1 className="text-3xl font-bold">Settings</h1><p className="text-muted-foreground">Coming soon...</p></div>} />
-            </Route>
-            
-            {/* Catch-all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <Footer />
-          <CookieBanner />
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
+    <SecurityProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Header />
+            <Routes>
+              {/* Auth Route */}
+              <Route path="/auth" element={<Auth />} />
+              
+              {/* Main App Routes */}
+              <Route path="/" element={<Index />} />
+              <Route path="/features" element={<Features />} />
+              <Route path="/business" element={<Business />} />
+              <Route path="/creators" element={<Creators />} />
+              <Route path="/how-it-works" element={<HowItWorks />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/download" element={<Download />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/apply/creator" element={<ApplyCreator />} />
+              <Route path="/apply/business" element={<ApplyBusiness />} />
+              <Route path="/test/translation" element={<TranslationTest />} />
+              
+              {/* Admin Routes */}
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<AdminDashboard />} />
+                <Route path="messages" element={<MessagingPage />} />
+                <Route path="users" element={<div className="p-6"><h1 className="text-3xl font-bold">Users Management</h1><p className="text-muted-foreground">Coming soon...</p></div>} />
+                <Route path="settings" element={<div className="p-6"><h1 className="text-3xl font-bold">Settings</h1><p className="text-muted-foreground">Coming soon...</p></div>} />
+              </Route>
+              
+              {/* Catch-all route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <Footer />
+            <CookieBanner />
+            <SupportButton />
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </SecurityProvider>
   </QueryClientProvider>
 );
 

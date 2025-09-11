@@ -101,7 +101,7 @@ const Auth = () => {
               <CardHeader>
                 <CardTitle>Welcome back</CardTitle>
                 <CardDescription>
-                  Sign in to your CraveTray account
+                  Sign in to your Cravy account
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -141,7 +141,7 @@ const Auth = () => {
               <CardHeader>
                 <CardTitle>Create account</CardTitle>
                 <CardDescription>
-                  Join CraveTray to start ordering
+                  Join Cravy to get started
                 </CardDescription>
               </CardHeader>
               <CardContent>

@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { DemoApp } from './DemoApp';
-import { CraveTray } from './CraveTray';
+// DemoApp and CraveTray components removed - product functionality not needed
 import { Smartphone, Monitor, Tablet } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -110,8 +109,8 @@ export const DemoSection: React.FC = () => {
                 </div>
 
                 {/* App Content */}
-                <div className="h-full pb-2">
-                  <DemoApp type={selectedApp} onProductClick={handleProductClick} />
+                <div className="h-full pb-2 flex items-center justify-center text-muted-foreground">
+                  Demo app functionality removed - not needed
                 </div>
               </div>
             </div>
@@ -177,13 +176,7 @@ export const DemoSection: React.FC = () => {
         </div>
       </div>
 
-      {/* CraveTray Component */}
-      <CraveTray
-        isOpen={isTrayOpen}
-        onClose={closeTray}
-        product={selectedProduct}
-        appContext={selectedApp}
-      />
+      {/* Product functionality removed - not needed */}
     </section>
   );
 };

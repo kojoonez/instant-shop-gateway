@@ -1,12 +1,10 @@
 import { 
   BarChart3, 
-  Package, 
-  ShoppingCart, 
   Users, 
   Settings,
   Store,
-  TrendingUp,
-  Bell
+  Bell,
+  MessageCircle
 } from "lucide-react"
 import { NavLink, useLocation } from "react-router-dom"
 import {
@@ -31,26 +29,15 @@ const navigationItems = [
     exact: true
   },
   { 
-    title: "Products", 
-    url: "/admin/products", 
-    icon: Package,
-    badge: "24"
-  },
-  { 
-    title: "Orders", 
-    url: "/admin/orders", 
-    icon: ShoppingCart,
-    badge: "12"
+    title: "Messages", 
+    url: "/admin/messages", 
+    icon: MessageCircle,
+    badge: "5"
   },
   { 
     title: "Users", 
     url: "/admin/users", 
     icon: Users 
-  },
-  { 
-    title: "Analytics", 
-    url: "/admin/analytics", 
-    icon: TrendingUp 
   },
 ]
 
@@ -92,7 +79,7 @@ export function AdminSidebar() {
             </div>
             {state !== "collapsed" && (
               <div>
-                <h2 className="font-semibold text-sm">CraveTray Admin</h2>
+                <h2 className="font-semibold text-sm">Cravy Admin</h2>
                 <p className="text-xs text-muted-foreground">Management Portal</p>
               </div>
             )}

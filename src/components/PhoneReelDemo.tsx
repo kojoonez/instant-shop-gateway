@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { assetPaths } from '@/config/assets';
-import { CraveTray } from '@/components/CraveTray';
+// CraveTray component removed - product functionality not needed
 import { UniversalInfoTray, type FeedType, type UniversalFeedItem } from '@/components/UniversalInfoTray';
 import { Heart, MessageCircle, Share2, Bookmark, Volume2, VolumeX, ShoppingCart, Calendar, Search, SlidersHorizontal, Eye } from 'lucide-react';
 import { useScreenSize } from '@/hooks/useScreenSize';

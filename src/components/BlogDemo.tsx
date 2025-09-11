@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { CraveTray } from './CraveTray';
+// CraveTray component removed - product functionality not needed
 import { Heart, Share2, Bookmark, Clock, User } from 'lucide-react';
 
 const blogProduct = {
@@ -206,13 +206,7 @@ export const BlogDemo: React.FC = () => {
         </div>
       </div>
 
-      {/* CraveTray */}
-      <CraveTray
-        isOpen={isTrayOpen}
-        onClose={closeTray}
-        product={blogProduct}
-        appContext="food"
-      />
+      {/* Product functionality removed - not needed */}
     </div>
   );
 };

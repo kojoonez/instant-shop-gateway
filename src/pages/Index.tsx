@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { HeroSection } from '@/components/HeroSection';
 import { TikTokFeed } from '@/components/TikTokFeed';
-import { CreatorDashboard } from '@/components/CreatorDashboard';
+// CreatorDashboard removed - product functionality not needed
 import { BlogDemo } from '@/components/BlogDemo';
 import { MapDemo } from '@/components/MapDemo';
 import { Button } from '@/components/ui/button';
@@ -37,18 +37,17 @@ const Index = () => {
         );
       case 'creator':
         return (
-          <div className="min-h-screen bg-background">
-            <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-sm border-b border-border">
-              <div className="max-w-4xl mx-auto px-6 py-4">
-                <Button 
-                  variant="ghost"
-                  onClick={() => setCurrentDemo('hero')}
-                >
-                  ← Back to Demos
-                </Button>
-              </div>
+          <div className="min-h-screen bg-background flex items-center justify-center">
+            <div className="text-center">
+              <h2 className="text-2xl font-bold mb-4">Creator Dashboard</h2>
+              <p className="text-muted-foreground mb-4">Creator functionality removed - not needed</p>
+              <Button 
+                variant="ghost"
+                onClick={() => setCurrentDemo('hero')}
+              >
+                ← Back to Demos
+              </Button>
             </div>
-            <CreatorDashboard />
           </div>
         );
       case 'blog':
