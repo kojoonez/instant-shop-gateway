@@ -15,13 +15,16 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
     middlewareMode: false,
-    // Add security middleware
+    // Add security middleware (only in development)
     configure: (server) => {
-      server.middlewares.use(securityHeaders);
-      server.middlewares.use(corsMiddleware);
-      server.middlewares.use(rateLimitMiddleware);
-      server.middlewares.use(inputValidationMiddleware);
-      server.middlewares.use(securityLoggingMiddleware);
+      // Only apply middleware in development mode
+      if (mode === 'development') {
+        server.middlewares.use(securityHeaders);
+        server.middlewares.use(corsMiddleware);
+        server.middlewares.use(rateLimitMiddleware);
+        server.middlewares.use(inputValidationMiddleware);
+        server.middlewares.use(securityLoggingMiddleware);
+      }
     },
     // Security headers for static files
     headers: {
