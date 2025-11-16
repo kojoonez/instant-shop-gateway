@@ -11,6 +11,9 @@ import {
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  // Base path for GitHub Pages (uncomment if using GitHub Pages)
+  // base: '/instant-shop-gateway/',
+  // For custom domain or Vercel, use: base: '/',
   server: {
     host: "::",
     port: 8080,
