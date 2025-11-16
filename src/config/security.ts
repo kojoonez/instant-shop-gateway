@@ -48,6 +48,7 @@ export const securityConfig = helmet({
       baseUri: ["'self'"],
       formAction: ["'self'"],
       frameAncestors: ["'none'"],
+      frameSrc: ["'none'"], // Blocks all iframes including ads
       upgradeInsecureRequests: []
     },
     reportOnly: false
@@ -75,7 +76,7 @@ export const securityConfig = helmet({
   permissionsPolicy: {
     accelerometer: [],
     ambientLightSensor: [],
-    autoplay: [],
+    autoplay: ["self"], // Allow autoplay from your own domain, block third-party
     battery: [],
     camera: [],
     crossOriginIsolated: [],
@@ -172,7 +173,8 @@ export const developmentSecurityConfig = helmet({
       objectSrc: ["'none'"],
       baseUri: ["'self'"],
       formAction: ["'self'"],
-      frameAncestors: ["'none'"]
+      frameAncestors: ["'none'"],
+      frameSrc: ["'none'"] // Blocks all iframes including ads
     },
     reportOnly: false
   },
