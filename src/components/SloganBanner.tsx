@@ -47,15 +47,10 @@ export const SloganBanner: React.FC = () => {
       <div className="relative z-10 flex items-center justify-center">
         <div 
           className={cn(
-            `flex items-center ${isMobile ? 'gap-2' : 'gap-3'} transition-all duration-500 transform`,
+            `flex items-center justify-center transition-all duration-500 transform`,
             isVisible ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"
           )}
         >
-          {/* Emojis */}
-          <div className={`${isMobile ? 'text-lg' : 'text-2xl'} animate-bounce`}>
-            {current.emojis}
-          </div>
-          
           {/* Slogan text */}
           <div className="text-center">
             <h3 
@@ -67,21 +62,9 @@ export const SloganBanner: React.FC = () => {
               {current.text}
             </h3>
           </div>
-          
-          {/* More emojis */}
-          <div className={`${isMobile ? 'text-lg' : 'text-2xl'} animate-bounce delay-150`}>
-            {current.emojis}
-          </div>
         </div>
       </div>
 
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-2 left-4 text-primary/20 text-lg animate-pulse">🛍️</div>
-        <div className="absolute top-3 right-8 text-primary/20 text-lg animate-pulse delay-75">📲</div>
-        <div className="absolute bottom-2 left-8 text-primary/20 text-lg animate-pulse delay-150">⚡</div>
-        <div className="absolute bottom-3 right-4 text-primary/20 text-lg animate-pulse delay-300">💎</div>
-      </div>
     </div>
   );
 };
