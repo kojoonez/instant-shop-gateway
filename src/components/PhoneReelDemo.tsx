@@ -51,6 +51,8 @@ export function PhoneReelDemo() {
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
   const [cartCount, setCartCount] = useState(0);
   const [hasApptPending, setHasApptPending] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const [hintVisible, setHintVisible] = useState(true);
 
   useEffect(() => {
     setCtaVisible(false);
@@ -62,6 +64,12 @@ export function PhoneReelDemo() {
     const el = containerRef.current;
     if (!el) return;
     const onScroll = () => {
+      // Hide hint on first scroll
+      if (!hasScrolled) {
+        setHasScrolled(true);
+        setHintVisible(false);
+      }
+      
       const h = el.clientHeight;
       const idx = Math.round(el.scrollTop / h);
       if (idx !== currentIndex) {
@@ -71,7 +79,7 @@ export function PhoneReelDemo() {
     };
     el.addEventListener('scroll', onScroll, { passive: true });
     return () => el.removeEventListener('scroll', onScroll as any);
-  }, [currentIndex, slides.length]);
+  }, [currentIndex, slides.length, hasScrolled]);
 
   // Ensure autoplay by explicitly controlling playback on the active slide
   useEffect(() => {
@@ -238,6 +246,35 @@ export function PhoneReelDemo() {
                           {false && <span className="absolute -top-0.5 -right-0.5 h-2 w-2 bg-red-500 rounded-full" />}
                         </Button>
                       </div>
+
+                      {/* Contextual Hint - Shows until first scroll */}
+                      {hintVisible && i === currentIndex && (
+                        <div className={`absolute ${isMobile ? 'right-2' : 'right-3'} ${isMobile ? 'top-24' : 'top-28'} z-20 pointer-events-none`}>
+                          <div className={`${isMobile ? 'max-w-[100px]' : 'max-w-[120px]'} bg-black/70 backdrop-blur-md rounded-lg ${isMobile ? 'p-2' : 'p-3'} border border-white/20 shadow-lg animate-fade-in`}>
+                            {/* First hint - Scroll */}
+                            <div className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-white/90 mb-2 flex items-center gap-1.5`}>
+                              <span className="text-base">⬆️⬇️</span>
+                              <span className="leading-tight">Swipe to explore videos</span>
+                            </div>
+                            
+                            {/* Second hint - Contextual based on video type */}
+                            <div className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-white/90 flex items-center gap-1.5`}>
+                              <span className="text-base">👆</span>
+                              <span className="leading-tight">
+                                {s.type === 'service' 
+                                  ? 'Tap "Book Appointment" to try'
+                                  : s.type === 'subscription'
+                                  ? 'Tap "Subscribe" to see plans'
+                                  : s.type === 'event'
+                                  ? 'Tap "Get Ticket" to explore'
+                                  : s.type === 'live_stream'
+                                  ? 'Tap "Join Live" to experience'
+                                  : 'Tap "Buy Now" to checkout'}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
                       {/* CTA */}
                       {ctaVisible && i === currentIndex && (
