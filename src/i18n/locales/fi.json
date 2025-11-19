@@ -35,7 +35,7 @@
     "hero": {
       "badge": "Upotetun kaupankäynnin tulevaisuus",
       "title": "Cravy",
-      "subtitle": "Katso, osta ja varaa — suoraan.",
+      "subtitle": "Katso, osta ja varaa suoraan.",
       "description": "Yksi sovellus suoraan ostamiseen, ruokaan, palveluihin, tapahtumiin ja paljon muuta.",
       "features": {
         "universalSdk": "Universaali SDK",
@@ -66,7 +66,7 @@
         "emojis": "💸🤝💎"
       },
       {
-        "text": "Ostaminen tehty tyhmän yksinkertaiseksi",
+        "text": "Ostaminen tehty uskomattoman yksinkertaiseksi",
         "emojis": "🧠💡🛒"
       },
       {
@@ -138,7 +138,7 @@
     }
   },
   "legal": {
-    "companyInfo": "Rescue Delivery Services — Rekisteröity yritys Suomessa.",
+    "companyInfo": "Rescue Delivery Services: Rekisteröity yritys Suomessa.",
     "copyright": "© 2024 Cravy. Kaikki oikeudet pidätetään."
   },
   "social": {
@@ -149,7 +149,7 @@
   },
   "whyUsersLove": {
     "title": "Miksi käyttäjät rakastavat Cravyä",
-    "subtitle": "Kaikki mitä tarvitset löytääksesi, ostamaan ja varaamaan—yhdessä paikassa.",
+    "subtitle": "Kaikki mitä tarvitset löytääksesi, ostamaan ja varaamaan: yhdessä paikassa.",
     "features": {
       "allInOne": {
         "title": "Kaikki yhdessä ostaminen",
@@ -183,7 +183,7 @@
         "items": [
           "Vain vahvistetut myyjät ja turvalliset maksut",
           "Selkeä palautus- ja riitojenratkaisuprosessi",
-          "Tietosi pysyvät yksityisinä—emme myy niitä",
+          "Tietosi pysyvät yksityisinä: emme myy niitä",
           "Yksityiskohtaiset ilmoitus- ja yksityisyysasetukset"
         ]
       },
@@ -208,8 +208,8 @@
     },
     "cta": {
       "title": "Valmis kokeilemaan ostamisen tulevaisuutta?",
-      "description": "Liity tuhansiin käyttäjiin, jotka ovat löytäneet suorakaupankäynnin, hetkellisen toimituksen ja saumattoman varauksen mukavuuden—yhdessä sovelluksessa.",
-      "getStarted": "Aloita — katso, osta ja varaa suoraan",
+      "description": "Liity tuhansiin käyttäjiin, jotka ovat löytäneet suorakaupankäynnin, hetkellisen toimituksen ja saumattoman varauksen mukavuuden: yhdessä sovelluksessa.",
+      "getStarted": "Aloita: katso, osta ja varaa suoraan",
       "seeHowItWorks": "Katso miten se toimii"
     }
   },

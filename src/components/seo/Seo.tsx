@@ -10,7 +10,7 @@ type SeoProps = {
 
 export function Seo({ title, description, path = '/', jsonLd }: SeoProps) {
   useEffect(() => {
-    const t = title ? `${title} · ${siteConfig.name}` : `${siteConfig.name} — Live shopping, food, services, events`;
+    const t = title ? `${title} · ${siteConfig.name}` : `${siteConfig.name}: Live shopping, food, services, events`;
     const d = description ?? siteConfig.description;
     document.title = t;
     const setMeta = (name: string, content: string) => {

@@ -35,7 +35,7 @@
     "hero": {
       "badge": "Framtiden för inbäddad handel",
       "title": "Cravy",
-      "subtitle": "Titta, handla och boka — live.",
+      "subtitle": "Titta, handla och boka live.",
       "description": "En app för livehandel, mat, tjänster, evenemang och mer.",
       "features": {
         "universalSdk": "Universell SDK",
@@ -66,7 +66,7 @@
         "emojis": "💸🤝💎"
       },
       {
-        "text": "Handel gjord dumt enkel",
+        "text": "Handel gjord otroligt enkel",
         "emojis": "🧠💡🛒"
       },
       {
@@ -138,7 +138,7 @@
     }
   },
   "legal": {
-    "companyInfo": "Rescue Delivery Services — Registrerat företag i Finland.",
+    "companyInfo": "Rescue Delivery Services: Registrerat företag i Finland.",
     "copyright": "© 2024 Cravy. Alla rättigheter förbehållna."
   },
   "social": {
@@ -149,7 +149,7 @@
   },
   "whyUsersLove": {
     "title": "Varför användare älskar Cravy",
-    "subtitle": "Allt du behöver för att upptäcka, handla och boka—allt på ett ställe.",
+    "subtitle": "Allt du behöver för att upptäcka, handla och boka: allt på ett ställe.",
     "features": {
       "allInOne": {
         "title": "Allt-i-ett-handel",
@@ -183,7 +183,7 @@
         "items": [
           "Endast verifierade säljare och säkra betalningar",
           "Tydlig retur- och tvistlösningsprocess",
-          "Dina data förblir privata—vi säljer dem inte",
+          "Dina data förblir privata: vi säljer dem inte",
           "Detaljerade notifierings- och integritetskontroller"
         ]
       },
@@ -208,8 +208,8 @@
     },
     "cta": {
       "title": "Redo att uppleva framtiden för handel?",
-      "description": "Gå med tusentals användare som har upptäckt bekvämligheten med live-handel, omedelbar leverans och smidig bokning—allt i en app.",
-      "getStarted": "Kom igång — titta, handla och boka live",
+      "description": "Gå med tusentals användare som har upptäckt bekvämligheten med live-handel, omedelbar leverans och smidig bokning: allt i en app.",
+      "getStarted": "Kom igång: titta, handla och boka live",
       "seeHowItWorks": "Se hur det fungerar"
     }
   },

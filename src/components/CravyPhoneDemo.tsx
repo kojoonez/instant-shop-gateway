@@ -20,10 +20,10 @@ type StepKey =
 type Step = { key: StepKey; duration: number; caption: string };
 
 const STEPS: Step[] = [
-  { key: 'intro', duration: 2000, caption: 'Watch, shop, and book—live.' },
+  { key: 'intro', duration: 2000, caption: 'Watch, shop, and book live.' },
   { key: 'login', duration: 2000, caption: 'Feeds require login.' },
   { key: 'feed', duration: 5000, caption: 'Discover feeds from creators and businesses.' },
-  { key: 'live', duration: 5000, caption: 'Shop live—see it, tap it, get it.' },
+  { key: 'live', duration: 5000, caption: 'Shop live: see it, tap it, get it.' },
   { key: 'catalog', duration: 4000, caption: 'Everything you love in one catalog.' },
   { key: 'food', duration: 4000, caption: 'Order meals fast.' },
   { key: 'services', duration: 3000, caption: 'Book services in seconds.' },
@@ -287,7 +287,7 @@ function ServicesScene() {
   return (
     <div className="h-full w-full p-3">
       <div className="rounded-xl p-3 bg-gradient-card border border-white/10">
-        <div className="text-sm font-semibold mb-2">Barber — Fade</div>
+        <div className="text-sm font-semibold mb-2">Barber: Fade</div>
         <div className="h-10 rounded-md bg-white/10 mb-2" />
         <div className="flex items-center justify-between">
           <div className="text-xs text-white/80">Today, 15:30</div>
@@ -362,12 +362,12 @@ function EndScene() {
   return (
     <div className="h-full w-full p-5 flex flex-col items-center justify-center text-center gap-3">
       <div className="text-2xl font-bold">Cravy</div>
-      <div className="text-sm text-white/80 max-w-[220px]">Watch, shop, and book—live.</div>
+      <div className="text-sm text-white/80 max-w-[220px]">Watch, shop, and book live.</div>
       <div className="flex gap-2 mt-1">
         <Button size="sm">Get Started</Button>
         <Button size="sm" variant="outline">Download App</Button>
       </div>
-      <div className="mt-2 text-[10px] text-white/60">Rescue Delivery Services — Registered Company in Finland.</div>
+      <div className="mt-2 text-[10px] text-white/60">Rescue Delivery Services: Registered Company in Finland.</div>
       <div className="text-[10px] text-white/60">Watching feeds requires login.</div>
     </div>
   );

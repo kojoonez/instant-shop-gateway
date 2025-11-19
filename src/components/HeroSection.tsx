@@ -4,13 +4,17 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowDown, Smartphone, Zap, Globe, Shield } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useScreenSize } from '@/hooks/useScreenSize';
+import { Link } from 'react-router-dom';
 
 export const HeroSection: React.FC = () => {
   const { t } = useTranslation();
   const { isMobile, isTablet } = useScreenSize();
   
   const scrollToDemo = () => {
-    document.getElementById('demo-section')?.scrollIntoView({ behavior: 'smooth' });
+    const demoSection = document.getElementById('phone-demo-section');
+    if (demoSection) {
+      demoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   return (
@@ -75,8 +79,11 @@ export const HeroSection: React.FC = () => {
             variant="outline" 
             size="lg"
             className="font-semibold px-8 py-3 rounded-xl border-primary/30 hover:bg-primary/5 transition-all duration-200"
+            asChild
           >
-            Get Started
+            <Link to="/download">
+              Get Started
+            </Link>
           </Button>
         </div>
 

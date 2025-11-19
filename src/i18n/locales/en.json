@@ -35,7 +35,7 @@
     "hero": {
       "badge": "The Future of Embedded Commerce",
       "title": "Cravy",
-      "subtitle": "Watch, shop, and book — live.",
+      "subtitle": "Watch, shop, and book live.",
       "description": "One app for live shopping, food, services, events, and more.",
       "features": {
         "universalSdk": "Universal SDK",
@@ -66,7 +66,7 @@
         "emojis": "💸🤝💎"
       },
       {
-        "text": "Shopping Made Stupid Simple",
+        "text": "Shopping Made Incredibly Simple",
         "emojis": "🧠💡🛒"
       },
       {
@@ -138,7 +138,7 @@
     }
   },
   "legal": {
-    "companyInfo": "Rescue Delivery Services — Registered Company in Finland.",
+    "companyInfo": "Rescue Delivery Services: Registered Company in Finland.",
     "copyright": "© 2024 Cravy. All rights reserved."
   },
   "social": {
@@ -149,7 +149,7 @@
   },
   "whyUsersLove": {
     "title": "Why Users Love Cravy",
-    "subtitle": "Everything you need to discover, shop, and book—all in one place.",
+    "subtitle": "Everything you need to discover, shop, and book: all in one place.",
     "features": {
       "allInOne": {
         "title": "All-in-One Shopping",
@@ -183,7 +183,7 @@
         "items": [
           "Verified sellers and secure payments only",
           "Clear refund and dispute resolution process",
-          "Your data stays private—we don't sell it",
+          "Your data stays private: we don't sell it",
           "Granular notification and privacy controls"
         ]
       },
@@ -208,8 +208,8 @@
     },
     "cta": {
       "title": "Ready to Experience the Future of Shopping?",
-      "description": "Join thousands of users who've discovered the convenience of live commerce, instant delivery, and seamless booking—all in one app.",
-      "getStarted": "Get Started — Watch, Shop, and Book Live",
+      "description": "Join thousands of users who've discovered the convenience of live commerce, instant delivery, and seamless booking: all in one app.",
+      "getStarted": "Get Started: Watch, Shop, and Book Live",
       "seeHowItWorks": "See How It Works"
     }
   },

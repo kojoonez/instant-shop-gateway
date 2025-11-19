@@ -3,11 +3,11 @@ import { Seo } from '@/components/seo/Seo';
 export default function Features() {
   return (
     <div className="container mx-auto py-12">
-      <Seo title="Features" description="Live shopping, order food online, book services, event tickets, creator monetization — all in Cravy." />
+      <Seo title="Features" description="Live shopping, order food online, book services, event tickets, creator monetization: all in Cravy." />
       <h1 className="text-4xl font-bold mb-6">Features</h1>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {[
-          ['Universal Feed', 'Scroll videos and posts from shops, services, and events—live.'],
+          ['Universal Feed', 'Scroll videos and posts from shops, services, and events: live.'],
           ['Live Streams', 'Buy during live shows. Real-time chat, cart, and checkout.'],
           ['Catalog', 'Products, digital goods, and add-ons in one simple storefront.'],
           ['Food & Restaurants', 'Order from verified kitchens. Cravy delivers via approved partners.'],

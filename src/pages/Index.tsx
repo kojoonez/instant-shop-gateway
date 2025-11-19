@@ -86,7 +86,7 @@ const Index = () => {
           <div className="min-h-screen bg-background">
             <Seo 
               title="Cravy"
-              description="Watch, shop, and book—live. One app for live shopping, food, services, and events."
+              description="Watch, shop, and book live. One app for live shopping, food, services, and events."
               path="/"
               jsonLd={[
                 {
@@ -195,7 +195,7 @@ const Index = () => {
                   <div className="bg-gradient-to-r from-crave-orange/10 to-crave-purple/10 rounded-2xl p-8 border border-crave-orange/20">
                     <h3 className="text-2xl font-bold mb-4">Universal SDK</h3>
                     <p className="text-muted-foreground mb-6">
-                      Watch, shop, and book—live. One app for products, food, services, and events.
+                      Watch, shop, and book live. One app for products, food, services, and events.
                     </p>
                     <div className="flex justify-center gap-4 text-sm">
                       <Badge variant="outline">React SDK</Badge>

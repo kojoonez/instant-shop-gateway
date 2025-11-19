@@ -67,6 +67,44 @@ All colors MUST be HSL.
     display: none;
   }
 
+  /* Hide scrollbar globally on the page */
+  html {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  html::-webkit-scrollbar {
+    display: none;
+  }
+  
+  body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Fix Leaflet map styles */
+  .leaflet-container {
+    font-family: inherit;
+  }
+  
+  .leaflet-marker-icon {
+    border: none !important;
+    background: transparent !important;
+  }
+  
+  .custom-marker-icon {
+    background: transparent !important;
+    border: none !important;
+  }
+  
+  .leaflet-popup-content-wrapper {
+    border-radius: 8px;
+  }
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;

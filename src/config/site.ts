@@ -1,8 +1,8 @@
 export const siteConfig = {
   name: 'Cravy',
-  tagline: 'Watch, shop, and book — live.',
+  tagline: 'Watch, shop, and book live.',
   description:
-    'Watch, shop, and book—live. One app for live shopping, food, services, and events.',
+    'Watch, shop, and book live. One app for live shopping, food, services, and events.',
   theme: {
     primaryHex: '#FF6B35',
     navyHex: '#0D1B2A',
@@ -29,7 +29,7 @@ export const siteConfig = {
   analytics: {
     gtmId: 'GTM-XXXXXXX',
   },
-  legalLine: 'Rescue Delivery Services — Registered Company in Finland.',
+  legalLine: 'Rescue Delivery Services: Registered Company in Finland.',
 };
 
 export type SiteConfig = typeof siteConfig;

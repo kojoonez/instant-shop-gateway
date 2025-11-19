@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -501,18 +501,62 @@ export const MapDemo: React.FC = () => {
   const [selectedShop, setSelectedShop] = useState<typeof allShops[0] | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [isTrayOpen, setIsTrayOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
-  const markerIcon = useMemo(() =>
-    L.icon({
-      iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-      iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-      shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41]
-    }),
-  []);
+  useEffect(() => {
+    setIsMounted(true);
+    
+    // Fix Leaflet default icon issue - must be done before creating markers
+    if (typeof window !== 'undefined' && L.Icon.Default) {
+      // Remove the problematic _getIconUrl method
+      delete (L.Icon.Default.prototype as any)._getIconUrl;
+      
+      // Set default icon options
+      L.Icon.Default.mergeOptions({
+        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+      });
+    }
+  }, []);
+
+  const markerIcon = useMemo(() => {
+    if (!isMounted) return undefined;
+    
+    // Create custom SVG marker icon to avoid external image loading issues
+    const svgIcon = `
+      <svg width="25" height="41" viewBox="0 0 25 41" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#3388ff" d="M12.5 0C5.596 0 0 5.596 0 12.5c0 8.75 12.5 28.5 12.5 28.5S25 21.25 25 12.5C25 5.596 19.404 0 12.5 0z"/>
+        <circle fill="#fff" cx="12.5" cy="12.5" r="6"/>
+      </svg>
+    `;
+    
+    try {
+      return L.divIcon({
+        html: svgIcon,
+        className: 'custom-marker-icon',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34]
+      });
+    } catch (error) {
+      console.error('Error creating marker icon:', error);
+      // Fallback to default icon
+      return L.icon({
+        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+      });
+    }
+  }, [isMounted]);
 
   const handleShopClick = (shop: typeof allShops[0]) => {
     setSelectedShop(shop);
@@ -533,21 +577,38 @@ export const MapDemo: React.FC = () => {
   // Filter shops by selected category
   const filteredShops = allShops.filter(shop => shop.type === selectedCategory);
 
+  if (!isMounted) {
+    return (
+      <div className={`${isMobile ? 'h-64' : 'h-screen'} flex items-center justify-center bg-muted`}>
+        <p className="text-muted-foreground">Loading map...</p>
+      </div>
+    );
+  }
+
   return (
     <div className={`${isMobile ? 'h-auto' : 'h-screen'} ${isMobile ? 'flex flex-col' : 'grid grid-cols-1 md:grid-cols-[1fr_420px]'}`}>
-      <div className={`${isMobile ? 'h-64' : 'h-full'}`}>
+      <div className={`${isMobile ? 'h-64' : 'h-full'} relative z-0`} style={{ minHeight: isMobile ? '256px' : '100%' }}>
         <MapContainer 
           center={defaultCenter} 
           zoom={isMobile ? 13 : 14} 
-          className="h-full w-full" 
+          className="h-full w-full z-0" 
           scrollWheelZoom={!isMobile}
+          style={{ height: '100%', width: '100%', zIndex: 0 }}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           {filteredShops.map(shop => (
-            <Marker key={shop.id} position={shop.coords} icon={markerIcon} eventHandlers={{ click: () => handleShopClick(shop) }}>
+            markerIcon && (
+              <Marker 
+                key={shop.id} 
+                position={shop.coords} 
+                icon={markerIcon}
+                eventHandlers={{ 
+                  click: () => handleShopClick(shop)
+                }}
+              >
               <Popup>
                 <div className="text-sm">
                   <div className="font-semibold">{shop.name}</div>
@@ -556,6 +617,7 @@ export const MapDemo: React.FC = () => {
                 </div>
               </Popup>
             </Marker>
+            )
           ))}
         </MapContainer>
       </div>
