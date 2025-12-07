@@ -33,7 +33,7 @@ export const HeroSection: React.FC = () => {
         </Badge>
 
         {/* Main Heading */}
-        <h1 className={`${isMobile ? 'text-4xl' : isTablet ? 'text-5xl' : 'text-5xl md:text-7xl'} font-bold ${isMobile ? 'mb-2' : 'mb-3'} bg-gradient-hero bg-clip-text text-transparent`}>
+        <h1 className={`${isMobile ? 'text-4xl' : isTablet ? 'text-5xl' : 'text-5xl md:text-7xl'} font-bold ${isMobile ? 'mb-2' : 'mb-3'} text-white`}>
           {t('marketing.hero.title')}
         </h1>
         
