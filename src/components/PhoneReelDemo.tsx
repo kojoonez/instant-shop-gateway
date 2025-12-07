@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { assetPaths } from '@/config/assets';
@@ -85,13 +85,13 @@ export function PhoneReelDemo() {
     }
   }, [currentIndex, clickedActions]);
 
-  // Handle Cravy click - navigate to home
-  const handleCravyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  // Handle Cravy click - refresh demo feed only
+  const handleCravyClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    // Scroll to top of page to show home/hero section
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    // Also reset the demo view
+    e.nativeEvent.stopImmediatePropagation();
+    // Don't scroll the page - just refresh the demo feed
+    // Reset the demo view
     setCurrentView('feed');
     // Force video refresh by changing key and resetting to first video
     setVideoKey(prev => prev + 1);
@@ -105,7 +105,7 @@ export function PhoneReelDemo() {
     setHasScrolled(false);
     setActionHintVisible(true);
     setClickedActions(new Set());
-  };
+  }, []);
 
   // Handle Trendy click - show product page
   const handleTrendyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -697,6 +697,10 @@ export function PhoneReelDemo() {
                     <button 
                       type="button"
                       onClick={handleCravyClick}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
                       className={`font-semibold ${currentView === 'feed' ? 'text-white' : 'text-white/70 hover:text-white'} transition-colors cursor-pointer`}
                     >
                       Cravy
