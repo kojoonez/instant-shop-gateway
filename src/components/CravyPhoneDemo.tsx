@@ -179,7 +179,7 @@ function IntroScene() {
   return (
     <div className="h-full w-full flex items-center justify-center">
       <div className="text-center animate-scale-in">
-        <div className="text-3xl font-extrabold tracking-tight">Cravy</div>
+        <div className="text-3xl font-extrabold tracking-tight text-white">Cravy</div>
         <div className="mt-2 text-sm text-white/80">Live shopping · Food · Services · Events</div>
       </div>
     </div>
@@ -361,7 +361,7 @@ function ApplyScene() {
 function EndScene() {
   return (
     <div className="h-full w-full p-5 flex flex-col items-center justify-center text-center gap-3">
-      <div className="text-2xl font-bold">Cravy</div>
+      <div className="text-2xl font-bold text-white">Cravy</div>
       <div className="text-sm text-white/80 max-w-[220px]">Watch, shop, and book live.</div>
       <div className="flex gap-2 mt-1">
         <Button size="sm">Get Started</Button>

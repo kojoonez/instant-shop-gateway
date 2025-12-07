@@ -13,7 +13,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-background/70 border-b border-white/10">
       <div className="container mx-auto flex items-center justify-between py-2 px-4 sm:py-3 sm:px-6">
-        <Link to="/" className="flex items-center gap-2 font-bold text-base sm:text-lg tracking-tight">
+        <Link to="/" className="flex items-center gap-2 font-bold text-base sm:text-lg tracking-tight text-white">
           <img src="/cravy_logo.jpg" alt="Cravy logo" className="h-5 w-5 sm:h-6 sm:w-6 rounded" />
           <span className={isMobile ? "hidden sm:inline" : ""}>{siteConfig.name}</span>
         </Link>

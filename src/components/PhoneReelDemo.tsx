@@ -701,7 +701,7 @@ export function PhoneReelDemo() {
                         e.preventDefault();
                         e.stopPropagation();
                       }}
-                      className={`font-semibold ${currentView === 'feed' ? 'text-white' : 'text-white/70 hover:text-white'} transition-colors cursor-pointer`}
+                      className="font-semibold text-white hover:text-white/90 transition-colors cursor-pointer"
                     >
                       Cravy
                     </button>
