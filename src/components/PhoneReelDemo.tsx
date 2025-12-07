@@ -86,7 +86,9 @@ export function PhoneReelDemo() {
   }, [currentIndex, clickedActions]);
 
   // Handle Cravy click - navigate to home
-  const handleCravyClick = () => {
+  const handleCravyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     // Scroll to top of page to show home/hero section
     window.scrollTo({ top: 0, behavior: 'smooth' });
     // Also reset the demo view
@@ -106,12 +108,16 @@ export function PhoneReelDemo() {
   };
 
   // Handle Trendy click - show product page
-  const handleTrendyClick = () => {
+  const handleTrendyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     setCurrentView('trendy');
   };
 
   // Handle Profile click - show profile page
-  const handleProfileClick = () => {
+  const handleProfileClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     setCurrentView('profile');
   };
 
@@ -689,6 +695,7 @@ export function PhoneReelDemo() {
                 <div className={`absolute bottom-0 left-0 right-0 ${isMobile ? 'p-1' : 'p-2'} z-30`}>
                   <div className={`rounded-2xl bg-white/10 backdrop-blur border border-white/15 ${isMobile ? 'px-2 py-1' : 'px-3 py-2'} text-white flex items-center justify-between ${isMobile ? 'text-[10px]' : 'text-[11px]'}`}>
                     <button 
+                      type="button"
                       onClick={handleCravyClick}
                       className={`font-semibold ${currentView === 'feed' ? 'text-white' : 'text-white/70 hover:text-white'} transition-colors cursor-pointer`}
                     >
@@ -696,6 +703,7 @@ export function PhoneReelDemo() {
                     </button>
                     <div className="flex gap-4 opacity-90 items-center">
                       <button 
+                        type="button"
                         onClick={handleTrendyClick}
                         className={`${currentView === 'trendy' ? 'text-white font-semibold' : 'text-white/70 hover:text-white'} transition-colors cursor-pointer`}
                       >
@@ -705,6 +713,7 @@ export function PhoneReelDemo() {
                       <span className="relative cursor-pointer hover:text-white transition-colors">Appts{hasApptPending && <span className="absolute -top-1 -right-3 h-2 w-2 bg-red-500 rounded-full" />}</span>
                       <span className="cursor-pointer hover:text-white transition-colors">Saved</span>
                       <button
+                        type="button"
                         onClick={handleProfileClick}
                         className={`${currentView === 'profile' ? 'text-white font-semibold' : 'text-white/70 hover:text-white'} transition-colors cursor-pointer`}
                       >
