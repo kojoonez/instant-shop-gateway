@@ -16,6 +16,7 @@ type WaitlistEntry = {
   id: string
   segment: string
   email: string
+  phone: string | null
   full_name: string | null
   business_name: string | null
   vehicle_type: string | null
@@ -87,6 +88,7 @@ export function WaitlistPage() {
                 <TableRow>
                   <TableHead>Segment</TableHead>
                   <TableHead>Email</TableHead>
+                  <TableHead>Phone</TableHead>
                   <TableHead>Name</TableHead>
                   <TableHead>Country</TableHead>
                   <TableHead>Vehicle</TableHead>
@@ -106,6 +108,7 @@ export function WaitlistPage() {
                       </Badge>
                     </TableCell>
                     <TableCell className="font-mono text-sm">{entry.email}</TableCell>
+                    <TableCell>{entry.phone || "—"}</TableCell>
                     <TableCell>{entry.full_name || entry.business_name || "—"}</TableCell>
                     <TableCell>{entry.country_name || entry.country_code || "—"}</TableCell>
                     <TableCell>{entry.vehicle_type || "—"}</TableCell>

@@ -52,6 +52,7 @@ function WaitlistForm({
         const fd = new FormData(form);
         const email = String(fd.get('email') ?? '');
         const fullName = String(fd.get('fullName') ?? '');
+        const phone = String(fd.get('phone') ?? '');
         const businessName = String(fd.get('businessName') ?? '');
         const vehicleType = String(fd.get('vehicleType') ?? '');
         const notes = String(fd.get('notes') ?? '');
@@ -60,6 +61,7 @@ function WaitlistForm({
         const { error } = await joinWaitlist({
           segment,
           email,
+          phone: phone || undefined,
           fullName: fullName || undefined,
           businessName: isBusiness ? businessName || undefined : undefined,
           vehicleType: isDriver ? vehicleType || undefined : undefined,
@@ -91,6 +93,17 @@ function WaitlistForm({
           required
           autoComplete="email"
           placeholder={t('waitlist.placeholders.email')}
+          className="bg-background border-white/10"
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor={`phone-${segment}`}>Phone number</Label>
+        <Input
+          id={`phone-${segment}`}
+          name="phone"
+          type="tel"
+          autoComplete="tel"
+          placeholder="+1234567890"
           className="bg-background border-white/10"
         />
       </div>

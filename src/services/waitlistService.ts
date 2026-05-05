@@ -5,6 +5,7 @@ export type WaitlistSegment = 'business' | 'user' | 'driver';
 export async function joinWaitlist(params: {
   segment: WaitlistSegment;
   email: string;
+  phone?: string;
   fullName?: string;
   businessName?: string;
   notes?: string;
@@ -18,6 +19,7 @@ export async function joinWaitlist(params: {
       .insert({
         segment: params.segment,
         email: params.email.trim().toLowerCase(),
+        phone: params.phone?.trim() || null,
         full_name: params.fullName?.trim() || null,
         business_name: params.businessName?.trim() || null,
         vehicle_type: params.vehicleType?.trim() || null,
