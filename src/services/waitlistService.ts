@@ -47,17 +47,26 @@ export async function joinWaitlist(params: {
       submittedAt: new Date().toISOString(),
     };
 
-    console.log('[Waitlist] Submitting to:', SHEETS_URL.substring(0, 50) + '...');
+    console.log('[Waitlist] Submitting to:', SHEETS_URL);
     console.log('[Waitlist] Payload:', JSON.stringify(payload));
 
     const queryString = Object.entries(payload)
       .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
       .join('&');
 
-    await fetch(`${SHEETS_URL}?${queryString}`, {
+    const res = await fetch(`${SHEETS_URL}?${queryString}`, {
       method: 'GET',
-      mode: 'no-cors',
+      redirect: 'follow',
     });
+
+    if (!res.ok) {
+      throw new Error(`Server responded with ${res.status} ${res.statusText}`);
+    }
+
+    const json = await res.json();
+    if (json.result !== 'ok') {
+      throw new Error(json.error || 'Submission failed');
+    }
 
     console.log('[Waitlist] Submission successful');
     return { error: null, duplicate: false };
