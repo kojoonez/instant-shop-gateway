@@ -90,10 +90,12 @@ END;
 $$ language 'plpgsql';
 
 -- Create triggers for updated_at
+DROP TRIGGER IF EXISTS update_conversations_updated_at ON conversations;
 CREATE TRIGGER update_conversations_updated_at 
   BEFORE UPDATE ON conversations 
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_messages_updated_at ON messages;
 CREATE TRIGGER update_messages_updated_at 
   BEFORE UPDATE ON messages 
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
@@ -111,6 +113,7 @@ END;
 $$ language 'plpgsql';
 
 -- Create trigger to update last_message_at when new message is inserted
+DROP TRIGGER IF EXISTS update_conversation_last_message_trigger ON messages;
 CREATE TRIGGER update_conversation_last_message_trigger
   AFTER INSERT ON messages
   FOR EACH ROW EXECUTE FUNCTION update_conversation_last_message();
@@ -169,26 +172,33 @@ ALTER TABLE message_attachments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE message_read_receipts ENABLE ROW LEVEL SECURITY;
 
 -- Create RLS policies for profiles
+DROP POLICY IF EXISTS "Users can view own profile" ON profiles;
 CREATE POLICY "Users can view own profile" ON profiles
   FOR SELECT USING (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
 CREATE POLICY "Users can update own profile" ON profiles
   FOR UPDATE USING (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Users can insert own profile" ON profiles;
 CREATE POLICY "Users can insert own profile" ON profiles
   FOR INSERT WITH CHECK (auth.uid() = id);
 
 -- Create RLS policies for conversations
+DROP POLICY IF EXISTS "Users can view own conversations" ON conversations;
 CREATE POLICY "Users can view own conversations" ON conversations
   FOR SELECT USING (auth.uid() = user_id OR auth.uid() = admin_id);
 
+DROP POLICY IF EXISTS "Users can create conversations" ON conversations;
 CREATE POLICY "Users can create conversations" ON conversations
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Admins can update conversations" ON conversations;
 CREATE POLICY "Admins can update conversations" ON conversations
   FOR UPDATE USING (auth.uid() = admin_id OR auth.uid() = user_id);
 
 -- Create RLS policies for messages
+DROP POLICY IF EXISTS "Users can view messages in their conversations" ON messages;
 CREATE POLICY "Users can view messages in their conversations" ON messages
   FOR SELECT USING (
     EXISTS (
@@ -198,6 +208,7 @@ CREATE POLICY "Users can view messages in their conversations" ON messages
     )
   );
 
+DROP POLICY IF EXISTS "Users can send messages in their conversations" ON messages;
 CREATE POLICY "Users can send messages in their conversations" ON messages
   FOR INSERT WITH CHECK (
     sender_id = auth.uid() AND
@@ -208,10 +219,12 @@ CREATE POLICY "Users can send messages in their conversations" ON messages
     )
   );
 
+DROP POLICY IF EXISTS "Users can update their own messages" ON messages;
 CREATE POLICY "Users can update their own messages" ON messages
   FOR UPDATE USING (sender_id = auth.uid());
 
 -- Create RLS policies for message attachments
+DROP POLICY IF EXISTS "Users can view attachments in their conversations" ON message_attachments;
 CREATE POLICY "Users can view attachments in their conversations" ON message_attachments
   FOR SELECT USING (
     EXISTS (
@@ -222,6 +235,7 @@ CREATE POLICY "Users can view attachments in their conversations" ON message_att
     )
   );
 
+DROP POLICY IF EXISTS "Users can create attachments for their messages" ON message_attachments;
 CREATE POLICY "Users can create attachments for their messages" ON message_attachments
   FOR INSERT WITH CHECK (
     EXISTS (
@@ -232,6 +246,7 @@ CREATE POLICY "Users can create attachments for their messages" ON message_attac
   );
 
 -- Create RLS policies for message read receipts
+DROP POLICY IF EXISTS "Users can view read receipts in their conversations" ON message_read_receipts;
 CREATE POLICY "Users can view read receipts in their conversations" ON message_read_receipts
   FOR SELECT USING (
     user_id = auth.uid() OR
@@ -243,6 +258,7 @@ CREATE POLICY "Users can view read receipts in their conversations" ON message_r
     )
   );
 
+DROP POLICY IF EXISTS "Users can create read receipts" ON message_read_receipts;
 CREATE POLICY "Users can create read receipts" ON message_read_receipts
   FOR INSERT WITH CHECK (user_id = auth.uid());
 
@@ -265,79 +281,8 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION handle_new_user();
 
--- Insert demo users (for testing)
-INSERT INTO auth.users (
-  id,
-  instance_id,
-  aud,
-  role,
-  email,
-  encrypted_password,
-  email_confirmed_at,
-  created_at,
-  updated_at,
-  raw_user_meta_data,
-  raw_app_meta_data,
-  is_super_admin,
-  confirmation_token,
-  email_change,
-  email_change_token_new,
-  recovery_token
-) VALUES (
-  '11111111-1111-1111-1111-111111111111',
-  '00000000-0000-0000-0000-000000000000',
-  'authenticated',
-  'authenticated',
-  'demo@cravy.com',
-  crypt('demo123', gen_salt('bf')),
-  NOW(),
-  NOW(),
-  NOW(),
-  '{"display_name": "Demo User"}'::jsonb,
-  '{}'::jsonb,
-  false,
-  '',
-  '',
-  '',
-  ''
-), (
-  '22222222-2222-2222-2222-222222222222',
-  '00000000-0000-0000-0000-000000000000',
-  'authenticated',
-  'authenticated',
-  'admin@cravy.com',
-  crypt('admin123', gen_salt('bf')),
-  NOW(),
-  NOW(),
-  NOW(),
-  '{"display_name": "Support Team", "is_admin": true}'::jsonb,
-  '{}'::jsonb,
-  false,
-  '',
-  '',
-  '',
-  ''
-) ON CONFLICT (id) DO NOTHING;
-
--- Insert demo profiles
-INSERT INTO profiles (id, email, user_metadata) VALUES
-  ('11111111-1111-1111-1111-111111111111', 'demo@cravy.com', '{"display_name": "Demo User"}'::jsonb),
-  ('22222222-2222-2222-2222-222222222222', 'admin@cravy.com', '{"display_name": "Support Team", "is_admin": true}'::jsonb)
-ON CONFLICT (id) DO NOTHING;
-
--- Create a sample conversation for testing
-INSERT INTO conversations (id, user_id, admin_id, subject, status) VALUES
-  ('33333333-3333-3333-3333-333333333333', '11111111-1111-1111-1111-111111111111', '22222222-2222-2222-2222-222222222222', 'Welcome to Cravy Support', 'active')
-ON CONFLICT (id) DO NOTHING;
-
--- Create sample messages
-INSERT INTO messages (id, conversation_id, sender_id, content, is_admin_message, status) VALUES
-  ('44444444-4444-4444-4444-444444444444', '33333333-3333-3333-3333-333333333333', '22222222-2222-2222-2222-222222222222', 'Hello! How can I help you today?', true, 'read'),
-  ('55555555-5555-5555-5555-555555555555', '33333333-3333-3333-3333-333333333333', '11111111-1111-1111-1111-111111111111', 'Hi! I need help with my account.', false, 'read')
-ON CONFLICT (id) DO NOTHING;
-
 -- Grant necessary permissions
-GRANT USAGE ON SCHEMA public TO authenticated;
-GRANT ALL ON ALL TABLES IN SCHEMA public TO authenticated;
-GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO authenticated;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO authenticated;
+GRANT USAGE ON SCHEMA public TO authenticated, anon;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO authenticated, anon;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO authenticated, anon;
+GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO authenticated, anon;
