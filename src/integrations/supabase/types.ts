@@ -280,6 +280,7 @@ export type Database = {
           notes: string | null
           country_code: string | null
           country_name: string | null
+          vehicle_type: string | null
           created_at: string
         }
         Insert: {
@@ -291,6 +292,7 @@ export type Database = {
           notes?: string | null
           country_code?: string | null
           country_name?: string | null
+          vehicle_type?: string | null
           created_at?: string
         }
         Update: {
@@ -302,6 +304,91 @@ export type Database = {
           notes?: string | null
           country_code?: string | null
           country_name?: string | null
+          vehicle_type?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      business_applications: {
+        Row: {
+          id: string
+          business_name: string
+          contact_name: string
+          email: string
+          phone: string | null
+          category: string | null
+          country_code: string
+          country_name: string
+          description: string | null
+          status: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          business_name: string
+          contact_name: string
+          email: string
+          phone?: string | null
+          category?: string | null
+          country_code: string
+          country_name: string
+          description?: string | null
+          status?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          business_name?: string
+          contact_name?: string
+          email?: string
+          phone?: string | null
+          category?: string | null
+          country_code?: string
+          country_name?: string
+          description?: string | null
+          status?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
+      creator_applications: {
+        Row: {
+          id: string
+          full_name: string
+          email: string
+          phone: string | null
+          social_links: string | null
+          content_type: string | null
+          country_code: string
+          country_name: string
+          description: string | null
+          status: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          full_name: string
+          email: string
+          phone?: string | null
+          social_links?: string | null
+          content_type?: string | null
+          country_code: string
+          country_name: string
+          description?: string | null
+          status?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          full_name?: string
+          email?: string
+          phone?: string | null
+          social_links?: string | null
+          content_type?: string | null
+          country_code?: string
+          country_name?: string
+          description?: string | null
+          status?: string
           created_at?: string
         }
         Relationships: []
@@ -322,7 +409,7 @@ export type Database = {
         | "ready"
         | "delivered"
         | "cancelled"
-      waitlist_segment: "business" | "user"
+      waitlist_segment: "business" | "user" | "driver"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -451,7 +538,7 @@ export const Constants = {
   public: {
     Enums: {
       merchant_status: ["pending", "approved", "suspended"],
-      waitlist_segment: ["business", "user"],
+      waitlist_segment: ["business", "user", "driver"],
       order_status: [
         "pending",
         "confirmed",

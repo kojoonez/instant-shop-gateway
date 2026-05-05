@@ -1,3 +1,5 @@
+import { supabase } from '@/integrations/supabase/client';
+
 export type WaitlistSegment = 'business' | 'user' | 'driver';
 
 export async function joinWaitlist(params: {
@@ -11,26 +13,24 @@ export async function joinWaitlist(params: {
   vehicleType?: string;
 }): Promise<{ error: Error | null; duplicate: boolean }> {
   try {
-    const payload = {
-      segment: params.segment,
-      email: params.email.trim().toLowerCase(),
-      fullName: params.fullName?.trim() || '',
-      businessName: params.businessName?.trim() || '',
-      vehicleType: params.vehicleType?.trim() || '',
-      notes: params.notes?.trim() || '',
-      countryCode: params.countryCode,
-      countryName: params.countryName,
-      submittedAt: new Date().toISOString(),
-    };
+    const { error } = await supabase
+      .from('waitlist_signups')
+      .insert({
+        segment: params.segment,
+        email: params.email.trim().toLowerCase(),
+        full_name: params.fullName?.trim() || null,
+        business_name: params.businessName?.trim() || null,
+        vehicle_type: params.vehicleType?.trim() || null,
+        notes: params.notes?.trim() || null,
+        country_code: params.countryCode,
+        country_name: params.countryName,
+      });
 
-    const queryString = Object.entries(payload)
-      .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
-      .join('&');
-
-    const res = await fetch(`/api/waitlist?${queryString}`);
-    if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      throw new Error(errData.error || `Server error: ${res.status}`);
+    if (error) {
+      if (error.code === '23505') {
+        return { error: null, duplicate: true };
+      }
+      return { error: new Error(error.message), duplicate: false };
     }
 
     return { error: null, duplicate: false };

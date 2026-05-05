@@ -1,60 +1,122 @@
+import { useEffect, useState } from "react"
+import { supabase } from "@/integrations/supabase/client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ExternalLink, Sheet } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Loader2, Users } from "lucide-react"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
+type WaitlistEntry = {
+  id: string
+  segment: string
+  email: string
+  full_name: string | null
+  business_name: string | null
+  vehicle_type: string | null
+  notes: string | null
+  country_code: string | null
+  country_name: string | null
+  created_at: string
+}
+
+const segmentColors: Record<string, string> = {
+  business: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+  user: "bg-green-500/20 text-green-400 border-green-500/30",
+  driver: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+}
 
 export function WaitlistPage() {
-  const sheetsUrl = import.meta.env.VITE_GOOGLE_SHEETS_URL as string | undefined
+  const [entries, setEntries] = useState<WaitlistEntry[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const viewUrl = "https://docs.google.com/spreadsheets"
+  useEffect(() => {
+    void (async () => {
+      const { data, error } = await supabase
+        .from("waitlist_signups")
+        .select("*")
+        .order("created_at", { ascending: false })
+
+      if (!error && data) {
+        setEntries(data)
+      }
+      setLoading(false)
+    })()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="flex items-center gap-3 py-16 justify-center text-muted-foreground">
+        <Loader2 className="h-6 w-6 animate-spin" />
+        <span>Loading waitlist...</span>
+      </div>
+    )
+  }
 
   return (
     <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Waitlist</h1>
-        <p className="text-muted-foreground">
-          Signups are saved directly to Google Sheets.
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Waitlist</h1>
+          <p className="text-muted-foreground">
+            {entries.length} {entries.length === 1 ? "signup" : "signups"} total
+          </p>
+        </div>
+        <Badge variant="outline" className="gap-1 font-normal border-white/20">
+          <Users className="h-4 w-4" />
+          {entries.length}
+        </Badge>
       </div>
 
-      <Card className="max-w-lg">
+      <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Sheet className="h-5 w-5 text-green-500" />
-            Google Sheets
-          </CardTitle>
-          <CardDescription>
-            All waitlist submissions (businesses, users, and delivery drivers) are stored in your
-            connected Google Sheet. Open it to view, filter, and export signups.
-          </CardDescription>
+          <CardTitle>All Signups</CardTitle>
+          <CardDescription>Businesses, users, and delivery drivers who joined the waitlist.</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <Button asChild>
-            <a href={viewUrl} target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="h-4 w-4 mr-2" />
-              Open Google Sheets
-            </a>
-          </Button>
-
-          <div className="rounded-lg border border-white/10 bg-muted/30 p-4 text-sm space-y-2">
-            <p className="font-medium">Sheet columns</p>
-            <ol className="list-decimal list-inside text-muted-foreground space-y-1">
-              <li>Timestamp</li>
-              <li>Segment (business / user / driver)</li>
-              <li>Email</li>
-              <li>Full Name</li>
-              <li>Business Name</li>
-              <li>Vehicle Type</li>
-              <li>Country Code</li>
-              <li>Country Name</li>
-              <li>Notes</li>
-            </ol>
-          </div>
-
-          {!sheetsUrl && (
-            <p className="text-xs text-destructive">
-              ⚠️ <code>VITE_GOOGLE_SHEETS_URL</code> is not set — submissions are currently not
-              being saved. See <code>GOOGLE_SHEETS_SETUP.md</code> for setup instructions.
-            </p>
+        <CardContent>
+          {entries.length === 0 ? (
+            <p className="text-center text-muted-foreground py-8">No signups yet.</p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Segment</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Country</TableHead>
+                  <TableHead>Vehicle</TableHead>
+                  <TableHead>Notes</TableHead>
+                  <TableHead>Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {entries.map((entry) => (
+                  <TableRow key={entry.id}>
+                    <TableCell>
+                      <Badge
+                        variant="outline"
+                        className={segmentColors[entry.segment] || "bg-muted text-muted-foreground border-white/20"}
+                      >
+                        {entry.segment}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="font-mono text-sm">{entry.email}</TableCell>
+                    <TableCell>{entry.full_name || entry.business_name || "—"}</TableCell>
+                    <TableCell>{entry.country_name || entry.country_code || "—"}</TableCell>
+                    <TableCell>{entry.vehicle_type || "—"}</TableCell>
+                    <TableCell className="max-w-[200px] truncate">{entry.notes || "—"}</TableCell>
+                    <TableCell className="text-muted-foreground text-sm">
+                      {new Date(entry.created_at).toLocaleDateString()}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           )}
         </CardContent>
       </Card>
