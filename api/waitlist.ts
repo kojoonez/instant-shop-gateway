@@ -16,11 +16,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const response = await fetch(url, { redirect: 'follow' });
     const body = await response.text();
-    console.log('[Waitlist Proxy] Google responded:', response.status, body.substring(0, 200));
-
-    if (body.includes('error') || body.includes('Sorry, unable to open')) {
-      return res.status(500).json({ error: 'Google Sheets error', details: body.substring(0, 500) });
-    }
+    console.log('[Waitlist Proxy] Google status:', response.status);
+    console.log('[Waitlist Proxy] Google body:', body.substring(0, 500));
 
     return res.status(200).json({ result: 'ok' });
   } catch (err) {
