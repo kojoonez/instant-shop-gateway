@@ -17,5 +17,11 @@ export function AdminGuard() {
     return <Navigate to="/auth?redirect=/admin" replace />
   }
 
+  const isAdmin = user.user_metadata?.is_admin === true
+
+  if (!isAdmin) {
+    return <Navigate to="/" replace />
+  }
+
   return <Outlet />
 }
