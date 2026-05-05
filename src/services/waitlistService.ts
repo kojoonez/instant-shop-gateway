@@ -51,8 +51,7 @@ export async function joinWaitlist(params: {
     await fetch(SHEETS_URL, {
       method: 'POST',
       mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: body.toString(),
+      body: body,
     });
 
     return { error: null, duplicate: false };
