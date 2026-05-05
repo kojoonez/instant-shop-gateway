@@ -278,12 +278,7 @@ export default function Waitlist() {
               ) : (
                 <>
                   <p className="text-muted-foreground mb-6">{introBusiness}</p>
-                  <WaitlistForm
-                    segment="business"
-                    countryCode={countryCode}
-                    countryDisplayName={regionDisplayName}
-                    onSuccess={() => setBusinessDone(true)}
-                  />
+                  <WaitlistForm segment="business" countryCode={countryCode} countryDisplayName={regionDisplayName} onSuccess={() => setBusinessDone(true)} />
                 </>
               )}
             </TabsContent>
@@ -297,12 +292,7 @@ export default function Waitlist() {
               ) : (
                 <>
                   <p className="text-muted-foreground mb-6">{introUser}</p>
-                  <WaitlistForm
-                    segment="user"
-                    countryCode={countryCode}
-                    countryDisplayName={regionDisplayName}
-                    onSuccess={() => setUserDone(true)}
-                  />
+                  <WaitlistForm segment="user" countryCode={countryCode} countryDisplayName={regionDisplayName} onSuccess={() => setUserDone(true)} />
                 </>
               )}
             </TabsContent>
@@ -316,12 +306,7 @@ export default function Waitlist() {
               ) : (
                 <>
                   <p className="text-muted-foreground mb-6">{introDriver}</p>
-                  <WaitlistForm
-                    segment="driver"
-                    countryCode={countryCode}
-                    countryDisplayName={regionDisplayName}
-                    onSuccess={() => setDriverDone(true)}
-                  />
+                  <WaitlistForm segment="driver" countryCode={countryCode} countryDisplayName={regionDisplayName} onSuccess={() => setDriverDone(true)} />
                 </>
               )}
             </TabsContent>

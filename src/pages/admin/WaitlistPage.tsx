@@ -5,9 +5,6 @@ import { ExternalLink, Sheet } from "lucide-react"
 export function WaitlistPage() {
   const sheetsUrl = import.meta.env.VITE_GOOGLE_SHEETS_URL as string | undefined
 
-  // Derive the spreadsheet view URL from the Apps Script URL if possible
-  // Apps Script URLs look like: https://script.google.com/macros/s/SCRIPT_ID/exec
-  // We can't auto-derive the sheet URL, so we just link to Google Sheets home
   const viewUrl = "https://docs.google.com/spreadsheets"
 
   return (

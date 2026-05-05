@@ -40,19 +40,16 @@ export async function joinWaitlist(params: {
       submittedAt: new Date().toISOString(),
     };
 
-    // Google Apps Script requires no-cors mode; we use a form-encoded POST
-    // so the script can read the data via e.parameter
     const body = new URLSearchParams();
     Object.entries(payload).forEach(([k, v]) => body.append(k, v));
 
     await fetch(SHEETS_URL, {
       method: 'POST',
-      mode: 'no-cors', // required for Apps Script
+      mode: 'no-cors',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: body.toString(),
     });
 
-    // no-cors means we can't read the response — treat any completed fetch as success
     return { error: null, duplicate: false };
   } catch (err) {
     return { error: err instanceof Error ? err : new Error(String(err)), duplicate: false };
