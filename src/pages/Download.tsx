@@ -7,13 +7,13 @@ export default function Download() {
     <div className="container mx-auto py-12">
       <Seo 
         title="Download" 
-        description="Install Cravy on iOS, Android, or use the web app."
+        description={`Install Cravy on iOS, Android, or web. ${siteConfig.description}`}
         path="/download"
         jsonLd={{
           '@context': 'https://schema.org',
           '@type': 'Product',
           name: 'Cravy App',
-          description: 'Live shopping, food, services, and events in one app.',
+          description: siteConfig.description,
           applicationCategory: 'MobileApplication',
           operatingSystem: 'iOS, Android, Web'
         }}

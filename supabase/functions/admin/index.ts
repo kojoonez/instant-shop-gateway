@@ -30,9 +30,48 @@ Deno.serve(async (req) => {
     const pathSegments = url.pathname.split('/').filter(Boolean);
     const resource = pathSegments[pathSegments.length - 2]; // e.g., 'users', 'merchants'
     const action = pathSegments[pathSegments.length - 1]; // e.g., specific ID
+    const lastSegment = pathSegments[pathSegments.length - 1];
 
     switch (req.method) {
       case 'GET':
+        if (lastSegment === 'waitlist') {
+          const supabaseUrl = Deno.env.get('SUPABASE_URL') ?? '';
+          const anonKey = Deno.env.get('SUPABASE_ANON_KEY') ?? '';
+          const token = authHeader.replace(/^Bearer\s+/i, '');
+          const authClient = createClient(supabaseUrl, anonKey);
+          const { data: { user }, error: userErr } = await authClient.auth.getUser(token);
+
+          if (userErr || !user) {
+            return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+              status: 401,
+              headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            });
+          }
+
+          if (user.app_metadata?.role !== 'admin') {
+            return new Response(JSON.stringify({ error: 'Forbidden' }), {
+              status: 403,
+              headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            });
+          }
+
+          const { data: signups, error } = await supabase
+            .from('waitlist_signups')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+          if (error) {
+            console.error('Error fetching waitlist:', error);
+            return new Response(JSON.stringify({ error: error.message }), {
+              status: 500,
+              headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            });
+          }
+
+          return new Response(JSON.stringify(signups ?? []), {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
         if (resource === 'analytics') {
           // Get basic dashboard analytics (users and merchants only)
           const [

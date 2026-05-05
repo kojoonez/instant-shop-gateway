@@ -15,7 +15,9 @@ export default defineConfig(({ mode }) => ({
   // base: '/instant-shop-gateway/',
   // For custom domain or Vercel, use: base: '/',
   server: {
-    host: "::",
+    // Bind to loopback only in dev to reduce exposure (esbuild dev-server advisory GHSA-67mh-4wv8-2f99).
+    // Use `vite --host` or set host: true when you need LAN/device testing.
+    host: "127.0.0.1",
     port: 8080,
     middlewareMode: false,
     // Add security middleware (only in development)

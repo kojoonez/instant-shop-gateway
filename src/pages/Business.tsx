@@ -1,5 +1,6 @@
 import { Seo } from '@/components/seo/Seo';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 export default function Business() {
   return (
@@ -31,9 +32,14 @@ export default function Business() {
         <p className="text-sm text-muted-foreground mt-3">All sellers are reviewed. Approval required before going live.</p>
       </div>
 
-      <Button asChild>
-        <a href="/apply/business">Apply as Business</a>
-      </Button>
+      <div className="flex flex-wrap gap-3">
+        <Button asChild>
+          <Link to="/apply/business">Apply as Business</Link>
+        </Button>
+        <Button variant="outline" asChild>
+          <Link to="/waitlist?segment=business">Join business waitlist</Link>
+        </Button>
+      </div>
     </div>
   );
 }

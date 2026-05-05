@@ -67,7 +67,7 @@ export const HeroSection: React.FC = () => {
         </div>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center items-center mb-8">
           <Button 
             size="lg" 
             className="bg-gradient-hero hover:opacity-90 text-white font-semibold px-8 py-3 rounded-xl transition-all duration-200 hover:scale-105"
@@ -75,7 +75,7 @@ export const HeroSection: React.FC = () => {
           >
             See Live Demo
           </Button>
-          <Button 
+          {/* <Button 
             variant="outline" 
             size="lg"
             className="font-semibold px-8 py-3 rounded-xl border-primary/30 hover:bg-primary/5 transition-all duration-200"
@@ -83,6 +83,15 @@ export const HeroSection: React.FC = () => {
           >
             <Link to="/download">
               Get Started
+            </Link>
+          </Button> */}
+          <Button 
+            size="lg"
+            className="font-bold px-8 py-3 rounded-xl bg-crave-orange text-white border-2 border-white/30 hover:opacity-90 hover:scale-105 transition-all duration-200"
+            asChild
+          >
+            <Link to="/waitlist">
+              {t('navigation.waitlist')}
             </Link>
           </Button>
         </div>

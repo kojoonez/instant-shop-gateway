@@ -270,6 +270,42 @@ export type Database = {
         }
         Relationships: []
       }
+      waitlist_signups: {
+        Row: {
+          id: string
+          segment: Database["public"]["Enums"]["waitlist_segment"]
+          email: string
+          full_name: string | null
+          business_name: string | null
+          notes: string | null
+          country_code: string | null
+          country_name: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          segment: Database["public"]["Enums"]["waitlist_segment"]
+          email: string
+          full_name?: string | null
+          business_name?: string | null
+          notes?: string | null
+          country_code?: string | null
+          country_name?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          segment?: Database["public"]["Enums"]["waitlist_segment"]
+          email?: string
+          full_name?: string | null
+          business_name?: string | null
+          notes?: string | null
+          country_code?: string | null
+          country_name?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -286,6 +322,7 @@ export type Database = {
         | "ready"
         | "delivered"
         | "cancelled"
+      waitlist_segment: "business" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -414,6 +451,7 @@ export const Constants = {
   public: {
     Enums: {
       merchant_status: ["pending", "approved", "suspended"],
+      waitlist_segment: ["business", "user"],
       order_status: [
         "pending",
         "confirmed",

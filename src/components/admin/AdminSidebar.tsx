@@ -4,7 +4,8 @@ import {
   Settings,
   Store,
   Bell,
-  MessageCircle
+  MessageCircle,
+  ClipboardList
 } from "lucide-react"
 import { NavLink, useLocation } from "react-router-dom"
 import {
@@ -33,6 +34,11 @@ const navigationItems = [
     url: "/admin/messages", 
     icon: MessageCircle,
     badge: "5"
+  },
+  {
+    title: "Waitlist",
+    url: "/admin/waitlist",
+    icon: ClipboardList,
   },
   { 
     title: "Users", 

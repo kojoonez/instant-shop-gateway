@@ -28,20 +28,79 @@
     "download": "Lataa",
     "blog": "Blogi",
     "watchLive": "Katso suoraan",
+    "waitlist": "Odotuslista",
     "privacy": "Tietosuoja",
     "terms": "Käyttöehdot"
   },
+  "waitlist": {
+    "seoTitle": "Liity odotuslistalle",
+    "seoDescription": "Saa varhainen pääsy Cravyyn maassasi — yrityksille ja käyttäjille.",
+    "title": "Liity odotuslistalle",
+    "subtitle": "Laajennumme markkina kerrallaan. Tunnistamme alueesi, jotta näet oikean viestin ja pääset jonoon siellä missä olet.",
+    "tabBusiness": "Yrityksille",
+    "tabUser": "Käyttäjille",
+    "tabDriver": "Kuljettajat",
+    "introBusiness": "Myy feedin, livestriimien ja varausten kautta — ruoka, vähittäiskauppa, tapahtumat, videokonsultaatiot ja kyydit. Kerro yrityksestäsi, niin palaamme myyjäasioihin alueellasi.",
+    "introUser": "Osta sosiaalisesti ja livenä, tilaa ruokaa, osta lippuja, varaa videopuheluja ja tilaa kyyti — yhdessä ekosysteemissä. Liity maasi listalle, niin kerromme julkaisusta.",
+    "introDriver": "Ansaitse omalla aikataulullasi toimittamalla Cravylle. Kerro kaupunkisi ja ajoneuvotyyppisi, niin otamme yhteyttä kun avaamme alueellasi.",
+    "fields": {
+      "email": "Sähköposti",
+      "fullName": "Nimi",
+      "businessName": "Yrityksen nimi",
+      "vehicleType": "Ajoneuvotyyppi",
+      "notes": "Muuta?"
+    },
+    "placeholders": {
+      "email": "sinu@yritys.fi",
+      "fullName": "Nimesi",
+      "businessName": "Yritys tai brändi",
+      "vehicleType": "esim. Polkupyörä, Moottoripyörä, Auto",
+      "notes": "Kaupunki, kategoria tai mistä kuulit meistä"
+    },
+    "submit": "Liity listalle",
+    "confirmTitle": "Olet listalla",
+    "confirmBusiness": "Kiitos — lähetämme sähköpostia yritysten käyttöönotosta alueellasi.",
+    "confirmUser": "Kiitos — kerromme, kun Cravy on saatavilla sinulle.",
+    "confirmDriver": "Kiitos — otamme yhteyttä kun avaamme toimitukset alueellasi.",
+    "location": {
+      "detecting": "Tunnistetaan aluettasi…",
+      "countryLabel": "Maa / alue",
+      "joiningFor": "Liityt odotuslistalle maahan {{country}}.",
+      "hint": "Väärä maa? Vaihda tähän — ilmoittautuminen sidotaan tähän markkinaan."
+    },
+    "countries": {
+      "GH": "Ghana",
+      "NG": "Nigeria",
+      "KE": "Kenia",
+      "ZA": "Etelä-Afrikka",
+      "CI": "Norsunluurannikko",
+      "SN": "Senegal",
+      "UG": "Uganda",
+      "TZ": "Tansania",
+      "RW": "Ruanda",
+      "FI": "Suomi",
+      "GB": "Iso-Britannia",
+      "US": "Yhdysvallat",
+      "OT": "Muu / ei listalla"
+    },
+    "toast": {
+      "duplicateTitle": "Jo ilmoittautunut",
+      "duplicateDescription": "Tämä sähköposti on jo odotuslistalla tälle valinnalle ja maalle.",
+      "errorTitle": "Jokin meni pieleen",
+      "errorDescription": "Yritä uudelleen tai ota yhteyttä yhteystietosivun kautta."
+    }
+  },
   "marketing": {
     "hero": {
-      "badge": "Upotetun kaupankäynnin tulevaisuus",
+      "badge": "Sosiaalinen kauppa · Live · Logistiikka",
       "title": "Cravy",
-      "subtitle": "Katso, osta ja varaa suoraan.",
-      "description": "Yksi sovellus suoraan ostamiseen, ruokaan, palveluihin, tapahtumiin ja paljon muuta.",
+      "subtitle": "Yksi ekosysteemi sille, miten ihmiset löytävät, ostavat ja liikkuvat.",
+      "description": "Monisovellusalusta, jossa nopea sosiaalinen feedi ja täysi transaktiomoottori — ruokatoimitukset, liput, videokonsultaatiot, taksit ja muuta.",
       "features": {
-        "universalSdk": "Universaali SDK",
-        "instantCheckout": "Heti kassalle",
-        "anyPlatform": "Mikä tahansa alusta",
-        "securePayments": "Turvalliset maksut"
+        "universalSdk": "Yhtenäinen feedi",
+        "instantCheckout": "Live-kauppa",
+        "anyPlatform": "Täydet transaktiot",
+        "securePayments": "Logistiikka valmiina"
       }
     },
     "slogans": [
@@ -126,15 +185,6 @@
       "uploadFile": "Lataa tiedostosi",
       "chooseFile": "Valitse tiedosto",
       "dragDrop": "Vedä ja pudota tiedostosi tähän"
-    }
-  },
-  "demo": {
-    "steps": {
-      "step1": "Löydä upeita tuotteita",
-      "step2": "Katso suoria esittelyjä",
-      "step3": "Lisää ostoskoriin heti",
-      "step4": "Kassalle sekunneissa",
-      "step5": "Lataa sovellus ja aloita tänään."
     }
   },
   "legal": {

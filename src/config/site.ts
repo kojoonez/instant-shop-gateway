@@ -1,8 +1,8 @@
 export const siteConfig = {
   name: 'Cravy',
-  tagline: 'Watch, shop, and book live.',
+  tagline: 'Social commerce, live streaming, and logistics in one ecosystem.',
   description:
-    'Watch, shop, and book live. One app for live shopping, food, services, and events.',
+    'Cravy is a multi-app ecosystem for social commerce and live streaming, with a unified feed and full transactions: food delivery, event tickets, 1-on-1 video consultations, taxi services, and more.',
   theme: {
     primaryHex: '#FF6B35',
     navyHex: '#0D1B2A',

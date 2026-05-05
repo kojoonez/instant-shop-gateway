@@ -28,20 +28,79 @@
     "download": "Ladda ner",
     "blog": "Blogg",
     "watchLive": "Titta live",
+    "waitlist": "Väntelista",
     "privacy": "Integritet",
     "terms": "Villkor"
   },
+  "waitlist": {
+    "seoTitle": "Gå med i väntelistan",
+    "seoDescription": "Få tidig tillgång till Cravy i ditt land — för företag och användare.",
+    "title": "Gå med i väntelistan",
+    "subtitle": "Vi rullar ut marknad för marknad. Vi försöker känna igen din region så du får rätt budskap och köar för lansering där du är.",
+    "tabBusiness": "För företag",
+    "tabUser": "För användare",
+    "tabDriver": "Leveransförare",
+    "introBusiness": "Sälj via flödet, live och bokningar — mat, detaljhandel, evenemang, konsultationer och transporter. Berätta om ditt företag så återkommer vi med säljsteg för din region.",
+    "introUser": "Handla socialt och live, beställ mat, köp biljetter, boka videosamtal och beställ skjuts — i ett ekosystem. Gå med för ditt land så meddelar vi dig vid lansering.",
+    "introDriver": "Tjäna på ditt eget schema genom att leverera för Cravy. Berätta om din stad och fordonstyp så hör vi av oss när vi lanserar i ditt område.",
+    "fields": {
+      "email": "E-post",
+      "fullName": "Namn",
+      "businessName": "Företagsnamn",
+      "vehicleType": "Fordonstyp",
+      "notes": "Något mer?"
+    },
+    "placeholders": {
+      "email": "du@foretag.se",
+      "fullName": "Ditt namn",
+      "businessName": "Företag eller varumärke",
+      "vehicleType": "t.ex. Cykel, Motorcykel, Bil",
+      "notes": "Stad, kategori eller hur du hittade oss"
+    },
+    "submit": "Gå med i väntelistan",
+    "confirmTitle": "Du står på listan",
+    "confirmBusiness": "Tack — vi mejlar dig med onboarding för företag i din region.",
+    "confirmUser": "Tack — vi säger till när Cravy finns tillgängligt för dig.",
+    "confirmDriver": "Tack — vi hör av oss när vi lanserar leveranser i ditt område.",
+    "location": {
+      "detecting": "Känner av din region…",
+      "countryLabel": "Land / region",
+      "joiningFor": "Du går med på väntelistan för {{country}}.",
+      "hint": "Fel land? Ändra här — din anmälan kopplas till den här marknaden."
+    },
+    "countries": {
+      "GH": "Ghana",
+      "NG": "Nigeria",
+      "KE": "Kenya",
+      "ZA": "Sydafrika",
+      "CI": "Elfenbenskusten",
+      "SN": "Senegal",
+      "UG": "Uganda",
+      "TZ": "Tanzania",
+      "RW": "Rwanda",
+      "FI": "Finland",
+      "GB": "Storbritannien",
+      "US": "USA",
+      "OT": "Annat / finns inte med"
+    },
+    "toast": {
+      "duplicateTitle": "Redan anmäld",
+      "duplicateDescription": "Den här e-postadressen finns redan på väntelistan för det valet och landet.",
+      "errorTitle": "Något gick fel",
+      "errorDescription": "Försök igen eller mejla oss via kontaktsidan."
+    }
+  },
   "marketing": {
     "hero": {
-      "badge": "Framtiden för inbäddad handel",
+      "badge": "Social handel · Livestreaming · Logistik",
       "title": "Cravy",
-      "subtitle": "Titta, handla och boka live.",
-      "description": "En app för livehandel, mat, tjänster, evenemang och mer.",
+      "subtitle": "Ett ekosystem för hur folk upptäcker, köper och rör sig.",
+      "description": "En multi-app-plattform med ett snabbt socialt flöde och en komplett transaktionsmotor — mathämtning, biljetter, videokonsultationer, taxi och mer.",
       "features": {
-        "universalSdk": "Universell SDK",
-        "instantCheckout": "Omedelbar utcheckning",
-        "anyPlatform": "Vilken plattform som helst",
-        "securePayments": "Säkra betalningar"
+        "universalSdk": "Enat flöde",
+        "instantCheckout": "Livehandel",
+        "anyPlatform": "Full transaktion",
+        "securePayments": "Logistik redo"
       }
     },
     "slogans": [
@@ -126,15 +185,6 @@
       "uploadFile": "Ladda upp din fil",
       "chooseFile": "Välj fil",
       "dragDrop": "Dra och släpp din fil här"
-    }
-  },
-  "demo": {
-    "steps": {
-      "step1": "Upptäck fantastiska produkter",
-      "step2": "Titta på live-demonstrationer",
-      "step3": "Lägg till i varukorg direkt",
-      "step4": "Checka ut på sekunder",
-      "step5": "Ladda ner appen och börja idag."
     }
   },
   "legal": {

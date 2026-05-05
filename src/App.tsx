@@ -18,12 +18,14 @@ import Terms from "@/pages/Terms";
 import Blog from "@/pages/Blog";
 import ApplyCreator from "@/pages/ApplyCreator";
 import ApplyBusiness from "@/pages/ApplyBusiness";
+import Waitlist from "@/pages/Waitlist";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import { AdminLayout } from "./components/admin/AdminLayout";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { MessagingPage } from "./pages/admin/MessagingPage";
+import { WaitlistPage } from "./pages/admin/WaitlistPage";
 import { AuthProvider } from "./contexts/AuthContext";
 import { SecurityProvider } from "./contexts/SecurityContext";
 import { SupportButton } from "./components/SupportButton";
@@ -58,12 +60,14 @@ const App = () => (
               <Route path="/blog" element={<Blog />} />
               <Route path="/apply/creator" element={<ApplyCreator />} />
               <Route path="/apply/business" element={<ApplyBusiness />} />
+              <Route path="/waitlist" element={<Waitlist />} />
               <Route path="/test/translation" element={<TranslationTest />} />
               
               {/* Admin Routes */}
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<AdminDashboard />} />
                 <Route path="messages" element={<MessagingPage />} />
+                <Route path="waitlist" element={<WaitlistPage />} />
                 <Route path="users" element={<div className="p-6"><h1 className="text-3xl font-bold">Users Management</h1><p className="text-muted-foreground">Coming soon...</p></div>} />
                 <Route path="settings" element={<div className="p-6"><h1 className="text-3xl font-bold">Settings</h1><p className="text-muted-foreground">Coming soon...</p></div>} />
               </Route>

@@ -1,5 +1,6 @@
 import { Seo } from '@/components/seo/Seo';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 export default function Creators() {
   return (
@@ -30,9 +31,14 @@ export default function Creators() {
         </ol>
       </div>
 
-      <Button asChild>
-        <a href="/apply/creator">Apply as Creator</a>
-      </Button>
+      <div className="flex flex-wrap gap-3">
+        <Button asChild>
+          <Link to="/apply/creator">Apply as Creator</Link>
+        </Button>
+        <Button variant="outline" asChild>
+          <Link to="/waitlist?segment=user">Join app waitlist</Link>
+        </Button>
+      </div>
     </div>
   );
 }

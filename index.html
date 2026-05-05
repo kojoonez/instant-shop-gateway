@@ -7,10 +7,8 @@
     <meta name="description" content="Watch, shop, and book live. One app for live shopping, food, services, and events." />
     <meta name="author" content="Cravy" />
     <meta name="theme-color" content="#0D1B2A" />
-    
-    <!-- Content Security Policy - Blocks third-party ads and popups -->
-    <!-- Note: frame-ancestors only works in HTTP headers (set in vercel.json), not in meta tags -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://images.unsplash.com https://api.dicebear.com https://via.placeholder.com https://cdn.jsdelivr.net; connect-src 'self' https://api.supabase.co wss://api.supabase.co; media-src 'self' data: blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'; upgrade-insecure-requests;" />
+
+    <!-- CSP is sent only via HTTP headers (see vercel.json) to avoid dual-policy + upgrade-insecure-requests breaking http://localhost dev. -->
 
     <link rel="preconnect" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://www.google-analytics.com" />

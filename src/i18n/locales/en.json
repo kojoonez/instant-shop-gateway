@@ -28,20 +28,105 @@
     "download": "Download",
     "blog": "Blog",
     "watchLive": "Watch Live",
+    "waitlist": "Waitlist",
     "privacy": "Privacy",
     "terms": "Terms"
   },
+  "waitlist": {
+    "seoTitle": "Join the waitlist",
+    "seoDescription": "Get early access to Cravy in your country—for businesses and users.",
+    "title": "Join the waitlist",
+    "subtitle": "We roll out by market. We detect your region to show the right message and queue you for launch where you are.",
+    "tabBusiness": "For businesses",
+    "tabUser": "For users",
+    "tabDriver": "Delivery drivers",
+    "introBusiness": "Sell through the feed, live streams, and bookings—food, retail, events, consultations, and rides. Tell us about your business and we will follow up with merchant next steps for your region.",
+    "introUser": "Shop social and live, order food, grab tickets, book video consults, and request rides—all in one ecosystem. Join for your country and we will notify you at launch.",
+    "introDriver": "Earn on your own schedule delivering for Cravy. Tell us your city and vehicle type and we will reach out when we launch in your area.",
+    "fields": {
+      "email": "Email",
+      "fullName": "Name",
+      "businessName": "Business name",
+      "vehicleType": "Vehicle type",
+      "notes": "Anything else?"
+    },
+    "placeholders": {
+      "email": "you@company.com",
+      "fullName": "Your name",
+      "businessName": "Company or brand",
+      "vehicleType": "e.g. Bicycle, Motorbike, Car",
+      "notes": "City, category, or how you heard about us"
+    },
+    "submit": "Join waitlist",
+    "confirmTitle": "You are on the list",
+    "confirmBusiness": "Thanks — we will email you with business onboarding updates for your region.",
+    "confirmUser": "Thanks — we will let you know when Cravy is available for you.",
+    "confirmDriver": "Thanks — we will be in touch when we launch delivery in your area.",
+    "location": {
+      "detecting": "Detecting your region…",
+      "countryLabel": "Country / region",
+      "joiningFor": "You're joining the waitlist for {{country}}.",
+      "hint": "Wrong country? Change it here—your signup is tagged to this market."
+    },
+    "countries": {
+      "GH": "Ghana",
+      "NG": "Nigeria",
+      "KE": "Kenya",
+      "ZA": "South Africa",
+      "CI": "Côte d'Ivoire",
+      "SN": "Senegal",
+      "UG": "Uganda",
+      "TZ": "Tanzania",
+      "RW": "Rwanda",
+      "FI": "Finland",
+      "GB": "United Kingdom",
+      "US": "United States",
+      "OT": "Other / not listed"
+    },
+    "regions": {
+      "GH": {
+        "introBusiness": "Launch in Ghana with live selling, MoMo-friendly checkout, and logistics tuned for your city—retail, food, services, events, consults, and rides.",
+        "introUser": "Get early access in Ghana: shop the feed, order food, buy tickets, book 1-on-1 video sessions, and request rides as we open near you.",
+        "confirmBusiness": "Thanks — we will email you with Ghana merchant onboarding updates.",
+        "confirmUser": "Thanks — we will notify you when Cravy goes live in Ghana."
+      },
+      "NG": {
+        "introBusiness": "Reach buyers across Nigeria with social commerce, live streams, and our full transaction stack—including food, tickets, consults, and mobility.",
+        "introUser": "Be first in Nigeria to use one app for live shopping, food delivery, events, paid video consults, and taxi services.",
+        "confirmBusiness": "Thanks — we will email you with Nigeria business next steps.",
+        "confirmUser": "Thanks — we will let you know when you can start using Cravy in Nigeria."
+      },
+      "KE": {
+        "introBusiness": "Grow in Kenya with a unified feed and checkout for sellers—delivery, ticketing, consultations, and rides included.",
+        "introUser": "Join for Kenya: discover on the feed, checkout instantly, and use the same wallet for food, events, consults, and rides.",
+        "confirmBusiness": "Thanks — we will follow up with Kenya onboarding details.",
+        "confirmUser": "Thanks — we will ping you when Cravy launches in Kenya."
+      },
+      "ZA": {
+        "introBusiness": "South African businesses: plug into live commerce, orders, and logistics across categories in one ecosystem.",
+        "introUser": "South Africa early access—social shopping, food, tickets, video consults, and mobility in one place.",
+        "confirmBusiness": "Thanks — we will email you with South Africa partner updates.",
+        "confirmUser": "Thanks — we will notify you when Cravy is live for you in South Africa."
+      }
+    },
+    "toast": {
+      "duplicateTitle": "Already signed up",
+      "duplicateDescription": "This email is already on the waitlist for that segment and country.",
+      "errorTitle": "Something went wrong",
+      "errorDescription": "Please try again or email us from the contact page."
+    }
+  },
   "marketing": {
     "hero": {
-      "badge": "The Future of Embedded Commerce",
+      "badge": "Social commerce · Live streaming · Logistics",
       "title": "Cravy",
-      "subtitle": "Watch, shop, and book live.",
-      "description": "One app for live shopping, food, services, events, and more.",
+      "subtitle": "One ecosystem for how people discover, buy, and move.",
+      "description": "A multi-app platform that pairs a high-performance social feed with a full transactional engine—food delivery, event ticketing, 1-on-1 video consultations, taxi services, and more.",
       "features": {
-        "universalSdk": "Universal SDK",
-        "instantCheckout": "Instant Checkout",
-        "anyPlatform": "Any Platform",
-        "securePayments": "Secure Payments"
+        "universalSdk": "Unified feed",
+        "instantCheckout": "Live commerce",
+        "anyPlatform": "Full transactions",
+        "securePayments": "Logistics ready"
       }
     },
     "slogans": [
@@ -126,15 +211,6 @@
       "uploadFile": "Upload your file",
       "chooseFile": "Choose File",
       "dragDrop": "Drag and drop your file here"
-    }
-  },
-  "demo": {
-    "steps": {
-      "step1": "Discover amazing products",
-      "step2": "Watch live demonstrations",
-      "step3": "Add to cart instantly",
-      "step4": "Checkout in seconds",
-      "step5": "Get the app and start today."
     }
   },
   "legal": {

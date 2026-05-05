@@ -136,6 +136,10 @@ export default {
 					'50%': {
 						transform: 'translateY(-10px)'
 					}
+				},
+				'flash': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.2' },
 				}
 			},
 			animation: {
@@ -145,7 +149,8 @@ export default {
 				'slide-down': 'slide-down 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
 				'fade-in': 'fade-in 0.3s ease-out',
 				'scale-in': 'scale-in 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-				'float': 'float 3s ease-in-out infinite'
+				'float': 'float 3s ease-in-out infinite',
+				'flash': 'flash 1s ease-in-out infinite',
 			},
 			backgroundImage: {
 				'gradient-hero': 'var(--gradient-hero)',

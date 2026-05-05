@@ -47,6 +47,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+    }).catch(() => {
+      // Supabase unreachable (e.g. no env vars set in production)
+      setLoading(false);
     });
 
     return () => subscription.unsubscribe();

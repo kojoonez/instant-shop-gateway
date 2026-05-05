@@ -34,10 +34,17 @@ export const securityConfig = helmet({
       ],
       connectSrc: [
         "'self'",
-        "https://api.supabase.co",
-        "wss://api.supabase.co",
-        "http://127.0.0.1:54321", // Local Supabase
-        "ws://127.0.0.1:54321"
+        "https://*.supabase.co",
+        "wss://*.supabase.co",
+        "https://ipapi.co",
+        "https://get.geojs.io",
+        "https://www.google-analytics.com",
+        "https://*.google-analytics.com",
+        "https://analytics.google.com",
+        "https://www.googletagmanager.com",
+        "https://stats.g.doubleclick.net",
+        "http://127.0.0.1:54321",
+        "ws://127.0.0.1:54321",
       ],
       mediaSrc: [
         "'self'",
@@ -158,12 +165,14 @@ export const developmentSecurityConfig = helmet({
       ],
       connectSrc: [
         "'self'",
-        "https://api.supabase.co",
-        "wss://api.supabase.co",
+        "https://*.supabase.co",
+        "wss://*.supabase.co",
+        "https://ipapi.co",
+        "https://get.geojs.io",
         "http://127.0.0.1:54321",
         "ws://127.0.0.1:54321",
         "http://localhost:8080",
-        "http://localhost:8081"
+        "http://localhost:8081",
       ],
       mediaSrc: [
         "'self'",
