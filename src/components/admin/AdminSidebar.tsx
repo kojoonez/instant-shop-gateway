@@ -3,9 +3,9 @@ import {
   Users, 
   Settings,
   Store,
-  Bell,
   MessageCircle,
-  ClipboardList
+  ClipboardList,
+  UserPlus,
 } from "lucide-react"
 import { NavLink, useLocation } from "react-router-dom"
 import {
@@ -33,12 +33,16 @@ const navigationItems = [
     title: "Messages", 
     url: "/admin/messages", 
     icon: MessageCircle,
-    badge: "5"
   },
   {
     title: "Waitlist",
     url: "/admin/waitlist",
     icon: ClipboardList,
+  },
+  { 
+    title: "Applications", 
+    url: "/admin/applications", 
+    icon: UserPlus,
   },
   { 
     title: "Users", 
@@ -149,21 +153,6 @@ export function AdminSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
-        {/* Notification Bell */}
-        {state !== "collapsed" && (
-          <div className="p-4 border-t mt-auto">
-            <div className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
-              <div className="relative">
-                <Bell className="h-4 w-4 text-muted-foreground" />
-                <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
-              </div>
-              <div className="text-xs text-muted-foreground">
-                3 new notifications
-              </div>
-            </div>
-          </div>
-        )}
       </SidebarContent>
     </Sidebar>
   )

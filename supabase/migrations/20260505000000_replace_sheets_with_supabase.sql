@@ -1,11 +1,39 @@
 -- Migration: Replace Google Sheets with Supabase for waitlist + add application tables
 
--- 1. Add 'driver' to waitlist_segment enum
+-- 1. Create waitlist_segment enum if it doesn't exist, then add 'driver'
+DO $$ BEGIN
+  CREATE TYPE waitlist_segment AS ENUM ('business', 'user');
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
+
 ALTER TYPE waitlist_segment ADD VALUE IF NOT EXISTS 'driver';
 
--- 2. Add vehicle_type column to waitlist_signups
-ALTER TABLE waitlist_signups
-ADD COLUMN IF NOT EXISTS vehicle_type TEXT;
+-- 2. Create waitlist_signups table if it doesn't exist
+CREATE TABLE IF NOT EXISTS waitlist_signups (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  segment waitlist_segment NOT NULL,
+  email TEXT NOT NULL,
+  full_name TEXT,
+  business_name TEXT,
+  vehicle_type TEXT,
+  notes TEXT,
+  country_code TEXT,
+  country_name TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+ALTER TABLE waitlist_signups ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Anyone can insert waitlist signup" ON waitlist_signups;
+DROP POLICY IF EXISTS "Authenticated users can view waitlist" ON waitlist_signups;
+
+CREATE POLICY "Anyone can insert waitlist signup"
+  ON waitlist_signups FOR INSERT
+  WITH CHECK (true);
+
+CREATE POLICY "Authenticated users can view waitlist"
+  ON waitlist_signups FOR SELECT
+  USING (true);
 
 -- 3. Create business_applications table
 CREATE TABLE IF NOT EXISTS business_applications (
@@ -24,14 +52,20 @@ CREATE TABLE IF NOT EXISTS business_applications (
 
 ALTER TABLE business_applications ENABLE ROW LEVEL SECURITY;
 
--- Allow anyone to insert (anonymous signups)
+DROP POLICY IF EXISTS "Anyone can submit business application" ON business_applications;
+DROP POLICY IF EXISTS "Users can view own business applications" ON business_applications;
+DROP POLICY IF EXISTS "Authenticated users can update business applications" ON business_applications;
+
 CREATE POLICY "Anyone can submit business application"
   ON business_applications FOR INSERT
   WITH CHECK (true);
 
--- Authenticated users can view their own
 CREATE POLICY "Users can view own business applications"
   ON business_applications FOR SELECT
+  USING (true);
+
+CREATE POLICY "Authenticated users can update business applications"
+  ON business_applications FOR UPDATE
   USING (true);
 
 -- 4. Create creator_applications table
@@ -51,6 +85,10 @@ CREATE TABLE IF NOT EXISTS creator_applications (
 
 ALTER TABLE creator_applications ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Anyone can submit creator application" ON creator_applications;
+DROP POLICY IF EXISTS "Users can view own creator applications" ON creator_applications;
+DROP POLICY IF EXISTS "Authenticated users can update creator applications" ON creator_applications;
+
 CREATE POLICY "Anyone can submit creator application"
   ON creator_applications FOR INSERT
   WITH CHECK (true);
@@ -59,13 +97,6 @@ CREATE POLICY "Users can view own creator applications"
   ON creator_applications FOR SELECT
   USING (true);
 
--- 5. Update RLS on waitlist_signups - ensure INSERT is allowed by anyone
-DROP POLICY IF EXISTS "Anyone can insert waitlist signup" ON waitlist_signups;
-
-CREATE POLICY "Anyone can insert waitlist signup"
-  ON waitlist_signups FOR INSERT
-  WITH CHECK (true);
-
-CREATE POLICY "Authenticated users can view waitlist"
-  ON waitlist_signups FOR SELECT
+CREATE POLICY "Authenticated users can update creator applications"
+  ON creator_applications FOR UPDATE
   USING (true);
