@@ -12,6 +12,11 @@ export type WaitlistSegment = 'business' | 'user' | 'driver';
 const SHEETS_URL = (import.meta.env.VITE_GOOGLE_SHEETS_URL as string | undefined)
   || 'https://script.google.com/macros/s/AKfycbxVbMu5HZ0aEXgqrGJ4IJpZJuFwnfCwg7B3JLYH0vi-tulgogrYP1oYZyG8VEqGLhYRVQ/exec';
 
+// Debug: log whether the URL was picked up from env or fallback
+if (typeof window !== 'undefined') {
+  console.log('[Waitlist] Sheets URL source:', import.meta.env.VITE_GOOGLE_SHEETS_URL ? 'env' : 'fallback');
+}
+
 export async function joinWaitlist(params: {
   segment: WaitlistSegment;
   email: string;
