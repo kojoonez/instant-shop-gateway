@@ -19,6 +19,14 @@
 
 ```javascript
 function doPost(e) {
+  return handleSubmission(e);
+}
+
+function doGet(e) {
+  return handleSubmission(e);
+}
+
+function handleSubmission(e) {
   try {
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Waitlist');
     const p = e.parameter;
@@ -84,5 +92,5 @@ npm run dev
 
 ## Notes
 
-- Submissions use `no-cors` mode (required for Apps Script), so the browser won't show a network error even if the URL is wrong — always test by checking the sheet directly.
-- The old Supabase `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` env vars are no longer needed for the waitlist (they may still be used for auth).
+- After updating the Apps Script code, you must **create a new deployment** (Deploy → Manage deployments → Edit → New version) for changes to take effect.
+- The client sends data as GET query parameters to avoid CORS issues on deployed environments.

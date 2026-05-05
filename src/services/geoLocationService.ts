@@ -15,6 +15,22 @@ function withTimeout(ms: number): AbortSignal {
  */
 export async function detectCountryByIp(): Promise<IpCountryResult | null> {
   try {
+    const r = await fetch('https://get.geojs.io/v1/ip/geo.json', { signal: withTimeout(8000) });
+    if (!r.ok) throw new Error('geojs status');
+    const j = (await r.json()) as Record<string, unknown>;
+    const code = j.country_code;
+    if (typeof code === 'string' && code.length >= 2) {
+      const cc = code.toUpperCase().slice(0, 2);
+      return {
+        countryCode: cc,
+        countryName: typeof j.country === 'string' ? j.country : cc,
+      };
+    }
+  } catch {
+    /* try fallback */
+  }
+
+  try {
     const r = await fetch('https://ipapi.co/json/', { signal: withTimeout(8000) });
     if (r.ok) {
       const j = (await r.json()) as Record<string, unknown>;
@@ -28,23 +44,7 @@ export async function detectCountryByIp(): Promise<IpCountryResult | null> {
       }
     }
   } catch {
-    /* try fallback */
-  }
-
-  try {
-    const r = await fetch('https://get.geojs.io/v1/ip/geo.json', { signal: withTimeout(8000) });
-    if (!r.ok) throw new Error('geojs status');
-    const j = (await r.json()) as Record<string, unknown>;
-    const code = j.country_code;
-    if (typeof code === 'string' && code.length >= 2) {
-      const cc = code.toUpperCase().slice(0, 2);
-      return {
-        countryCode: cc,
-        countryName: typeof j.country === 'string' ? j.country : cc,
-      };
-    }
-  } catch {
-    return null;
+    /* ipapi failed */
   }
 
   return null;

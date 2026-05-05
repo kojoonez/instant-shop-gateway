@@ -6,6 +6,8 @@
 // 3. Paste the Apps Script code from GOOGLE_SHEETS_SETUP.md
 // 4. Deploy as Web App (Execute as: Me, Who has access: Anyone)
 // 5. Copy the Web App URL and set it as VITE_GOOGLE_SHEETS_URL in your .env
+//
+// NOTE: After any Apps Script code change, create a NEW deployment version.
 
 export type WaitlistSegment = 'business' | 'user' | 'driver';
 
@@ -28,8 +30,8 @@ export async function joinWaitlist(params: {
   vehicleType?: string;
 }): Promise<{ error: Error | null; duplicate: boolean }> {
   if (!SHEETS_URL) {
-    console.warn('No Google Sheets URL configured. Submission skipped.');
-    return { error: null, duplicate: false };
+    console.warn('[Waitlist] No Google Sheets URL configured. Submission skipped.');
+    return { error: new Error('No Google Sheets URL configured'), duplicate: false };
   }
 
   try {
@@ -45,17 +47,22 @@ export async function joinWaitlist(params: {
       submittedAt: new Date().toISOString(),
     };
 
-    const body = new URLSearchParams();
-    Object.entries(payload).forEach(([k, v]) => body.append(k, v));
+    console.log('[Waitlist] Submitting to:', SHEETS_URL.substring(0, 50) + '...');
+    console.log('[Waitlist] Payload:', JSON.stringify(payload));
 
-    await fetch(SHEETS_URL, {
-      method: 'POST',
+    const queryString = Object.entries(payload)
+      .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+      .join('&');
+
+    await fetch(`${SHEETS_URL}?${queryString}`, {
+      method: 'GET',
       mode: 'no-cors',
-      body: body,
     });
 
+    console.log('[Waitlist] Submission successful');
     return { error: null, duplicate: false };
   } catch (err) {
+    console.error('[Waitlist] Submission failed:', err);
     return { error: err instanceof Error ? err : new Error(String(err)), duplicate: false };
   }
 }
