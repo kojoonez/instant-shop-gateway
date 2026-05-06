@@ -1,7 +1,8 @@
 export interface Conversation {
   id: string;
-  user_id: string;
+  user_id?: string;
   admin_id?: string;
+  guest_email?: string;
   subject?: string;
   status: 'active' | 'closed' | 'archived';
   last_message_at?: string;
@@ -27,7 +28,8 @@ export interface Conversation {
 export interface Message {
   id: string;
   conversation_id: string;
-  sender_id: string;
+  sender_id?: string;
+  guest_email?: string;
   content: string;
   message_type: 'text' | 'image' | 'file' | 'system';
   status: 'sent' | 'delivered' | 'read';
@@ -43,7 +45,6 @@ export interface Message {
   };
   attachments?: MessageAttachment[];
   read_receipts?: MessageReadReceipt[];
-  // Translation fields
   original_content?: string;
   translated_content?: string;
   original_language?: string;
@@ -84,6 +85,7 @@ export interface CreateMessageData {
   conversation_id: string;
   content: string;
   message_type?: 'text' | 'image' | 'file' | 'system';
+  guest_email?: string;
 }
 
 export interface MessageFilters {

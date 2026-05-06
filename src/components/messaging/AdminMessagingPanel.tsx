@@ -21,7 +21,9 @@ import {
   Filter,
   MoreVertical,
   Languages,
-  Loader2
+  Loader2,
+  XCircle,
+  RefreshCw
 } from 'lucide-react';
 import { MessagingService } from '@/services/messagingService';
 import { translationService } from '@/services/translationService';
@@ -61,11 +63,33 @@ export const AdminMessagingPanel: React.FC<AdminMessagingPanelProps> = ({ classN
     loadStats();
   }, [activeTab]);
 
+  // Real-time subscription for conversations list
+  useEffect(() => {
+    const subscription = MessagingService.subscribeToConversations('admin', () => {
+      loadConversations();
+      loadStats();
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
   // Load messages when conversation is selected
   useEffect(() => {
     if (selectedConversation) {
       loadMessages(selectedConversation.id);
     }
+  }, [selectedConversation]);
+
+  // Real-time subscription for messages in selected conversation
+  useEffect(() => {
+    if (!selectedConversation) return;
+    const subscription = MessagingService.subscribeToMessages(selectedConversation.id, (payload) => {
+      const newMsg = payload.new as unknown as Message;
+      setMessages(prev => {
+        if (prev.some(m => m.id === newMsg.id)) return prev;
+        return [...prev, newMsg];
+      });
+    });
+    return () => subscription.unsubscribe();
   }, [selectedConversation]);
 
   const loadConversations = async () => {
@@ -180,11 +204,46 @@ export const AdminMessagingPanel: React.FC<AdminMessagingPanelProps> = ({ classN
     }
   };
 
+  const getUserEmail = (conv: Conversation) => {
+    if (conv.guest_email) return conv.guest_email;
+    return conv.user?.email || 'Unknown';
+  };
+
+  const getUserDisplay = (conv: Conversation) => {
+    if (conv.guest_email) return conv.guest_email.split('@')[0];
+    return conv.user?.user_metadata?.display_name || conv.user?.email?.split('@')[0] || 'User';
+  };
+
+  const closeConversation = async () => {
+    if (!selectedConversation) return;
+    try {
+      await MessagingService.closeConversation(selectedConversation.id);
+      setSelectedConversation(null);
+      setMessages([]);
+      setNewMessage('');
+      loadConversations();
+      loadStats();
+    } catch (error) {
+      console.error('Error closing conversation:', error);
+    }
+  };
+
+  const reopenConversation = async (conversation: Conversation) => {
+    try {
+      await MessagingService.reopenConversation(conversation.id);
+      loadConversations();
+      loadStats();
+    } catch (error) {
+      console.error('Error reopening conversation:', error);
+    }
+  };
+
   const filteredConversations = conversations.filter(conv => {
     const matchesTab = activeTab === 'all' || conv.status === activeTab;
+    const email = getUserEmail(conv);
     const matchesSearch = !searchQuery || 
       conv.subject?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      conv.user?.email?.toLowerCase().includes(searchQuery.toLowerCase());
+      email.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesTab && matchesSearch;
   });
 
@@ -272,38 +331,32 @@ export const AdminMessagingPanel: React.FC<AdminMessagingPanelProps> = ({ classN
                     <p className="text-sm text-muted-foreground">No conversations found</p>
                   </div>
                 ) : (
-                  filteredConversations.map((conversation) => (
-                    <Card
-                      key={conversation.id}
-                      className={`cursor-pointer transition-colors ${
-                        selectedConversation?.id === conversation.id
-                          ? 'bg-primary/5 border-primary'
-                          : 'hover:bg-muted/50'
-                      }`}
-                      onClick={() => setSelectedConversation(conversation)}
-                    >
-                      <CardContent className="p-3">
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center space-x-2 mb-1">
-                              <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center text-xs font-medium">
-                                {MessagingService.getInitials(
-                                  conversation.user?.user_metadata?.display_name || 
-                                  conversation.user?.email?.split('@')[0] || 
-                                  'User'
-                                )}
+                    filteredConversations.map((conversation) => (
+                      <Card
+                        key={conversation.id}
+                        className={`cursor-pointer transition-colors ${
+                          selectedConversation?.id === conversation.id
+                            ? 'bg-primary/5 border-primary'
+                            : 'hover:bg-muted/50'
+                        }`}
+                        onClick={() => setSelectedConversation(conversation)}
+                      >
+                        <CardContent className="p-3">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center space-x-2 mb-1">
+                                <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center text-xs font-medium">
+                                  {MessagingService.getInitials(getUserDisplay(conversation))}
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-sm font-medium truncate">
+                                    {getUserDisplay(conversation)}
+                                  </p>
+                                  <p className="text-xs text-muted-foreground truncate">
+                                    {getUserEmail(conversation)}
+                                  </p>
+                                </div>
                               </div>
-                              <div className="flex-1 min-w-0">
-                                <p className="text-sm font-medium truncate">
-                                  {conversation.user?.user_metadata?.display_name || 
-                                   conversation.user?.email?.split('@')[0] || 
-                                   'User'}
-                                </p>
-                                <p className="text-xs text-muted-foreground truncate">
-                                  {conversation.user?.email}
-                                </p>
-                              </div>
-                            </div>
                             <p className="text-xs text-muted-foreground truncate mb-2">
                               {conversation.subject || 'No subject'}
                             </p>
@@ -338,20 +391,14 @@ export const AdminMessagingPanel: React.FC<AdminMessagingPanelProps> = ({ classN
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center text-sm font-medium">
-                      {MessagingService.getInitials(
-                        selectedConversation.user?.user_metadata?.display_name || 
-                        selectedConversation.user?.email?.split('@')[0] || 
-                        'User'
-                      )}
+                      {MessagingService.getInitials(getUserDisplay(selectedConversation))}
                     </div>
                     <div>
                       <CardTitle className="text-base">
-                        {selectedConversation.user?.user_metadata?.display_name || 
-                         selectedConversation.user?.email?.split('@')[0] || 
-                         'User'}
+                        {getUserDisplay(selectedConversation)}
                       </CardTitle>
                       <p className="text-sm text-muted-foreground">
-                        {selectedConversation.user?.email}
+                        {getUserEmail(selectedConversation)}
                       </p>
                     </div>
                   </div>
@@ -362,6 +409,17 @@ export const AdminMessagingPanel: React.FC<AdminMessagingPanelProps> = ({ classN
                     >
                       {selectedConversation.status}
                     </Badge>
+                    {selectedConversation.status === 'active' ? (
+                      <Button variant="destructive" size="sm" onClick={closeConversation}>
+                        <XCircle className="h-4 w-4 mr-1" />
+                        Close Chat
+                      </Button>
+                    ) : (
+                      <Button variant="outline" size="sm" onClick={() => reopenConversation(selectedConversation)}>
+                        <RefreshCw className="h-4 w-4 mr-1" />
+                        Reopen
+                      </Button>
+                    )}
                     <Button variant="ghost" size="sm">
                       <MoreVertical className="h-4 w-4" />
                     </Button>
@@ -421,31 +479,39 @@ export const AdminMessagingPanel: React.FC<AdminMessagingPanelProps> = ({ classN
 
               {/* Message Input */}
               <div className="p-4 border-t">
-                <div className="flex space-x-2">
-                  <Textarea
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Type your message..."
-                    className="min-h-[40px] max-h-24 resize-none"
-                    disabled={sending}
-                  />
-                  <Button
-                    onClick={sendMessage}
-                    disabled={!newMessage.trim() || sending || translating}
-                    size="sm"
-                    className="px-3"
-                  >
-                    {translating ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <Send className="h-4 w-4" />
-                    )}
-                  </Button>
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">
-                  Press Enter to send, Shift+Enter for new line
-                </p>
+                {selectedConversation.status === 'closed' ? (
+                  <div className="text-center py-4">
+                    <p className="text-sm text-muted-foreground">This conversation is closed. Reopen to continue messaging.</p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex space-x-2">
+                      <Textarea
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        placeholder="Type your message..."
+                        className="min-h-[40px] max-h-24 resize-none"
+                        disabled={sending}
+                      />
+                      <Button
+                        onClick={sendMessage}
+                        disabled={!newMessage.trim() || sending || translating}
+                        size="sm"
+                        className="px-3"
+                      >
+                        {translating ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Send className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Press Enter to send, Shift+Enter for new line
+                    </p>
+                  </>
+                )}
               </div>
             </div>
           )}

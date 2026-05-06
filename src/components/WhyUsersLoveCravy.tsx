@@ -28,7 +28,7 @@ export const WhyUsersLoveCravy: React.FC = () => {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className={`text-center ${isMobile ? 'mb-6' : 'mb-8'}`}>
-          <h2 className={`${isMobile ? 'text-2xl' : isTablet ? 'text-3xl' : 'text-4xl'} font-bold ${isMobile ? 'mb-1' : 'mb-2'} bg-gradient-hero bg-clip-text text-transparent`}>
+          <h2 className={`${isMobile ? 'text-2xl' : isTablet ? 'text-3xl' : 'text-4xl'} font-bold ${isMobile ? 'mb-1' : 'mb-2'} text-crave-orange`}>
             {t('whyUsersLove.title')}
           </h2>
           <p className={`${isMobile ? 'text-base' : 'text-xl'} text-muted-foreground max-w-2xl mx-auto`}>

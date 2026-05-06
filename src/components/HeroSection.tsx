@@ -97,8 +97,8 @@ export const HeroSection: React.FC = () => {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="animate-bounce">
-          <ArrowDown className="h-6 w-6 mx-auto text-muted-foreground" />
+        <div className="animate-bounce cursor-pointer" onClick={scrollToDemo}>
+          <ArrowDown className="h-6 w-6 mx-auto text-crave-orange" />
         </div>
       </div>
 

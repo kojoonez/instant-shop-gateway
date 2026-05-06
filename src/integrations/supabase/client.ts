@@ -32,6 +32,11 @@ export const supabase = createClient<Database>(
         }
         return fetch(...args);
       }
-    }
+    },
+    realtime: {
+      params: {
+        eventsPerSecond: 10,
+      },
+    },
   }
 );
